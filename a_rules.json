@@ -1,0 +1,178 @@
+{
+  "设计.*(页面|UI|界面|网站|组件|布局|导航|样式|登录|注册)": {
+    "skills": [
+      {
+        "name": "brainstorming",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "ui-ux-pro-max",
+        "phase": "BUILD"
+      },
+      {
+        "name": "popular-web-designs",
+        "phase": "BUILD"
+      }
+    ],
+    "hits": 9,
+    "last_hit": "2026-06-05",
+    "source": "manual",
+    "priority": 10
+  },
+  "debug|修复|报错|bug|异常|不工作|调试": {
+    "skills": [
+      {
+        "name": "diagnose",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "systematic-debugging",
+        "phase": "DISCOVER"
+      }
+    ],
+    "hits": 25,
+    "last_hit": "2026-06-05",
+    "source": "manual",
+    "priority": 10
+  },
+  "写.*(代码|程序|功能|模块|接口|服务|爬虫)": {
+    "skills": [
+      {
+        "name": "brainstorming",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "test-driven-development",
+        "phase": "BUILD"
+      },
+      {
+        "name": "planning-with-files",
+        "phase": "PLAN"
+      }
+    ],
+    "hits": 1,
+    "last_hit": "2026-06-05",
+    "source": "manual",
+    "priority": 10
+  },
+  "写.*(论文|文章|文档|报告|摘要|引言)": {
+    "skills": [
+      {
+        "name": "research-paper-writing",
+        "phase": "BUILD"
+      },
+      {
+        "name": "planning-with-files",
+        "phase": "PLAN"
+      }
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual",
+    "priority": 10
+  },
+  "ASCII|ascii|字符画|cowsay|figlet|文字艺术": {
+    "skills": [
+      {
+        "name": "ascii-art",
+        "phase": "BUILD"
+      }
+    ],
+    "hits": 10,
+    "last_hit": "2026-06-05",
+    "source": "manual",
+    "priority": 10
+  },
+  "股票|均线|MACD|KDJ|RSI|K线|走势|财务|A股|期货": {
+    "skills": [
+      {
+        "name": "technical-analysis",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "tushare-finance",
+        "phase": "DISCOVER"
+      }
+    ],
+    "hits": 23,
+    "last_hit": "2026-06-05",
+    "source": "manual",
+    "priority": 10
+  },
+  "旅行|旅游|出行|行程|自驾|酒店|机票": {
+    "skills": [
+      {
+        "name": "trip-planner-generator",
+        "phase": "PLAN"
+      },
+      {
+        "name": "road-trip-planner",
+        "phase": "PLAN"
+      },
+      {
+        "name": "travel-skill",
+        "phase": "DISCOVER"
+      }
+    ],
+    "hits": 1,
+    "last_hit": "2026-06-05",
+    "source": "manual",
+    "priority": 10
+  },
+  "审.*代码|code.*review|检查.*代码|代码.*审查": {
+    "skills": [
+      {
+        "name": "requesting-code-review",
+        "phase": "VERIFY"
+      },
+      {
+        "name": "github-code-review",
+        "phase": "VERIFY"
+      }
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual",
+    "priority": 10
+  },
+  "规划|方案|架构|设计.*系统|技术选型": {
+    "skills": [
+      {
+        "name": "brainstorming",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "writing-plans",
+        "phase": "PLAN"
+      },
+      {
+        "name": "idea-foundry",
+        "phase": "PLAN"
+      }
+    ],
+    "hits": 1,
+    "last_hit": "2026-06-05",
+    "source": "manual",
+    "priority": 10
+  },
+  "打包|发布|部署|上传|release|发版": {
+    "skills": [
+      {
+        "name": "ralph-loop",
+        "phase": "VERIFY"
+      },
+      {
+        "name": "verification-before-completion",
+        "phase": "VERIFY"
+      },
+      {
+        "name": "hermes-agent-skill-authoring",
+        "phase": "VERIFY"
+      }
+    ],
+    "hits": 1,
+    "last_hit": "2026-06-05",
+    "source": "manual",
+    "priority": 10
+  }
+}
