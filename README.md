@@ -1,89 +1,143 @@
-# 智配路由 (Smart Skill Router Plugin) v0.1.0
+# 智配路由 · Smart Skill Router Plugin
 
-自动匹配用户意图到最合适的 skill 并推荐加载。A 层关键词精确匹配（零延迟）+ B 层 LLM 语义匹配（三后端可选）。
+<p align="center">
+  <b>让 Hermes Agent 自动匹配最合适的 Skill</b><br>
+  <sub>A 层零延迟关键词 + B 层 LLM 语义 · 三后端 · 自学习</sub>
+</p>
 
-## 为什么需要它
+<p align="center">
+  <img src="https://img.shields.io/badge/version-0.2.0-blue" alt="version">
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
+  <img src="https://img.shields.io/badge/platform-Hermes%20Agent-orange" alt="platform">
+</p>
 
-Hermes Agent 有 200+ 个 skill，但 AI 不会主动加载——每次都要手动说"用 brainstorming""用 ui-ux-pro-max"。SSR 在 `pre_llm_call` 阶段自动检测用户意图，推荐该加载的 skill。
+---
+
+## 为什么需要？
+
+Hermes Agent 可以安装数百个 Skill，但 AI **不会主动加载**——每次都要手动说「用 brainstorming」「用 ui-ux-pro-max」。
+
+SSR 在你的每次对话前自动分析意图，推荐该用的 Skill。
+
+```
+用户: "帮我设计一个响应式导航栏"
+  → SSR:  🔍 brainstorming | 🔨 ui-ux-pro-max | ✅ popular-web-designs
+```
+
+只推荐你**已经安装**的 Skill。不推荐安装任何特定 Skill。
+
+---
+
+## 快速安装
+
+```bash
+# 1. 复制到插件目录
+cp -r ssr ~/.hermes/plugins/
+
+# 2. 编辑 config.yaml，在 plugins.enabled 添加:
+#    - ssr
+
+# 3. 重启 Hermes
+```
+
+**零配置可用。** B 层默认 `main` 模式，复用主模型。
+
+---
 
 ## 架构
 
 ```
-用户消息
-    ↓
-[SSR pre_llm_call]
-    ├── A 层：11 条种子规则，正则匹配 → 零延迟命
-    └── B 层：223 skill 语义匹配 → 兜底长尾
-         ├── main 后端：复用 Hermes 主模型（零配置）
-         ├── openai 后端：自定义 API key + base_url
-         └── ollama 后端：本地模型
+┌─────────────────────────────────────────────┐
+│                 用户消息                      │
+└──────────────────┬──────────────────────────┘
+                   ▼
+         ┌─────────────────┐
+         │   SSR pre_llm_call │
+         └────────┬──────────┘
+                  │
+        ┌─────────┴─────────┐
+        ▼                   ▼
+   ┌─────────┐        ┌──────────┐
+   │  A 层    │        │  B 层     │
+   │ 关键词    │        │ LLM 语义  │
+   │ 0ms      │──→     │ 1-2s     │
+   └─────────┘        └──────────┘
+   零延迟精确              兜底长尾
+   自学习升级 ←──────── 连续3次命中
 ```
 
-## 安装
+---
 
-```bash
-# 1. 复制插件目录
-cp -r ssr ~/.hermes/plugins/
+## 工作模式
 
-# 2. 启用插件（config.yaml）
-plugins:
-  enabled:
-    - ssr
+| 模式 | 行为 | 适用场景 |
+|------|------|---------|
+| 🔵 **推荐**（默认） | `[SSR] 建议加载: ...` AI 自主决定 | 日常使用 |
+| 🔴 **强制** | `[MUST-LOAD] 必须加载: ...` AI 强制读取 | 严格工作流 |
 
-# 3. 配置（可选，默认 zero-config）
-ssr:
-  b_layer:
-    provider: main   # main | openai | ollama
-```
+在 Dashboard 一键切换。
 
-## B 层后端配置
+---
 
-| 后端 | 适用场景 | 示例配置 |
-|------|---------|---------|
-| **main**（默认） | 零配置，复用 Hermes 主模型 | `provider: main` |
-| **openai** | 自定义 API | `provider: openai, api_key: sk-xxx, base_url: https://api.openai.com/v1` |
-| **ollama** | 本地模型 | `provider: ollama, model: qwen2.5:3b, base_url: http://localhost:11434` |
+## B 层后端
 
-## A 层种子规则
+| 后端 | 说明 | 谁适合 |
+|------|------|--------|
+| **main** | 复用 Hermes 主模型 | 零配置用户 |
+| **openai** | 自定义 API key + URL | 有 API 的用户 |
+| **ollama** | 本地 Ollama 服务 | 有 GPU 的用户 |
+| **lmstudio** | LM Studio 本地推理 | LM Studio 用户 |
+| **llamacpp** | llama.cpp server 模式 | 自部署用户 |
 
-11 条预置规则，覆盖最高频场景：
+Dashboard 可视化配置，无需手动改文件。
 
-| 用户意图 | 推荐 skill |
-|---------|-----------|
-| 设计页面/UI/导航 | brainstorming, ui-ux-pro-max, popular-web-designs |
-| 调试/报错/KeyError | diagnose, systematic-debugging |
-| 写代码/功能 | brainstorming, test-driven-development, planning-with-files |
-| 写论文/文档 | research-paper-writing, planning-with-files |
-| ASCII 艺术 | ascii-art |
-| 股票/均线/技术分析 | technical-analysis, tushare-finance |
-| 旅行/出行 | trip-planner-generator, road-trip-planner, travel-skill |
-| 代码审查 | requesting-code-review, github-code-review |
-| 架构/规划 | brainstorming, writing-plans, idea-foundry |
-| 发布/部署 | ralph-loop, verification-before-completion |
-| arXiv/论文检索 | arxiv |
+---
 
 ## Dashboard
-
-规则可视化管理界面（增删改查）：
 
 ```bash
 python3 ~/.hermes/plugins/ssr/dashboard.py
 # → http://localhost:8766
 ```
 
+- 📋 **规则管理**：增删改查 A 层规则，查看命中统计
+- ⚙️ **引擎配置**：模式切换 + 扫描策略 + B 层后端
+
+---
+
+## 扫描策略
+
+| 策略 | 优点 | 缺点 |
+|------|------|------|
+| **启动时扫描**（默认） | 零延迟 | 新装 Skill 需重启 |
+| **每次提问扫描** | 新装 Skill 即时感知 | 每次 ~200ms 延迟 |
+
+---
+
+## 配置参考
+
+```yaml
+ssr:
+  mode: suggest          # suggest | enforce
+  scan_mode: startup     # startup | every_turn
+  b_layer:
+    provider: main       # main | openai | ollama | lmstudio | llamacpp
+    model: deepseek-chat
+    base_url: https://api.deepseek.com/v1
+    timeout: 30
+    api_key: sk-xxx      # main 模式留空
+```
+
+---
+
 ## 技术细节
 
-- A 层：正则匹配，零延迟，命中计数 + 冷却去重 + 延迟写盘
-- B 层：预过滤 223→20 候选，LLM 语义匹配 + 60s 结果缓存
+- A 层：正则匹配，延迟写盘（每 5 次命中），60s 冷却去重
+- B 层：预过滤 223→20 候选 → LLM 精排，60s 结果缓存
 - 自学习：B 层连续 3 次命中 → 升级到 A 层
 - 降级：插件崩溃不阻塞对话，B 层不可用时 A 层独立工作
 
-## 兼容性
-
-- Hermes Agent 任意版本
-- B 层 main 模式：零依赖
-- B 层 openai 模式：httpx
-- B 层 ollama 模式：httpx + 本地 Ollama 服务
+---
 
 ## License
 

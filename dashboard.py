@@ -1,16 +1,15 @@
 """
-SSR Dashboard — A 层规则可视化管理
+SSR Dashboard v0.2.0 — A 层规则 + B 层配置管理
 启动: python3 ~/.hermes/plugins/ssr/dashboard.py
 端口: 8766
 """
 import json
-import os
-import re
 from pathlib import Path
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 RULES_PATH = Path(__file__).resolve().parent / "a_rules.json"
 HTML_PATH = Path(__file__).resolve().parent / "dashboard.html"
+CONFIG_PATH = Path.home() / ".hermes" / "config.yaml"
 
 
 def load_rules():
@@ -25,6 +24,65 @@ def save_rules(rules):
         json.dump(rules, f, ensure_ascii=False, indent=2)
 
 
+def load_config():
+    """读取 ssr 配置节。"""
+    try:
+        import yaml
+        with open(CONFIG_PATH) as f:
+            cfg = yaml.safe_load(f)
+        ssr = cfg.get("ssr", {})
+        b_layer = ssr.get("b_layer", {})
+        return {
+            "mode": ssr.get("mode", "suggest"),
+            "scan": ssr.get("scan_mode", "startup"),
+            "b_provider": b_layer.get("provider", "main"),
+            "b_model": b_layer.get("model", ""),
+            "b_url": b_layer.get("base_url", ""),
+            "b_timeout": b_layer.get("timeout", 30),
+            "b_key": b_layer.get("api_key", ""),
+        }
+    except Exception:
+        return {}
+
+
+def save_config(data: dict):
+    """写入 ssr 配置节到 config.yaml。"""
+    try:
+        import yaml
+        with open(CONFIG_PATH) as f:
+            cfg = yaml.safe_load(f) or {}
+
+        ssr = cfg.setdefault("ssr", {})
+
+        if "mode" in data:
+            ssr["mode"] = data["mode"]
+        if "scan" in data:
+            ssr["scan_mode"] = data["scan"]
+
+        if "provider" in data:
+            b_layer = ssr.setdefault("b_layer", {})
+            b_layer["provider"] = data["provider"]
+        if "model" in data:
+            b_layer = ssr.setdefault("b_layer", {})
+            b_layer["model"] = data["model"]
+        if "base_url" in data:
+            b_layer = ssr.setdefault("b_layer", {})
+            b_layer["base_url"] = data["base_url"]
+        if "timeout" in data:
+            b_layer = ssr.setdefault("b_layer", {})
+            b_layer["timeout"] = data["timeout"]
+        if "api_key" in data:
+            b_layer = ssr.setdefault("b_layer", {})
+            b_layer["api_key"] = data["api_key"]
+
+        with open(CONFIG_PATH, "w") as f:
+            yaml.dump(cfg, f, allow_unicode=True, default_flow_style=False)
+        return True
+    except Exception as e:
+        print(f"save_config error: {e}")
+        return False
+
+
 class SSRHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/api/rules":
@@ -35,7 +93,9 @@ class SSRHandler(BaseHTTPRequestHandler):
                 entry["pattern"] = pat
                 result.append(entry)
             self._json(result)
-        elif self.path == "/" or self.path == "/index.html":
+        elif self.path == "/api/config":
+            self._json(load_config())
+        elif self.path in ("/", "/index.html"):
             self._html()
         else:
             self.send_error(404)
@@ -50,13 +110,14 @@ class SSRHandler(BaseHTTPRequestHandler):
                 return
             rules[pat] = {
                 "skills": body.get("skills", []),
-                "hits": 0,
-                "last_hit": "",
-                "source": "manual",
-                "priority": 10,
+                "hits": 0, "last_hit": "", "source": "manual", "priority": 10,
             }
             save_rules(rules)
             self._json({"ok": True, "count": len(rules)})
+        elif self.path == "/api/config":
+            body = self._body()
+            ok = save_config(body)
+            self._json({"ok": ok})
         else:
             self.send_error(404)
 
@@ -69,7 +130,6 @@ class SSRHandler(BaseHTTPRequestHandler):
                 self._json({"ok": False, "error": "rule not found"}, 404)
                 return
             new_pat = body.get("pattern", old_pat)
-            # 更新
             rule = rules.pop(old_pat)
             for k in ("skills", "hits", "last_hit", "source", "priority"):
                 if k in body:
@@ -95,7 +155,7 @@ class SSRHandler(BaseHTTPRequestHandler):
 
     def _json(self, data, status=200):
         self.send_response(status)
-        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Type", "application/json; charset=utf-8")
         self.end_headers()
         self.wfile.write(json.dumps(data, ensure_ascii=False).encode())
 
@@ -115,7 +175,7 @@ class SSRHandler(BaseHTTPRequestHandler):
         return json.loads(self.rfile.read(length)) if length > 0 else {}
 
     def log_message(self, format, *args):
-        pass  # 静默日志
+        pass
 
 
 def start(port=8766):

@@ -5,195 +5,268 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SSR Dashboard · 智配路由</title>
 <style>
+:root{--bg:#0f1218;--card:#161b22;--border:#2a3040;--text:#c9d1d9;--muted:#8b949e;--accent:#58a6ff;--green:#238636;--red:#da3633;--radius:8px}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0d1117;color:#c9d1d9;max-width:1100px;margin:0 auto;padding:20px}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);max-width:1100px;margin:0 auto;padding:20px}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
 h1{font-size:22px;font-weight:600}
-.stats{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
-.stat{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px 18px;min-width:140px}
-.stat-label{font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:.5px}
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid var(--border)}
+.tab{padding:8px 18px;font-size:13px;color:var(--muted);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.stats{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;min-width:140px}
+.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 .stat-value{font-size:24px;font-weight:600;margin-top:4px}
-.toolbar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-.toolbar input,.toolbar button{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:8px 14px;color:#c9d1d9;font-size:13px}
-.toolbar input{flex:1;min-width:200px}
-.toolbar button{cursor:pointer;background:#238636;border-color:#238636;color:#fff}
-.toolbar button.danger{background:#da3633;border-color:#da3633}
-.toolbar button:hover{opacity:.9}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:10px 14px;border-bottom:1px solid #30363d;color:#8b949e;font-weight:500;cursor:pointer;user-select:none}
-td{padding:8px 14px;border-bottom:1px solid #21262d}
-tr:hover{background:#161b22}
-.pattern{font-family:monospace;font-size:12px;color:#58a6ff;max-width:300px;word-break:break-all}
+.toolbar{display:flex;gap:12px;margin-bottom:16px}
+.toolbar input,.toolbar select{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 14px;color:var(--text);font-size:13px}
+.toolbar input{flex:1}
+.toolbar button,.btn{background:var(--green);border:none;border-radius:6px;padding:8px 16px;color:#fff;font-size:13px;cursor:pointer;transition:.15s}
+.toolbar button:hover,.btn:hover{opacity:.9}
+.btn-outline{background:var(--card);border:1px solid var(--border);color:var(--text)}
+.btn-danger{background:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-weight:500}
+td{padding:8px 14px;border-bottom:1px solid rgba(48,54,61,.5)}
+tr:hover{background:rgba(88,166,255,.04)}
+.pattern{font-family:monospace;font-size:12px;color:var(--accent);word-break:break-all}
 .skills{color:#7ee787}
 .hits{color:#d2991d;font-weight:600}
-.actions{display:flex;gap:8px}
-.actions button{background:none;border:1px solid #30363d;border-radius:4px;padding:3px 8px;color:#8b949e;cursor:pointer;font-size:11px}
-.actions button:hover{color:#c9d1d9;border-color:#58a6ff}
+.actions button{background:none;border:1px solid var(--border);border-radius:4px;padding:3px 8px;color:var(--muted);cursor:pointer;font-size:11px;margin-right:4px}
+.actions button:hover{color:var(--text);border-color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card h2{font-size:16px;margin-bottom:12px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.form-group input,.form-group select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:13px}
+.form-row{display:flex;gap:12px}
+.form-row .form-group{flex:1}
+.toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(48,54,61,.3)}
+.toggle-label{font-size:13px}
+.toggle-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle-switch input{display:none}
+.toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--border);border-radius:12px;transition:.2s}
+.toggle-slider:before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+input:checked+.toggle-slider{background:var(--accent)}
+input:checked+.toggle-slider:before{transform:translateX(20px)}
+.empty{text-align:center;color:var(--muted);padding:40px;font-size:14px}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);justify-content:center;align-items:center;z-index:100}
 .modal.show{display:flex}
-.modal-content{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px;width:560px;max-height:80vh;overflow-y:auto}
+.modal-content{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;width:560px;max-height:80vh;overflow-y:auto}
 .modal-content h2{margin-bottom:16px}
-.modal-content label{display:block;font-size:12px;color:#8b949e;margin-bottom:4px;margin-top:12px}
-.modal-content input,.modal-content textarea{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:8px 12px;color:#c9d1d9;font-size:13px}
-.modal-content textarea{min-height:60px;resize:vertical}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
-.toast{position:fixed;bottom:20px;right:20px;background:#238636;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;display:none;z-index:200}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;display:none;z-index:200;animation:toastIn .2s}
 .toast.show{display:block}
-.toast.error{background:#da3633}
+.toast.error{background:var(--red)}
+@keyframes toastIn{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 </head>
 <body>
+
 <header>
-<h1>智配路由 · A 层规则管理</h1>
-<div style="color:#8b949e;font-size:12px">SSR Dashboard v0.1.0</div>
+<h1>智配路由 · Dashboard</h1>
+<div style="color:var(--muted);font-size:12px">SSR v0.2.0</div>
 </header>
 
-<div class="stats" id="stats"></div>
+<div class="tabs">
+<button class="tab active" onclick="switchTab('rules')">📋 规则管理</button>
+<button class="tab" onclick="switchTab('config')">⚙️ 引擎配置</button>
+</div>
 
+<!-- Tab 1: 规则管理 -->
+<div class="tab-content active" id="tab-rules">
+<div class="stats" id="stats"></div>
 <div class="toolbar">
 <input id="search" placeholder="搜索规则…" oninput="render()">
-<button onclick="openModal()">+ 添加规则</button>
-<button onclick="location.reload()">↻ 刷新</button>
+<button onclick="openRuleModal()">+ 添加规则</button>
+<button class="btn-outline" onclick="loadRules();render()">↻ 刷新</button>
+</div>
+<div id="rules-empty" class="empty" style="display:none">
+还没有规则。<br>B 层会自动学习，命中 3 次后升级到 A 层。<br>也可以手动添加。
+</div>
+<table id="rules-table"><thead><tr>
+<th style="width:50%">匹配模式</th><th style="width:35%">Skill</th><th style="width:8%">命中</th><th style="width:12%">操作</th>
+</tr></thead><tbody id="tbody"></tbody></table>
 </div>
 
-<table>
-<thead>
-<tr>
-<th>模式</th>
-<th>匹配 Skill</th>
-<th style="width:60px">命中</th>
-<th style="width:120px">操作</th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
+<!-- Tab 2: 引擎配置 -->
+<div class="tab-content" id="tab-config">
 
-<div class="modal" id="modal">
-<div class="modal-content">
+<div class="card">
+<h2>推荐模式</h2>
+<div class="toggle">
+<div><div class="toggle-label">推荐模式</div><div class="toggle-desc">AI 看到建议可自主决定是否加载</div></div>
+<label class="toggle-switch"><input type="radio" name="mode" value="suggest" onchange="saveMode()"><span class="toggle-slider"></span></label>
+</div>
+<div class="toggle">
+<div><div class="toggle-label">强制模式</div><div class="toggle-desc">注入 MUST-LOAD 指令，AI 必须加载</div></div>
+<label class="toggle-switch"><input type="radio" name="mode" value="enforce" onchange="saveMode()"><span class="toggle-slider"></span></label>
+</div>
+</div>
+
+<div class="card">
+<h2>扫描策略</h2>
+<div class="toggle">
+<div><div class="toggle-label">启动时扫描</div><div class="toggle-desc">零延迟，新装 skill 需重启生效</div></div>
+<label class="toggle-switch"><input type="radio" name="scan" value="startup" onchange="saveScan()"><span class="toggle-slider"></span></label>
+</div>
+<div class="toggle">
+<div><div class="toggle-label">每次提问扫描</div><div class="toggle-desc">新装 skill 即时感知，每次 ~200ms 延迟</div></div>
+<label class="toggle-switch"><input type="radio" name="scan" value="every_turn" onchange="saveScan()"><span class="toggle-slider"></span></label>
+</div>
+</div>
+
+<div class="card">
+<h2>B 层后端</h2>
+<div class="form-row">
+<div class="form-group"><label>后端类型</label>
+<select id="b-provider" onchange="onProviderChange()">
+<option value="main">main（复用主模型）</option>
+<option value="openai">openai（自定义 API）</option>
+<option value="ollama">ollama（本地）</option>
+<option value="lmstudio">lmstudio（本地）</option>
+<option value="llamacpp">llamacpp（本地）</option>
+</select></div>
+<div class="form-group"><label>模型</label><input id="b-model" placeholder="deepseek-chat"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label>Base URL</label><input id="b-url" placeholder="https://api.deepseek.com/v1"></div>
+<div class="form-group"><label>API Key（可选）</label><input id="b-key" type="password" placeholder="sk-xxx"></div>
+</div>
+<div class="form-group"><label>超时（秒）</label><input id="b-timeout" type="number" value="30"></div>
+<button class="btn" onclick="saveBLayer()">💾 保存（需重启生效）</button>
+<span id="b-status" style="margin-left:12px;font-size:12px;color:var(--muted)"></span>
+</div>
+</div>
+
+<div class="modal" id="modal"><div class="modal-content">
 <h2 id="modalTitle">添加规则</h2>
-<label>匹配模式（正则）</label>
-<input id="editPattern" placeholder="如: debug|报错|KeyError">
-<label>Skill 列表（逗号分隔）</label>
-<textarea id="editSkills" placeholder="如: diagnose, systematic-debugging"></textarea>
-<label>阶段标签（逗号分隔，可选）</label>
-<input id="editPhases" placeholder="如: DISCOVER, DISCOVER">
+<div class="form-group"><label>匹配模式（正则）</label><input id="editPattern" placeholder="debug|报错|KeyError"></div>
+<div class="form-group"><label>Skill（逗号分隔）</label><input id="editSkills" placeholder="diagnose, systematic-debugging"></div>
+<div class="form-group"><label>阶段标签（逗号分隔，可选）</label><input id="editPhases" placeholder="DISCOVER, DISCOVER"></div>
 <div class="modal-actions">
-<button class="danger" id="btnDelete" style="display:none" onclick="del()">删除</button>
-<button onclick="closeModal()">取消</button>
-<button onclick="save()">保存</button>
-</div>
-</div>
-</div>
+<button class="btn btn-danger" id="btnDelete" style="display:none" onclick="delRule()">删除</button>
+<button class="btn-outline" onclick="closeModal()">取消</button>
+<button class="btn" onclick="saveRule()">保存</button>
+</div></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 let rules=[],editing=null;
 
-async function load(){
-  const r=await fetch('/api/rules');
-  rules=await r.json();
+// ── Tab 切换 ──
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.textContent.includes(name==='rules'?'规则':'配置')));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.toggle('active',c.id==='tab-'+name));
+}
+// ── 规则管理 ──
+async function loadRules(){
+  try{const r=await fetch('/api/rules');rules=await r.json()}catch(e){rules=[]}
+  const empty=document.getElementById('rules-empty');
+  const table=document.getElementById('rules-table');
+  if(rules.length===0){empty.style.display='block';table.style.display='none'}
+  else{empty.style.display='none';table.style.display=''}
   render();
 }
-
 function render(){
   const q=document.getElementById('search').value.toLowerCase();
-  const filtered=rules.filter(r=>
-    r.pattern.toLowerCase().includes(q)||
-    r.skills.map(s=>typeof s==='string'?s:s.name).join(' ').toLowerCase().includes(q)
-  );
+  const filtered=rules.filter(r=>(r.pattern||'').toLowerCase().includes(q)||(r.skills||[]).map(s=>typeof s==='string'?s:s.name).join(' ').toLowerCase().includes(q));
   document.getElementById('stats').innerHTML=
     `<div class=stat><div class=stat-label>规则总数</div><div class=stat-value>${rules.length}</div></div>`+
     `<div class=stat><div class=stat-label>累计命中</div><div class=stat-value>${rules.reduce((s,r)=>s+(r.hits||0),0)}</div></div>`+
     `<div class=stat><div class=stat-label>命中>0</div><div class=stat-value>${rules.filter(r=>r.hits>0).length}</div></div>`;
-
   document.getElementById('tbody').innerHTML=filtered.map(r=>{
-    const skills=r.skills.map(s=>typeof s==='string'?s:s.name).join(', ');
-    return `<tr>
-      <td class=pattern>${esc(r.pattern)}</td>
-      <td class=skills>${esc(skills)}</td>
-      <td class=hits>${r.hits||0}</td>
-      <td class=actions>
-        <button onclick="edit('${esc(r.pattern)}')">✏ 编辑</button>
-        <button onclick="delRule('${esc(r.pattern)}')">🗑</button>
-      </td>
-    </tr>`;
+    const skills=(r.skills||[]).map(s=>typeof s==='string'?s:s.name).join(', ');
+    return `<tr><td class=pattern>${e(r.pattern)}</td><td class=skills>${e(skills)}</td><td class=hits>${r.hits||0}</td>
+    <td class=actions><button onclick="editRule('${e(r.pattern)}')">✏</button><button onclick="deleteRule('${e(r.pattern)}')">🗑</button></td></tr>`;
   }).join('');
 }
-
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-async function save(){
+function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+async function saveRule(){
   const pat=document.getElementById('editPattern').value.trim();
   const skills=document.getElementById('editSkills').value.split(',').map(s=>s.trim()).filter(Boolean);
   const phases=document.getElementById('editPhases').value.split(',').map(s=>s.trim()).filter(Boolean);
-
-  if(!pat||!skills.length){toast('请填写模式和 Skill','error');return;}
-
-  const skillObjs=skills.map((s,i)=>({name:s,phase:phases[i]||''}));
-
+  if(!pat||!skills.length){toast('请填写模式和 Skill','error');return}
+  const sobjs=skills.map((s,i)=>({name:s,phase:phases[i]||''}));
   if(editing){
-    const r=await fetch('/api/rules/'+encodeURIComponent(editing),{
-      method:'PUT',body:JSON.stringify({pattern:pat,skills:skillObjs})
-    });
-    if((await r.json()).ok)toast('已更新');
+    await fetch('/api/rules/'+encodeURIComponent(editing),{method:'PUT',body:JSON.stringify({pattern:pat,skills:sobjs})});
+    toast('已更新');
   }else{
-    const r=await fetch('/api/rules',{
-      method:'POST',body:JSON.stringify({pattern:pat,skills:skillObjs})
-    });
-    if((await r.json()).ok)toast('已添加');
+    await fetch('/api/rules',{method:'POST',body:JSON.stringify({pattern:pat,skills:sobjs})});
+    toast('已添加');
   }
-  closeModal();load();
+  closeModal();loadRules();
 }
-
-async function del(){
+async function delRule(){
   if(!editing)return;
   await fetch('/api/rules/'+encodeURIComponent(editing),{method:'DELETE'});
-  toast('已删除');closeModal();load();
+  toast('已删除');closeModal();loadRules();
 }
-
-async function delRule(pat){
-  if(!confirm('确定删除规则 "'+pat+'" ？'))return;
+async function deleteRule(pat){
+  if(!confirm('删除 "'+pat+'" ？'))return;
   await fetch('/api/rules/'+encodeURIComponent(pat),{method:'DELETE'});
-  toast('已删除');load();
+  toast('已删除');loadRules();
 }
-
-function edit(pat){
-  editing=pat;
-  const r=rules.find(r=>r.pattern===pat);
+function editRule(pat){editing=pat;const r=rules.find(r=>r.pattern===pat);
   document.getElementById('modalTitle').textContent='编辑规则';
   document.getElementById('editPattern').value=r.pattern;
-  document.getElementById('editSkills').value=r.skills.map(s=>typeof s==='string'?s:s.name).join(', ');
-  document.getElementById('editPhases').value=r.skills.map(s=>typeof s==='string'?'':s.phase||'').join(', ');
-  document.getElementById('btnDelete').style.display='inline-block';
-  document.getElementById('modal').classList.add('show');
-}
-
-function openModal(){
-  editing=null;
+  document.getElementById('editSkills').value=(r.skills||[]).map(s=>typeof s==='string'?s:s.name).join(', ');
+  document.getElementById('editPhases').value=(r.skills||[]).map(s=>typeof s==='string'?'':s.phase||'').join(', ');
+  document.getElementById('btnDelete').style.display='inline-block';document.getElementById('modal').classList.add('show')}
+function openRuleModal(){editing=null;
   document.getElementById('modalTitle').textContent='添加规则';
-  document.getElementById('editPattern').value='';
-  document.getElementById('editSkills').value='';
-  document.getElementById('editPhases').value='';
-  document.getElementById('btnDelete').style.display='none';
-  document.getElementById('modal').classList.add('show');
+  document.getElementById('editPattern').value='';document.getElementById('editSkills').value='';document.getElementById('editPhases').value='';
+  document.getElementById('btnDelete').style.display='none';document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+
+// ── 配置 ──
+const defaults={main:{url:'',model:''},openai:{url:'https://api.openai.com/v1',model:'gpt-4o-mini'},
+  ollama:{url:'http://localhost:11434/v1',model:'qwen2.5:3b'},
+  lmstudio:{url:'http://localhost:1234/v1',model:''},llamacpp:{url:'http://localhost:8080/v1',model:''}};
+function onProviderChange(){
+  const p=document.getElementById('b-provider').value;
+  const d=defaults[p]||{};
+  if(d.url)document.getElementById('b-url').value=d.url;
+  if(d.model)document.getElementById('b-model').value=d.model;
+  if(p==='main'){document.getElementById('b-url').disabled=true;document.getElementById('b-model').disabled=true;document.getElementById('b-key').disabled=true}
+  else{document.getElementById('b-url').disabled=false;document.getElementById('b-model').disabled=false;document.getElementById('b-key').disabled=false}
 }
-
-function closeModal(){
-  document.getElementById('modal').classList.remove('show');
+async function loadConfig(){
+  try{const r=await fetch('/api/config');const c=await r.json();
+    document.querySelector(`input[name=mode][value="${c.mode||'suggest'}"]`).checked=true;
+    document.querySelector(`input[name=scan][value="${c.scan||'startup'}"]`).checked=true;
+    document.getElementById('b-provider').value=c.b_provider||'main';
+    document.getElementById('b-model').value=c.b_model||'';
+    document.getElementById('b-url').value=c.b_url||'';
+    document.getElementById('b-timeout').value=c.b_timeout||30;
+    document.getElementById('b-key').value=c.b_key||'';
+    onProviderChange();
+  }catch(e){}
 }
-
-function toast(msg,type=''){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className='toast show '+(type||'');
-  setTimeout(()=>t.className='toast',2000);
+async function saveMode(){
+  const mode=document.querySelector('input[name=mode]:checked').value;
+  await fetch('/api/config',{method:'POST',body:JSON.stringify({mode})});
+  toast('已保存');loadConfig();
 }
-
-document.getElementById('modal').addEventListener('click',function(e){
-  if(e.target===this)closeModal();
-});
-
-load();
+async function saveScan(){
+  const scan=document.querySelector('input[name=scan]:checked').value;
+  await fetch('/api/config',{method:'POST',body:JSON.stringify({scan})});
+  toast('已保存');loadConfig();
+}
+async function saveBLayer(){
+  const p=document.getElementById('b-provider').value;
+  const payload={provider:p,model:document.getElementById('b-model').value,base_url:document.getElementById('b-url').value,timeout:parseInt(document.getElementById('b-timeout').value)||30};
+  const key=document.getElementById('b-key').value;if(key)payload.api_key=key;
+  await fetch('/api/config',{method:'POST',body:JSON.stringify(payload)});
+  toast('已保存，重启 Hermes 生效');loadConfig();
+}
+function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',2000)}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal()});
+window.addEventListener('load',()=>{loadRules();loadConfig()});
 </script>
 </body>
 </html>

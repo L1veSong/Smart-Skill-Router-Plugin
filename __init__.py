@@ -78,6 +78,11 @@ def _hook_enabled() -> bool:
     return hooks.get("pre_llm_call", True)
 
 
+def _ssr_mode() -> str:
+    """推荐模式：suggest（建议）| enforce（强制）。"""
+    return _load_ssr_config().get("mode", "suggest")
+
+
 def _b_provider() -> str:
     """B 层后端: main | ollama | openai"""
     return _load_ssr_config().get("b_layer", {}).get("provider", "main")
@@ -118,6 +123,11 @@ def _a_rules_max() -> int:
 
 def _a_rules_ttl_days() -> int:
     return _load_ssr_config().get("a_rules_ttl_days", 30)
+
+
+def _scan_mode() -> str:
+    """扫描策略：startup（启动时）| every_turn（每次提问）。"""
+    return _load_ssr_config().get("scan_mode", "startup")
 
 
 # ---------------------------------------------------------------------------
@@ -773,7 +783,10 @@ def _format_recommendation(skills: List[dict]) -> str:
         phase_str = f" ({phase})" if phase else ""
         parts.append(f"{emoji}{s['name']}{phase_str}")
 
-    return f"[SSR] 检测到任务需求，建议加载: {' | '.join(parts)}"
+    mode = _ssr_mode()
+    if mode == "enforce":
+        return f"[MUST-LOAD] SSR 强制加载: {' | '.join(parts)}\n以上技能必须在此回复中使用 skill_view() 加载，不可跳过。"
+    return f"[SSR] 建议加载: {' | '.join(parts)}"
 
 
 def _pre_llm_call(
@@ -791,6 +804,13 @@ def _pre_llm_call(
         return None
 
     try:
+        # ── 每次提问扫描（如启用）──
+        global _SKILL_INDEX
+        if _scan_mode() == "every_turn":
+            idx, broken = _build_skill_index()
+            if idx:
+                _SKILL_INDEX = idx
+
         # ── 任务切换检测 ──
         if _detect_task_switch(session_id, user_message):
             _SESSION_CACHE.pop(session_id, None)
