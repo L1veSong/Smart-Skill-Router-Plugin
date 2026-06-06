@@ -5,268 +5,249 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SSR Dashboard · 智配路由</title>
 <style>
-:root{--bg:#0f1218;--card:#161b22;--border:#2a3040;--text:#c9d1d9;--muted:#8b949e;--accent:#58a6ff;--green:#238636;--red:#da3633;--radius:8px}
+:root{--bg:#0f1218;--card:#161b22;--border:#2a3040;--text:#c9d1d9;--muted:#8b949e;--accent:#58a6ff;--green:#238636;--red:#da3633;--amber:#d2991d;--radius:10px;--ease:cubic-bezier(.4,0,.2,1);--font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif}
+[data-theme="light"]{--bg:#fff;--card:#f6f8fa;--border:#d0d7de;--text:#1f2328;--muted:#656d76;--accent:#0969da;--green:#1a7f37;--red:#cf222e;--amber:#9a6700}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);max-width:1100px;margin:0 auto;padding:20px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-h1{font-size:22px;font-weight:600}
-.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid var(--border)}
-.tab{padding:8px 18px;font-size:13px;color:var(--muted);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s}
+body{font-family:var(--font);background:var(--bg);color:var(--text);max-width:1200px;margin:0 auto;padding:24px;transition:background .3s,color .3s}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;animation:slideIn .4s var(--ease)}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:24px;font-weight:700;letter-spacing:-.3px;background:linear-gradient(135deg,var(--accent),#7ee787);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-right{display:flex;gap:10px;align-items:center;font-size:12px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,to{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
+.tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:2px solid var(--border)}
+.tab{padding:10px 22px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;position:relative;transition:.2s}
 .tab:hover{color:var(--text)}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-content{display:none}
+.tab.active{color:var(--accent)}
+.tab.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--accent);animation:tabIn .3s var(--ease)}
+@keyframes tabIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.tab-content{display:none;animation:fadeIn .3s var(--ease)}
 .tab-content.active{display:block}
-.stats{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;min-width:140px}
-.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.stat-value{font-size:24px;font-weight:600;margin-top:4px}
-.toolbar{display:flex;gap:12px;margin-bottom:16px}
-.toolbar input,.toolbar select{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:8px 14px;color:var(--text);font-size:13px}
-.toolbar input{flex:1}
-.toolbar button,.btn{background:var(--green);border:none;border-radius:6px;padding:8px 16px;color:#fff;font-size:13px;cursor:pointer;transition:.15s}
-.toolbar button:hover,.btn:hover{opacity:.9}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;transition:.2s}
+.stat:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.stat-value{font-size:28px;font-weight:700;margin-top:6px;transition:.3s}
+.toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar input,.toolbar select{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text);font-size:13px;flex:1;min-width:180px;transition:border-color .2s}
+.toolbar input:focus,.toolbar select:focus{outline:none;border-color:var(--accent)}
+.btn{padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{filter:brightness(1.1)}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{filter:brightness(1.1)}
 .btn-outline{background:var(--card);border:1px solid var(--border);color:var(--text)}
-.btn-danger{background:var(--red)}
+.btn-outline:hover{border-color:var(--accent)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{filter:brightness(1.1)}
+.btn-sm{padding:4px 10px;font-size:11px}
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
-th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-weight:500}
-td{padding:8px 14px;border-bottom:1px solid rgba(48,54,61,.5)}
-tr:hover{background:rgba(88,166,255,.04)}
-.pattern{font-family:monospace;font-size:12px;color:var(--accent);word-break:break-all}
-.skills{color:#7ee787}
-.hits{color:#d2991d;font-weight:600}
-.actions button{background:none;border:1px solid var(--border);border-radius:4px;padding:3px 8px;color:var(--muted);cursor:pointer;font-size:11px;margin-right:4px}
-.actions button:hover{color:var(--text);border-color:var(--accent)}
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
-.card h2{font-size:16px;margin-bottom:12px}
+th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:9px 14px;border-bottom:1px solid rgba(127,127,127,.1);transition:background .15s}
+tr:hover td{background:rgba(88,166,255,.03)}
+tr{animation:rowIn .3s var(--ease) both}
+@keyframes rowIn{from{opacity:0;transform:translateX(-8px)}}
+.pattern{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);word-break:break-all}
+.skills{color:#7ee787;font-size:12px}
+.hits{color:var(--amber);font-weight:700;font-size:14px}
+.actions{display:flex;gap:6px}
+.empty{text-align:center;color:var(--muted);padding:60px 20px;font-size:14px;line-height:1.8;animation:fadeIn .5s var(--ease)}
+.empty-icon{font-size:40px;display:block;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px;transition:.2s}
+.card h2{font-size:15px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
-.form-group input,.form-group select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:13px}
+.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:500}
+.form-group input,.form-group select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 13px;color:var(--text);font-size:13px;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--accent)}
 .form-row{display:flex;gap:12px}
 .form-row .form-group{flex:1}
-.toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(48,54,61,.3)}
-.toggle-label{font-size:13px}
-.toggle-desc{font-size:11px;color:var(--muted);margin-top:2px}
-.toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(127,127,127,.08)}
+.toggle:last-child{border-bottom:none}
+.toggle-label{font-size:13px;font-weight:500}
+.toggle-desc{font-size:11px;color:var(--muted);margin-top:3px}
+.toggle-switch{position:relative;width:48px;height:26px;flex-shrink:0}
 .toggle-switch input{display:none}
-.toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--border);border-radius:12px;transition:.2s}
-.toggle-slider:before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--border);border-radius:13px;transition:.25s var(--ease)}
+.toggle-slider:before{content:"";position:absolute;height:20px;width:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.25s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.2)}
 input:checked+.toggle-slider{background:var(--accent)}
-input:checked+.toggle-slider:before{transform:translateX(20px)}
-.empty{text-align:center;color:var(--muted);padding:40px;font-size:14px}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);justify-content:center;align-items:center;z-index:100}
+input:checked+.toggle-slider:before{transform:translateX(22px)}
+.disabled-overlay{position:relative}
+.disabled-overlay::after{content:'';position:absolute;inset:0;background:var(--bg);opacity:.4;border-radius:var(--radius);pointer-events:none}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);justify-content:center;align-items:center;z-index:100;animation:fadeIn .2s}
 .modal.show{display:flex}
-.modal-content{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;width:560px;max-height:80vh;overflow-y:auto}
-.modal-content h2{margin-bottom:16px}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
-.toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;display:none;z-index:200;animation:toastIn .2s}
+.modal-content{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:580px;max-height:80vh;overflow-y:auto;animation:modalIn .3s var(--ease)}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-content h2{margin-bottom:18px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 22px;border-radius:10px;font-size:13px;font-weight:500;display:none;z-index:200;animation:toastIn .3s var(--ease);box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.show{display:block}
-.toast.error{background:var(--red)}
-@keyframes toastIn{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+.toast.success{background:var(--green);color:#fff}
+.toast.error{background:var(--red);color:#fff}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
 <header>
 <h1>智配路由 · Dashboard</h1>
-<div style="color:var(--muted);font-size:12px">SSR v0.2.0</div>
+<div class="header-right">
+<span class="pulse"></span><span id="live-status">运行中</span>
+<span style="margin-left:12px" id="clock">--:--:--</span>
+<button class="btn btn-outline btn-sm" onclick="toggleLang()" id="btn-lang">EN</button>
+<button class="btn btn-outline btn-sm" onclick="toggleTheme()" id="btn-theme">☀</button>
+</div>
 </header>
 
 <div class="tabs">
-<button class="tab active" onclick="switchTab('rules')">📋 规则管理</button>
-<button class="tab" onclick="switchTab('config')">⚙️ 引擎配置</button>
+<button class="tab active" data-tab="rules" onclick="switchTab('rules')">📋 <span data-lang="tab-rules">规则管理</span></button>
+<button class="tab" data-tab="config" onclick="switchTab('config')">⚙️ <span data-lang="tab-config">引擎配置</span></button>
 </div>
 
-<!-- Tab 1: 规则管理 -->
+<!-- Tab: 规则 -->
 <div class="tab-content active" id="tab-rules">
 <div class="stats" id="stats"></div>
 <div class="toolbar">
-<input id="search" placeholder="搜索规则…" oninput="render()">
-<button onclick="openRuleModal()">+ 添加规则</button>
-<button class="btn-outline" onclick="loadRules();render()">↻ 刷新</button>
+<input id="search" data-lang-placeholder="search" placeholder="搜索规则…" oninput="render()">
+<button class="btn btn-green" onclick="openRuleModal()">+ <span data-lang="add-rule">添加规则</span></button>
+<button class="btn btn-outline" onclick="loadRules();render()">↻</button>
+<button class="btn btn-outline btn-danger" onclick="resetRules()" data-lang="reset-rules" style="margin-left:auto">🗑 重置</button>
 </div>
-<div id="rules-empty" class="empty" style="display:none">
-还没有规则。<br>B 层会自动学习，命中 3 次后升级到 A 层。<br>也可以手动添加。
-</div>
+<div id="rules-empty" class="empty"><span class="empty-icon">📭</span><span data-lang="empty-rules">还没有规则。B 层会自动学习，命中 3 次后升级到 A 层。</span></div>
 <table id="rules-table"><thead><tr>
-<th style="width:50%">匹配模式</th><th style="width:35%">Skill</th><th style="width:8%">命中</th><th style="width:12%">操作</th>
+<th style="width:48%" data-lang="col-pattern">匹配模式</th><th style="width:32%" data-lang="col-skills">Skill</th><th style="width:8%" data-lang="col-hits">命中</th><th style="width:12%" data-lang="col-actions">操作</th>
 </tr></thead><tbody id="tbody"></tbody></table>
 </div>
 
-<!-- Tab 2: 引擎配置 -->
+<!-- Tab: 配置 -->
 <div class="tab-content" id="tab-config">
 
 <div class="card">
-<h2>推荐模式</h2>
+<h2>🔌 <span data-lang="pause">暂停开关</span></h2>
 <div class="toggle">
-<div><div class="toggle-label">推荐模式</div><div class="toggle-desc">AI 看到建议可自主决定是否加载</div></div>
-<label class="toggle-switch"><input type="radio" name="mode" value="suggest" onchange="saveMode()"><span class="toggle-slider"></span></label>
-</div>
-<div class="toggle">
-<div><div class="toggle-label">强制模式</div><div class="toggle-desc">注入 MUST-LOAD 指令，AI 必须加载</div></div>
-<label class="toggle-switch"><input type="radio" name="mode" value="enforce" onchange="saveMode()"><span class="toggle-slider"></span></label>
+<div><div class="toggle-label" data-lang="pause-label">暂停 SSR</div><div class="toggle-desc" data-lang="pause-desc">暂停后不推荐任何 Skill，重启恢复</div></div>
+<label class="toggle-switch"><input type="checkbox" id="pause-switch" onchange="togglePause()"><span class="toggle-slider"></span></label>
 </div>
 </div>
 
-<div class="card">
-<h2>扫描策略</h2>
-<div class="toggle">
-<div><div class="toggle-label">启动时扫描</div><div class="toggle-desc">零延迟，新装 skill 需重启生效</div></div>
-<label class="toggle-switch"><input type="radio" name="scan" value="startup" onchange="saveScan()"><span class="toggle-slider"></span></label>
-</div>
-<div class="toggle">
-<div><div class="toggle-label">每次提问扫描</div><div class="toggle-desc">新装 skill 即时感知，每次 ~200ms 延迟</div></div>
-<label class="toggle-switch"><input type="radio" name="scan" value="every_turn" onchange="saveScan()"><span class="toggle-slider"></span></label>
-</div>
+<div class="card" id="config-active-card">
+<h2>📡 <span data-lang="mode">推荐模式</span></h2>
+<div class="toggle"><div><div class="toggle-label" data-lang="suggest">推荐模式</div><div class="toggle-desc" data-lang="suggest-desc">AI 看到建议可自主决定</div></div>
+<label class="toggle-switch"><input type="radio" name="mode" value="suggest" onchange="saveMode()"><span class="toggle-slider"></span></label></div>
+<div class="toggle"><div><div class="toggle-label" data-lang="enforce">强制模式</div><div class="toggle-desc" data-lang="enforce-desc">注入 MUST-LOAD 指令</div></div>
+<label class="toggle-switch"><input type="radio" name="mode" value="enforce" onchange="saveMode()"><span class="toggle-slider"></span></label></div>
 </div>
 
-<div class="card">
-<h2>B 层后端</h2>
-<div class="form-row">
-<div class="form-group"><label>后端类型</label>
+<div class="card" id="config-scan-card">
+<h2>🔄 <span data-lang="scan">扫描策略</span></h2>
+<div class="toggle"><div><div class="toggle-label" data-lang="scan-startup">启动时扫描</div><div class="toggle-desc" data-lang="scan-startup-desc">零延迟，新装 Skill 需重启</div></div>
+<label class="toggle-switch"><input type="radio" name="scan" value="startup" onchange="saveScan()"><span class="toggle-slider"></span></label></div>
+<div class="toggle"><div><div class="toggle-label" data-lang="scan-every">每次提问扫描</div><div class="toggle-desc" data-lang="scan-every-desc">新装 Skill 即时感知，~200ms 延迟</div></div>
+<label class="toggle-switch"><input type="radio" name="scan" value="every_turn" onchange="saveScan()"><span class="toggle-slider"></span></label></div>
+</div>
+
+<div class="card" id="config-b-card">
+<h2>🖥 <span data-lang="b-layer">B 层后端</span></h2>
+<div class="form-row"><div class="form-group"><label data-lang="provider">后端类型</label>
 <select id="b-provider" onchange="onProviderChange()">
-<option value="main">main（复用主模型）</option>
-<option value="openai">openai（自定义 API）</option>
-<option value="ollama">ollama（本地）</option>
-<option value="lmstudio">lmstudio（本地）</option>
-<option value="llamacpp">llamacpp（本地）</option>
-</select></div>
-<div class="form-group"><label>模型</label><input id="b-model" placeholder="deepseek-chat"></div>
-</div>
-<div class="form-row">
-<div class="form-group"><label>Base URL</label><input id="b-url" placeholder="https://api.deepseek.com/v1"></div>
-<div class="form-group"><label>API Key（可选）</label><input id="b-key" type="password" placeholder="sk-xxx"></div>
-</div>
-<div class="form-group"><label>超时（秒）</label><input id="b-timeout" type="number" value="30"></div>
-<button class="btn" onclick="saveBLayer()">💾 保存（需重启生效）</button>
+<option value="main">main</option><option value="openai">openai</option>
+<option value="ollama">ollama</option><option value="lmstudio">lmstudio</option><option value="llamacpp">llamacpp</option>
+</select></div><div class="form-group"><label data-lang="model-label">模型</label><input id="b-model"></div></div>
+<div class="form-row"><div class="form-group"><label>Base URL</label><input id="b-url"></div><div class="form-group"><label>API Key</label><input id="b-key" type="password"></div></div>
+<div class="form-group"><label>Timeout (s)</label><input id="b-timeout" type="number" value="30"></div>
+<button class="btn btn-primary" onclick="saveBLayer()">💾 <span data-lang="save">保存（重启生效）</span></button>
 <span id="b-status" style="margin-left:12px;font-size:12px;color:var(--muted)"></span>
 </div>
+
 </div>
 
 <div class="modal" id="modal"><div class="modal-content">
 <h2 id="modalTitle">添加规则</h2>
-<div class="form-group"><label>匹配模式（正则）</label><input id="editPattern" placeholder="debug|报错|KeyError"></div>
-<div class="form-group"><label>Skill（逗号分隔）</label><input id="editSkills" placeholder="diagnose, systematic-debugging"></div>
-<div class="form-group"><label>阶段标签（逗号分隔，可选）</label><input id="editPhases" placeholder="DISCOVER, DISCOVER"></div>
+<div class="form-group"><label data-lang="edit-pattern">匹配模式（正则）</label><input id="editPattern"></div>
+<div class="form-group"><label data-lang="edit-skills">Skill（逗号分隔）</label><input id="editSkills"></div>
+<div class="form-group"><label data-lang="edit-phases">阶段标签（逗号分隔）</label><input id="editPhases"></div>
 <div class="modal-actions">
-<button class="btn btn-danger" id="btnDelete" style="display:none" onclick="delRule()">删除</button>
-<button class="btn-outline" onclick="closeModal()">取消</button>
-<button class="btn" onclick="saveRule()">保存</button>
+<button class="btn btn-danger" id="btnDelete" style="display:none" onclick="delRule()" data-lang="delete-btn">删除</button>
+<button class="btn btn-outline" onclick="closeModal()" data-lang="cancel">取消</button>
+<button class="btn btn-green" onclick="saveRule()" data-lang="save-btn">保存</button>
 </div></div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-let rules=[],editing=null;
+let rules=[],editing=null,lang='zh',paused=false;
+const i18n={zh:{'tab-rules':'规则管理','tab-config':'引擎配置','search':'搜索规则…','add-rule':'添加规则','reset-rules':'重置','empty-rules':'还没有规则。<br>B 层会自动学习，命中 3 次后升级到 A 层。','col-pattern':'匹配模式','col-skills':'Skill','col-hits':'命中','col-actions':'操作','pause':'暂停开关','pause-label':'暂停 SSR','pause-desc':'暂停后不推荐任何 Skill','mode':'推荐模式','suggest':'推荐模式','suggest-desc':'AI 看到建议可自主决定','enforce':'强制模式','enforce-desc':'注入 MUST-LOAD 指令','scan':'扫描策略','scan-startup':'启动时扫描','scan-startup-desc':'零延迟，新装 Skill 需重启','scan-every':'每次提问扫描','scan-every-desc':'新装 Skill 即时感知','b-layer':'B 层后端','provider':'后端类型','model-label':'模型','save':'保存（重启生效）','edit-pattern':'匹配模式（正则）','edit-skills':'Skill（逗号分隔）','edit-phases':'阶段标签（逗号分隔）','delete-btn':'删除','cancel':'取消','save-btn':'保存','running':'运行中','paused':'已暂停'},en:{'tab-rules':'Rules','tab-config':'Config','search':'Search rules…','add-rule':'Add Rule','reset-rules':'Reset','empty-rules':'No rules yet.<br>B-layer auto-learns, promotes to A-layer after 3 hits.','col-pattern':'Pattern','col-skills':'Skills','col-hits':'Hits','col-actions':'Actions','pause':'Pause','pause-label':'Pause SSR','pause-desc':'Stop all recommendations','mode':'Mode','suggest':'Suggest','suggest-desc':'AI decides whether to load','enforce':'Enforce','enforce-desc':'Injects MUST-LOAD directive','scan':'Scan Strategy','scan-startup':'On startup','scan-startup-desc':'Zero latency, new skills need restart','scan-every':'Every turn','scan-every-desc':'Instant new-skill detection','b-layer':'B-Layer Backend','provider':'Provider','model-label':'Model','save':'Save (restart needed)','edit-pattern':'Pattern (regex)','edit-skills':'Skills (comma-separated)','edit-phases':'Phases (comma-separated)','delete-btn':'Delete','cancel':'Cancel','save-btn':'Save','running':'Running','paused':'Paused'}};
 
-// ── Tab 切换 ──
+function t(key){return (i18n[lang]||i18n.zh)[key]||key}
+function toggleLang(){lang=lang==='zh'?'en':'zh';document.getElementById('btn-lang').textContent=lang==='zh'?'EN':'中';document.querySelectorAll('[data-lang]').forEach(el=>{const k=el.getAttribute('data-lang');if(el.tagName==='INPUT'&&el.hasAttribute('data-lang-placeholder'))el.placeholder=t(k);else el.textContent=t(k)});render()}
+function toggleTheme(){const b=document.body;const cur=b.getAttribute('data-theme')||'dark';const next=cur==='dark'?'light':'dark';b.setAttribute('data-theme',next);document.getElementById('btn-theme').textContent=next==='dark'?'☀':'🌙';localStorage.setItem('ssr-theme',next)}
+
 function switchTab(name){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.textContent.includes(name==='rules'?'规则':'配置')));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.getAttribute('data-tab')===name));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.toggle('active',c.id==='tab-'+name));
 }
-// ── 规则管理 ──
 async function loadRules(){
   try{const r=await fetch('/api/rules');rules=await r.json()}catch(e){rules=[]}
-  const empty=document.getElementById('rules-empty');
-  const table=document.getElementById('rules-table');
-  if(rules.length===0){empty.style.display='block';table.style.display='none'}
-  else{empty.style.display='none';table.style.display=''}
-  render();
+  document.getElementById('rules-empty').style.display=rules.length?'none':'block';
+  document.getElementById('rules-table').style.display=rules.length?'':'none';
+  render()
 }
 function render(){
   const q=document.getElementById('search').value.toLowerCase();
   const filtered=rules.filter(r=>(r.pattern||'').toLowerCase().includes(q)||(r.skills||[]).map(s=>typeof s==='string'?s:s.name).join(' ').toLowerCase().includes(q));
   document.getElementById('stats').innerHTML=
-    `<div class=stat><div class=stat-label>规则总数</div><div class=stat-value>${rules.length}</div></div>`+
-    `<div class=stat><div class=stat-label>累计命中</div><div class=stat-value>${rules.reduce((s,r)=>s+(r.hits||0),0)}</div></div>`+
-    `<div class=stat><div class=stat-label>命中>0</div><div class=stat-value>${rules.filter(r=>r.hits>0).length}</div></div>`;
-  document.getElementById('tbody').innerHTML=filtered.map(r=>{
-    const skills=(r.skills||[]).map(s=>typeof s==='string'?s:s.name).join(', ');
-    return `<tr><td class=pattern>${e(r.pattern)}</td><td class=skills>${e(skills)}</td><td class=hits>${r.hits||0}</td>
-    <td class=actions><button onclick="editRule('${e(r.pattern)}')">✏</button><button onclick="deleteRule('${e(r.pattern)}')">🗑</button></td></tr>`;
-  }).join('');
+    `<div class=stat><div class=stat-label>${t('col-hits').split('/')[0]||'Rules'}</div><div class=stat-value id=stat-total>${rules.length}</div></div>`+
+    `<div class=stat><div class=stat-label>Total Hits</div><div class=stat-value id=stat-hits>${rules.reduce((s,r)=>s+(r.hits||0),0)}</div></div>`+
+    `<div class=stat><div class=stat-label>Active</div><div class=stat-value id=stat-active>${rules.filter(r=>r.hits>0).length}</div></div>`;
+  document.getElementById('tbody').innerHTML=filtered.map((r,i)=>
+    `<tr style="animation-delay:${i*.02}s"><td class=pattern>${e(r.pattern)}</td><td class=skills>${e((r.skills||[]).map(s=>typeof s==='string'?s:s.name).join(', '))}</td><td class=hits>${r.hits||0}</td><td class=actions><button class="btn btn-outline btn-sm" onclick="editRule('${e(r.pattern)}')">✏</button><button class="btn btn-outline btn-sm" style="color:var(--red)" onclick="deleteRule('${e(r.pattern)}')">🗑</button></td></tr>`).join('')
 }
 function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
 async function saveRule(){
-  const pat=document.getElementById('editPattern').value.trim();
-  const skills=document.getElementById('editSkills').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const phases=document.getElementById('editPhases').value.split(',').map(s=>s.trim()).filter(Boolean);
-  if(!pat||!skills.length){toast('请填写模式和 Skill','error');return}
+  const pat=document.getElementById('editPattern').value.trim(),skills=document.getElementById('editSkills').value.split(',').map(s=>s.trim()).filter(Boolean),phases=document.getElementById('editPhases').value.split(',').map(s=>s.trim()).filter(Boolean);
+  if(!pat||!skills.length){toast('请填写完整','error');return}
   const sobjs=skills.map((s,i)=>({name:s,phase:phases[i]||''}));
-  if(editing){
-    await fetch('/api/rules/'+encodeURIComponent(editing),{method:'PUT',body:JSON.stringify({pattern:pat,skills:sobjs})});
-    toast('已更新');
-  }else{
-    await fetch('/api/rules',{method:'POST',body:JSON.stringify({pattern:pat,skills:sobjs})});
-    toast('已添加');
-  }
-  closeModal();loadRules();
+  if(editing){await fetch('/api/rules/'+encodeURIComponent(editing),{method:'PUT',body:JSON.stringify({pattern:pat,skills:sobjs})});toast('更新成功')}
+  else{await fetch('/api/rules',{method:'POST',body:JSON.stringify({pattern:pat,skills:sobjs})});toast('添加成功')}
+  closeModal();loadRules()
 }
-async function delRule(){
-  if(!editing)return;
-  await fetch('/api/rules/'+encodeURIComponent(editing),{method:'DELETE'});
-  toast('已删除');closeModal();loadRules();
-}
-async function deleteRule(pat){
-  if(!confirm('删除 "'+pat+'" ？'))return;
-  await fetch('/api/rules/'+encodeURIComponent(pat),{method:'DELETE'});
-  toast('已删除');loadRules();
-}
+async function delRule(){if(!editing)return;await fetch('/api/rules/'+encodeURIComponent(editing),{method:'DELETE'});toast('已删除');closeModal();loadRules()}
+async function deleteRule(pat){if(!confirm(t('delete-btn')+' "'+pat+'" ？'))return;await fetch('/api/rules/'+encodeURIComponent(pat),{method:'DELETE'});toast('已删除');loadRules()}
+async function resetRules(){if(!confirm(t('reset-rules')+'？'))return;await fetch('/api/rules/reset',{method:'POST'});toast('已重置');loadRules()}
 function editRule(pat){editing=pat;const r=rules.find(r=>r.pattern===pat);
-  document.getElementById('modalTitle').textContent='编辑规则';
-  document.getElementById('editPattern').value=r.pattern;
-  document.getElementById('editSkills').value=(r.skills||[]).map(s=>typeof s==='string'?s:s.name).join(', ');
-  document.getElementById('editPhases').value=(r.skills||[]).map(s=>typeof s==='string'?'':s.phase||'').join(', ');
-  document.getElementById('btnDelete').style.display='inline-block';document.getElementById('modal').classList.add('show')}
-function openRuleModal(){editing=null;
-  document.getElementById('modalTitle').textContent='添加规则';
-  document.getElementById('editPattern').value='';document.getElementById('editSkills').value='';document.getElementById('editPhases').value='';
-  document.getElementById('btnDelete').style.display='none';document.getElementById('modal').classList.add('show')}
+  document.getElementById('modalTitle').textContent='编辑规则';document.getElementById('editPattern').value=r.pattern;document.getElementById('editSkills').value=(r.skills||[]).map(s=>typeof s==='string'?s:s.name).join(', ');document.getElementById('editPhases').value=(r.skills||[]).map(s=>typeof s==='string'?'':s.phase||'').join(', ');
+  document.getElementById('btnDelete').style.display='inline-flex';document.getElementById('modal').classList.add('show')}
+function openRuleModal(){editing=null;document.getElementById('modalTitle').textContent=t('add-rule');document.getElementById('editPattern').value='';document.getElementById('editSkills').value='';document.getElementById('editPhases').value='';document.getElementById('btnDelete').style.display='none';document.getElementById('modal').classList.add('show')}
 function closeModal(){document.getElementById('modal').classList.remove('show')}
 
-// ── 配置 ──
-const defaults={main:{url:'',model:''},openai:{url:'https://api.openai.com/v1',model:'gpt-4o-mini'},
-  ollama:{url:'http://localhost:11434/v1',model:'qwen2.5:3b'},
-  lmstudio:{url:'http://localhost:1234/v1',model:''},llamacpp:{url:'http://localhost:8080/v1',model:''}};
-function onProviderChange(){
-  const p=document.getElementById('b-provider').value;
-  const d=defaults[p]||{};
-  if(d.url)document.getElementById('b-url').value=d.url;
-  if(d.model)document.getElementById('b-model').value=d.model;
-  if(p==='main'){document.getElementById('b-url').disabled=true;document.getElementById('b-model').disabled=true;document.getElementById('b-key').disabled=true}
-  else{document.getElementById('b-url').disabled=false;document.getElementById('b-model').disabled=false;document.getElementById('b-key').disabled=false}
-}
+// ── Config ──
+const defaults={main:{url:'',model:''},openai:{url:'https://api.openai.com/v1',model:'gpt-4o-mini'},ollama:{url:'http://localhost:11434/v1',model:'qwen2.5:3b'},lmstudio:{url:'http://localhost:1234/v1',model:''},llamacpp:{url:'http://localhost:8080/v1',model:''}};
+function onProviderChange(){const p=document.getElementById('b-provider').value,d=defaults[p]||{};if(d.url)document.getElementById('b-url').value=d.url;if(d.model)document.getElementById('b-model').value=d.model;const isMain=p==='main';document.getElementById('b-url').disabled=isMain;document.getElementById('b-model').disabled=isMain;document.getElementById('b-key').disabled=isMain}
 async function loadConfig(){
   try{const r=await fetch('/api/config');const c=await r.json();
     document.querySelector(`input[name=mode][value="${c.mode||'suggest'}"]`).checked=true;
     document.querySelector(`input[name=scan][value="${c.scan||'startup'}"]`).checked=true;
-    document.getElementById('b-provider').value=c.b_provider||'main';
-    document.getElementById('b-model').value=c.b_model||'';
-    document.getElementById('b-url').value=c.b_url||'';
-    document.getElementById('b-timeout').value=c.b_timeout||30;
-    document.getElementById('b-key').value=c.b_key||'';
-    onProviderChange();
-  }catch(e){}
+    document.getElementById('b-provider').value=c.b_provider||'main';document.getElementById('b-model').value=c.b_model||'';document.getElementById('b-url').value=c.b_url||'';document.getElementById('b-timeout').value=c.b_timeout||30;document.getElementById('b-key').value=c.b_key||'';
+    document.getElementById('pause-switch').checked=!c.enabled;
+    togglePauseUI(!c.enabled);
+    onProviderChange()}catch(e){}
 }
-async function saveMode(){
-  const mode=document.querySelector('input[name=mode]:checked').value;
-  await fetch('/api/config',{method:'POST',body:JSON.stringify({mode})});
-  toast('已保存');loadConfig();
-}
-async function saveScan(){
-  const scan=document.querySelector('input[name=scan]:checked').value;
-  await fetch('/api/config',{method:'POST',body:JSON.stringify({scan})});
-  toast('已保存');loadConfig();
-}
-async function saveBLayer(){
-  const p=document.getElementById('b-provider').value;
-  const payload={provider:p,model:document.getElementById('b-model').value,base_url:document.getElementById('b-url').value,timeout:parseInt(document.getElementById('b-timeout').value)||30};
-  const key=document.getElementById('b-key').value;if(key)payload.api_key=key;
-  await fetch('/api/config',{method:'POST',body:JSON.stringify(payload)});
-  toast('已保存，重启 Hermes 生效');loadConfig();
-}
-function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.className='toast',2000)}
+function togglePauseUI(p){paused=p;document.getElementById('live-status').textContent=p?t('paused'):t('running');document.querySelector('.pulse').style.background=p?'var(--amber)':'var(--green)';
+  ['config-active-card','config-scan-card','config-b-card'].forEach(id=>{const el=document.getElementById(id);if(p)el.classList.add('disabled-overlay');else el.classList.remove('disabled-overlay')})}
+async function togglePause(){const paused=document.getElementById('pause-switch').checked;await fetch('/api/config',{method:'POST',body:JSON.stringify({enabled:!paused})});togglePauseUI(paused);toast(paused?t('paused'):t('running'))}
+async function saveMode(){const mode=document.querySelector('input[name=mode]:checked').value;await fetch('/api/config',{method:'POST',body:JSON.stringify({mode})});toast('已保存')}
+async function saveScan(){const scan=document.querySelector('input[name=scan]:checked').value;await fetch('/api/config',{method:'POST',body:JSON.stringify({scan})});toast('已保存')}
+async function saveBLayer(){const p=document.getElementById('b-provider').value;const payload={provider:p,model:document.getElementById('b-model').value,base_url:document.getElementById('b-url').value,timeout:parseInt(document.getElementById('b-timeout').value)||30};const key=document.getElementById('b-key').value;if(key)payload.api_key=key;await fetch('/api/config',{method:'POST',body:JSON.stringify(payload)});toast('已保存，重启生效')}
+
+function toast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',2200)}
+function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('zh-CN',{hour12:false})}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal()});
-window.addEventListener('load',()=>{loadRules();loadConfig()});
+
+// Init
+const saved=localStorage.getItem('ssr-theme');if(saved==='light')toggleTheme();
+window.addEventListener('load',()=>{loadRules();loadConfig();tick();setInterval(tick,1000);setInterval(()=>{loadRules();loadConfig()},30000)});
 </script>
 </body>
 </html>

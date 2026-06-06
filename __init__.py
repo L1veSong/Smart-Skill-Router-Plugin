@@ -74,6 +74,8 @@ def _load_ssr_config() -> dict:
 
 def _hook_enabled() -> bool:
     cfg = _load_ssr_config()
+    if not cfg.get("enabled", True):
+        return False
     hooks = cfg.get("hooks", {})
     return hooks.get("pre_llm_call", True)
 

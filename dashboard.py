@@ -35,6 +35,7 @@ def load_config():
         return {
             "mode": ssr.get("mode", "suggest"),
             "scan": ssr.get("scan_mode", "startup"),
+            "enabled": ssr.get("enabled", True),
             "b_provider": b_layer.get("provider", "main"),
             "b_model": b_layer.get("model", ""),
             "b_url": b_layer.get("base_url", ""),
@@ -58,6 +59,8 @@ def save_config(data: dict):
             ssr["mode"] = data["mode"]
         if "scan" in data:
             ssr["scan_mode"] = data["scan"]
+        if "enabled" in data:
+            ssr["enabled"] = data["enabled"]
 
         if "provider" in data:
             b_layer = ssr.setdefault("b_layer", {})
@@ -114,6 +117,9 @@ class SSRHandler(BaseHTTPRequestHandler):
             }
             save_rules(rules)
             self._json({"ok": True, "count": len(rules)})
+        elif self.path == "/api/rules/reset":
+            save_rules({})
+            self._json({"ok": True})
         elif self.path == "/api/config":
             body = self._body()
             ok = save_config(body)
