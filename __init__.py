@@ -1,21 +1,20 @@
 """
-智配路由 (SSR) — Smart Skill Router Plugin v0.1.0
+智配路由 (SSR) — Smart Skill Router Plugin v0.3.0
 
 自动匹配用户意图到最合适的 skill 并推荐加载。
-A 层（关键词精确匹配，零延迟）+ B 层（Ollama 语义匹配，兜底）。
-B 层连续命中 3 次自动升级到 A 层。启动时扫描 skills_list 建索引。
-完全解耦——匹配的是功能语义，不是具体 skill 名。
+A 层（关键词精确匹配，零延迟）+ B 层（LLM 语义匹配，三后端可选 + 本地模型）。
+支持 main / openai / ollama / lmstudio / llamacpp 五种后端。
+自学习升级 + Dashboard 可视化管理 + 推荐/强制模式 + 暂停开关。
 
 配置（config.yaml）:
 
     ssr:
-      hooks:
-        pre_llm_call: true
-      ollama_model: qwen2.5:3b
-      ollama_base_url: http://localhost:11434
-      ollama_timeout: 5
-      a_rules_max: 100
-      a_rules_ttl_days: 30
+      enabled: true
+      mode: suggest
+      scan_mode: startup
+      b_layer:
+        provider: main
+        timeout: 30
 """
 
 from __future__ import annotations
@@ -86,7 +85,7 @@ def _ssr_mode() -> str:
 
 
 def _b_provider() -> str:
-    """B 层后端: main | ollama | openai"""
+    """B 层后端: main | openai | ollama | lmstudio | llamacpp"""
     return _load_ssr_config().get("b_layer", {}).get("provider", "main")
 
 
@@ -466,7 +465,7 @@ def _match_b_layer(user_message: str, retry: bool = True) -> Optional[List[dict]
     try:
         if provider == "ollama":
             result = _match_b_ollama(prompt)
-        elif provider == "openai":
+        elif provider in ("openai", "lmstudio", "llamacpp"):
             result = _match_b_openai(user_message)
         elif provider == "main":
             result = _match_b_main(user_message)
@@ -628,7 +627,7 @@ def _match_b_openai(user_message: str) -> Optional[List[dict]]:
     skill_list = "\n".join(skill_lines)
 
     resp = httpx.post(
-        f"{_b_base_url()}/v1/chat/completions",
+        f"{_b_base_url()}/chat/completions",
         json={
             "model": _b_model(),
             "messages": [
