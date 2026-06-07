@@ -1,5 +1,5 @@
 """
-SSR Dashboard v0.2.0 — A 层规则 + B 层配置管理
+SSR Dashboard v0.3.0 — A 层规则 + B 层配置管理
 启动: python3 ~/.hermes/plugins/ssr/dashboard.py
 端口: 8766
 """
