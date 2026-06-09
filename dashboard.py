@@ -86,6 +86,69 @@ def save_config(data: dict):
         return False
 
 
+def _get_stats() -> dict:
+    """获取 SSR 运行统计：索引健康 + 规则数 + 近期命中率。"""
+    import subprocess
+    import re
+
+    stats = {
+        "rules_count": len(load_rules()),
+        "health": "unknown",
+    }
+
+    # 检查 embedding 索引文件
+    embed_path = Path(__file__).resolve().parent / "embeddings.json"
+    if embed_path.exists():
+        try:
+            with open(embed_path) as f:
+                emb_data = json.load(f)
+            stats["embedding_count"] = len(emb_data)
+            stats["index_size_kb"] = round(embed_path.stat().st_size / 1024, 1)
+        except Exception:
+            stats["embedding_count"] = 0
+    else:
+        stats["embedding_count"] = 0
+
+    # 解析 agent.log 获取近期命中率
+    log_path = Path.home() / ".hermes" / "logs" / "agent.log"
+    try:
+        result = subprocess.run(
+            ["grep", "-c", "ssr.*命中", str(log_path)],
+            capture_output=True, text=True, timeout=3,
+        )
+        stats["total_hits_log"] = int(result.stdout.strip() or 0)
+    except Exception:
+        stats["total_hits_log"] = -1
+
+    # 最近一条会话统计
+    try:
+        result = subprocess.run(
+            ["grep", "会话统计", str(log_path)],
+            capture_output=True, text=True, timeout=3,
+        )
+        lines = result.stdout.strip().split("\n")
+        if lines:
+            last = lines[-1]
+            m = re.search(r"命中率=(\d+)%", last)
+            if m:
+                stats["last_hit_rate"] = int(m.group(1))
+            m = re.search(r"调用=(\d+)", last)
+            if m:
+                stats["last_calls"] = int(m.group(1))
+    except Exception:
+        pass
+
+    # 总体健康判定
+    if stats.get("embedding_count", 0) > 0 and stats.get("rules_count", 0) > 0:
+        stats["health"] = "healthy"
+    elif stats.get("embedding_count", 0) > 0 or stats.get("rules_count", 0) > 0:
+        stats["health"] = "degraded"
+    else:
+        stats["health"] = "empty"
+
+    return stats
+
+
 class SSRHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/api/rules":
@@ -98,6 +161,8 @@ class SSRHandler(BaseHTTPRequestHandler):
             self._json(result)
         elif self.path == "/api/config":
             self._json(load_config())
+        elif self.path == "/api/stats":
+            self._json(_get_stats())
         elif self.path in ("/", "/index.html"):
             self._html()
         else:
