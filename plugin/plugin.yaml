@@ -1,0 +1,14 @@
+name: ssr
+version: 0.6.3
+description: |
+  智配技能路由插件 (Smart Skill Router Plugin)
+  自动匹配用户意图到最合适的 skill 并推荐加载。
+  A 层关键词精确匹配（零延迟）+ B 层 LLM 语义匹配（兜底）。
+  B 层连续命中自动升级到 A 层。完全解耦——匹配功能语义，不依赖具体 skill 名。
+author: L1veSong
+license: MIT
+provides_hooks:
+  - pre_llm_call
+  - post_llm_call
+kind: standalone
+homepage: https://github.com/L1veSong/Smart-Skill-Router-Plugin
