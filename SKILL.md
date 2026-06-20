@@ -14,7 +14,7 @@ metadata:
 
 > 插件位置: `~/.hermes/plugins/ssr/__init__.py`
 > 配置文件: `~/.hermes/plugins/ssr/a_rules.json`（启动时 auto-gen 动态生成）
-> **Embedding 索引**: `~/.hermes/plugins/ssr/embeddings.json`（bge-large-zh-v1.5 1024维, 371 skill）
+> **Embedding 索引**: `~/.hermes/plugins/ssr/embeddings.json`（bge-large-zh-v1.5 1024维, 所有已安装 skill）
 > 规划文件: `~/.hermes/plans/ssr/smart-skill-router/`（诊断 + 修复计划 + 进度）
 > **v1.6.0 (2026-06-21)**: 多模型推荐 + Dashboard 模型诊断面板（三维评分条 + 模型对比列表）。
 > **v1.5.2 (2026-06-21)**: 紧凑单行输出 — 移除多行设计的6空格缩进残留。`[D] DISCOVER: xxx` → `[D] xxx, yyy`。phase 名不显示，只保留标签。

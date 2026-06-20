@@ -23,7 +23,7 @@
 | 层 | 机制 | 延迟 | 覆盖 |
 |----|------|:--:|------|
 | A 层关键词 | 正则精确匹配 | 零 | 100+ 手动规则 |
-| A 层 Embedding | 余弦相似度（1024 维） | ~100ms | 全部 380+ skill |
+| A 层 Embedding | 余弦相似度（1024 维） | ~100ms | 所有已安装 skill |
 | B 层 LLM | 语义匹配 | ~2-5s | 兜底，A 层无结果时激活 |
 
 B 层连续 3 次命中同一匹配 → 自动固化到 A 层关键词规则。
@@ -34,19 +34,19 @@ B 层连续 3 次命中同一匹配 → 自动固化到 A 层关键词规则。
 
 **Dashboard benchmark 修复：** 模型面板 "Run Benchmark" 按钮现已可用，实时跑 TDD 测试并展示结果。
 
-**多模型 Embedding 支持：** 4 模型可选切换，中文用户首选 `bge-large-zh-v1.5`。
+**多模型 Embedding 支持：** 4 模型可选切换，中文场景推荐 `bge-large-zh-v1.5`。
 
 ## 快速安装
 
 ### 1. 安装 Embedding 模型（Ollama）
 
 ```bash
-# 中文用户首选（202MB，纯中文 1024 维）
+# 中文场景推荐（202MB，1024 维）
 curl -L -o ~/Downloads/bge-large-zh-v1.5-q4_k_m.gguf \
   "https://hf-mirror.com/CompendiumLabs/bge-large-zh-v1.5-gguf/resolve/main/bge-large-zh-v1.5-q4_k_m.gguf"
 ollama create bge-large-zh-v1.5 -f <(echo "FROM ~/Downloads/bge-large-zh-v1.5-q4_k_m.gguf")
 
-# 英文用户可选（219MB）
+# 英文场景推荐（219MB）
 curl -L -o ~/Downloads/bge-large-en-v1.5-q4_k_m.gguf \
   "https://hf-mirror.com/CompendiumLabs/bge-large-en-v1.5-gguf/resolve/main/bge-large-en-v1.5-q4_k_m.gguf"
 ollama create bge-large-en-v1.5 -f <(echo "FROM ~/Downloads/bge-large-en-v1.5-q4_k_m.gguf")
@@ -94,9 +94,9 @@ ssr:
 
 | 场景 | 模型 | 维度 | 大小 | 中文 | 英文 |
 |------|------|:--:|------|:--:|:--:|
-| + 中文用户 | `bge-large-zh-v1.5` | 1024 | 202MB | 5 | 2 |
-| + 英文用户 | `bge-large-en-v1.5` | 1024 | 219MB | 2 | 5 |
-| + 多语言备选 | `bge-m3` | 1024 | 437MB | 3 | 3 |
+| + 中文场景 | `bge-large-zh-v1.5` | 1024 | 202MB | 5 | 2 |
+| + 英文场景 | `bge-large-en-v1.5` | 1024 | 219MB | 2 | 5 |
+| + 多语言场景 | `bge-m3` | 1024 | 437MB | 3 | 3 |
 | + 轻量英文 | `nomic-embed-text` | 768 | 146MB | 1 | 4 |
 
 > 切换模型后必须执行：`rm ~/.hermes/plugins/ssr/embeddings.json` + 重启 Hermes。
