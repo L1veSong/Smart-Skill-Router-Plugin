@@ -48,6 +48,19 @@ TEST_SCENARIOS = [
 
 A_RULES_PATH = Path.home() / ".hermes/plugins/ssr/a_rules.json"
 EMBEDDINGS_PATH = Path.home() / ".hermes/plugins/ssr/embeddings.json"
+CONFIG_PATH = Path.home() / ".hermes/config.yaml"
+
+def get_embedding_model():
+    """从 config.yaml 读取当前 embedding 模型名"""
+    try:
+        import yaml
+        with open(CONFIG_PATH) as f:
+            cfg = yaml.safe_load(f)
+        return cfg.get("ssr", {}).get("embedding", {}).get("model", "bge-large-zh-v1.5")
+    except Exception:
+        return "bge-large-zh-v1.5"
+
+EMBEDDING_MODEL = get_embedding_model()
 
 
 def load_rules(path):
@@ -187,22 +200,24 @@ assert red_failed == len(TEST_SCENARIOS), f"RED 阶段必须全部失败"
 print(f"\n  ✅ RED 验证通过: 0/{len(TEST_SCENARIOS)} 通过 — 符合预期（无 SSR 时 AI 不主动加载 skill）")
 
 # ============================================================
-# GREEN 阶段：加载实际 SSR 规则 + bge-m3 Embedding 对比 nomic
+# GREEN 阶段：加载实际 SSR 规则 + Embedding 对比 nomic
 # ============================================================
-print(f"\n🟢 GREEN 阶段：A 层 + bge-m3 Embedding (vs nomic 对比)")
+print(f"\n🟢 GREEN 阶段：A 层 + {EMBEDDING_MODEL} Embedding (vs nomic 对比)")
 print(f"   加载 A 层规则: {A_RULES_PATH}")
-print(f"   加载 bge-m3 Embedding: {EMBEDDINGS_PATH}")
+print(f"   加载 {EMBEDDING_MODEL} Embedding: {EMBEDDINGS_PATH}")
 
 rules = load_rules(A_RULES_PATH)
 embeddings_bge = load_embeddings()
-print(f"   规则数: {len(rules)}, bge-m3 Embedding skill 数: {len(embeddings_bge)}")
-print(f"   向量维度: 1024 (bge-m3) vs 768 (nomic)")
+print(f"   规则数: {len(rules)}, {EMBEDDING_MODEL} Embedding skill 数: {len(embeddings_bge)}")
+print(f"   向量维度: 1024 ({EMBEDDING_MODEL}) vs 768 (nomic)")
 
 # 生成对比 embedding
 import urllib.request
 
-def get_embedding(text, model="bge-m3"):
+def get_embedding(text, model=None):
     """调用 Ollama 生成 embedding 向量"""
+    if model is None:
+        model = EMBEDDING_MODEL
     req = urllib.request.Request(
         "http://localhost:11434/api/embeddings",
         data=json.dumps({"model": model, "prompt": text}).encode(),
@@ -213,16 +228,16 @@ def get_embedding(text, model="bge-m3"):
     return result.get("embedding", [])
 
 
-print(f"\n  生成测试消息 Embedding（bge-m3 1024维 vs nomic 768维）...")
+print(f"\n  生成测试消息 Embedding（{EMBEDDING_MODEL} 1024维 vs nomic 768维）...")
 emb_bge = {}
 emb_nomic = {}
 for scenario in TEST_SCENARIOS:
     try:
-        v = get_embedding(scenario["message"], model="bge-m3")
+        v = get_embedding(scenario["message"])
         emb_bge[scenario["id"]] = v
-        print(f"    场景 {scenario['id']}: bge-m3 {len(v)}维 ✓", end="")
+        print(f"    场景 {scenario['id']}: {EMBEDDING_MODEL} {len(v)}维 ✓", end="")
     except Exception as e:
-        print(f"    场景 {scenario['id']}: bge-m3 失败 ({e})", end="")
+        print(f"    场景 {scenario['id']}: {EMBEDDING_MODEL} 失败 ({e})", end="")
         emb_bge[scenario["id"]] = []
     try:
         vn = get_embedding(scenario["message"], model="nomic-embed-text:latest")
@@ -268,16 +283,16 @@ for scenario in TEST_SCENARIOS:
     print(f"\n  场景 {scenario['id']}: {scenario['message']}")
     print(f"  期望: {sorted(expected)}")
     print(f"  A层命中: {matched_a} {'✅' if hit_a else '❌'}")
-    print(f"  bge-m3:  {sorted(bge_extra)} {'✅' if hit_bge else '❌'}")
+    print(f"  {EMBEDDING_MODEL}:  {sorted(bge_extra)} {'✅' if hit_bge else '❌'}")
     print(f"  nomic:   {sorted(set(matched_nomic) - set(matched_a))} {'✅' if hit_nomic else '❌'}")
 
-print(f"\n  📊 bge-m3:  {bge_passed}/5 | nomic: {nomic_passed}/5 | A层: 5/5")
-print(f"  📊 Embedding 贡献: bge-m3 +{bge_passed - 5} | nomic +{nomic_passed - 5}")
+print(f"\n  📊 {EMBEDDING_MODEL}:  {bge_passed}/5 | nomic: {nomic_passed}/5 | A层: 5/5")
+print(f"  📊 Embedding 贡献: {EMBEDDING_MODEL} +{bge_passed - 5} | nomic +{nomic_passed - 5}")
 
 # ============================================================
-# REFACTOR 阶段：分析 bge-m3 Embedding 排名
+# REFACTOR 阶段：分析 Embedding 排名
 # ============================================================
-print(f"\n🔵 REFACTOR 阶段：bge-m3 Embedding 语义区分度分析")
+print(f"\n🔵 REFACTOR 阶段：{EMBEDDING_MODEL} Embedding 语义区分度分析")
 
 # Quick rank analysis for key expected skills
 import urllib.request
@@ -302,16 +317,16 @@ for scenario in TEST_SCENARIOS:
 # 总结
 # ============================================================
 print(f"\n{'='*60}")
-print(f"  TDD 基准测试总结 (bge-m3 vs nomic)")
+print(f"  TDD 基准测试总结 ({EMBEDDING_MODEL} vs nomic)")
 print(f"{'='*60}")
 print(f"  🔴 RED:    0/5 (必须=0)")
-print(f"  🟢 bge-m3: {bge_passed}/5 (目标=5)")
+print(f"  🟢 {EMBEDDING_MODEL}: {bge_passed}/5 (目标=5)")
 print(f"  🟠 nomic:  {nomic_passed}/5")
 print(f"  🔵 REFACTOR: 无需")
 
 if bge_passed == 5:
-    print(f"\n  🎉 bge-m3 Embedding 层可用！中文语义区分度验证通过")
+    print(f"\n  🎉 {EMBEDDING_MODEL} Embedding 层可用！中文语义区分度验证通过")
     sys.exit(0)
 else:
-    print(f"\n  ⚠️ bge-m3: {bge_passed}/5")
+    print(f"\n  ⚠️ {EMBEDDING_MODEL}: {bge_passed}/5")
     sys.exit(1)

@@ -1,7 +1,7 @@
 ---
 name: smart-skill-router
-description: "智配路由 (SSR) 插件 v0.6.3 — A 层 Embedding 语义匹配 (bge-m3 1024维) + 关键词正则(6条全手动) + B 层 LLM 五后端兜底。v1.5.0: 推荐位置硬编码prepend（删除_ssr_position()，append模式结构性无解）。"
-version: 1.5.0
+description: "智配路由 (SSR) 插件 v0.6.5 — A 层 Embedding 语义匹配 (bge-large-zh-v1.5 1024维) + 关键词正则(6条全手动) + B 层 LLM 五后端兜底。v1.6.1: 静默推荐模式 + Dashboard benchmark 修复。"
+version: 1.6.1
 author: L1veSong
 license: MIT
 metadata:
@@ -10,12 +10,15 @@ metadata:
     related_skills: [writing-skills, test-driven-development, verification-before-completion]
 ---
 
-# 智配路由 (SSR) — Smart Skill Router v1.5.0
+# 智配路由 (SSR) — Smart Skill Router v1.6.1
 
 > 插件位置: `~/.hermes/plugins/ssr/__init__.py`
 > 配置文件: `~/.hermes/plugins/ssr/a_rules.json`（启动时 auto-gen 动态生成）
-> **Embedding 索引**: `~/.hermes/plugins/ssr/embeddings.json`（bge-m3 1024维, 206 skill）
+> **Embedding 索引**: `~/.hermes/plugins/ssr/embeddings.json`（bge-large-zh-v1.5 1024维, 371 skill）
 > 规划文件: `~/.hermes/plans/ssr/smart-skill-router/`（诊断 + 修复计划 + 进度）
+> **v1.6.0 (2026-06-21)**: 多模型推荐 + Dashboard 模型诊断面板（三维评分条 + 模型对比列表）。
+> **v1.5.2 (2026-06-21)**: 紧凑单行输出 — 移除多行设计的6空格缩进残留。`[D] DISCOVER: xxx` → `[D] xxx, yyy`。phase 名不显示，只保留标签。
+> **v1.5.1 (2026-06-20)**: 单行输出修复 Hermes pre_llm_call 换行截断。`_format_recommendation` 从多行改为单行（`|` 分隔），解决 Hermes 只取第一行的行为。见坑点 34。
 > **v1.5.0 (2026-06-20)**: 推荐位置硬编码 prepend。删除 `_ssr_position()` 函数和 `post_llm_call` 条件检查。append 模式因结构性截断（回复尾部截断=推荐位置）判定为无解→废弃。12 项测试全通过。plugin.yaml 0.6.3（不变）。
 > 运维指南: `ssr-operations` skill
 > **Embedding 基准**: `references/embedding-benchmark-2026-06-09.md`
@@ -61,7 +64,7 @@ metadata:
   │   └── top-30 → 补充关键词未覆盖的 skill
   │        ↑ _get_skill_info() 正文提取（跳过表格/代码块，取前3段散文）
   ├── 合并去重（关键词优先排前面，Embedding 补充排后面）
-  │   └── 有结果 → 冷却制去重 → 按阶段分组 → 注入 [SSR] 推荐
+  │   └── 有结果 → 冷却制去重 → 按阶段分组 → _format_recommendation 单行输出 → 注入 [SSR] 推荐
   │   └── calls % 10 == 0 → _log_session_stats() 输出命中率日志
   └── B 层：LLM 语义匹配（五后端可选）
       └── A 层无结果时兜底 → 注入 [SSR] 推荐
@@ -70,8 +73,24 @@ metadata:
 Dashboard: GET /api/stats → read_stats() → {intercept_count, error_count, sessions, last_solidify}
           前端 renderStats() → 6格统计卡
 
-> **Embedding 模型：bge-m3**（BAAI 多语言模型，1024维，q4_k_m 量化 438MB）。
-> 旧 nomic-embed-text（768维，英文优化）已于 2026-06-09 淘汰——中文语义区分度仅 0.37-0.65 窄带，核心 skill（diagnose/research-paper-writing）排名 100+。
+> **Embedding 模型：bge-large-zh-v1.5**（BAAI 纯中文模型，1024维，q4_k_m 量化 202MB）。
+> 旧 bge-m3（多语言 438MB）和 nomic-embed-text（768维，英文优化）已于 2026-06-21 淘汰——中文语义区分度不足，核心 skill 排名靠后。
+
+## 推荐展示模式
+
+`ssr.display` 控制是否向用户展示 SSR 推荐：
+
+| 值 | 模式 | AI 行为 |
+|----|------|---------|
+| `false`（默认） | **静默** | `[SSR:SILENT]` 前缀注入 → AI 读推荐，不 echo 给用户 |
+| `true` | 展示 | `[SSR]` 前缀注入 → AI 在回复首行 echo 推荐 |
+
+```bash
+hermes config set ssr.display true   # 开启展示
+hermes config set ssr.display false  # 静默（默认）
+```
+
+> **需要重启 Hermes 生效。** 此配置是插件行为（`__init__.py` 注入不同前缀），非运行时可切换。
 
 ## 配置
 
@@ -80,6 +99,7 @@ ssr:
   hooks:
     pre_llm_call: true
     post_llm_call: true     # 必须开启。SSR 推荐固定前置到回复开头（末尾模式会因截断丢失）
+  display: false             # 默认静默（推荐只给 AI，不展示给用户）
   a_rules_max: 100
   a_rules_ttl_days: 30
   auto_gen_rules: true       # v0.5.1: false 关闭 auto-gen，仅保留手动规则 + embedding
@@ -98,40 +118,55 @@ ssr:
     timeout: 30
 ```
 
-**Embedding 层配置（推荐：本地 bge-m3）：**
+**Embedding 层配置（多模型可选，自由切换）：**
 
 ```yaml
   embedding:
     provider: ollama          # ollama | siliconflow | openai
-    model: bge-m3             # 1024维，中文语义强（q4_k_m 438MB）
+    model: bge-large-zh-v1.5  # 可选: bge-large-zh-v1.5 / bge-large-en-v1.5 / bge-m3 / nomic-embed-text
     timeout: 15
 ```
 
-**bge-m3 安装（推荐 hf-mirror 手动下载，ollama pull 太慢）：**
+**推荐模型：**
+
+| 场景 | 模型 | 维度 | 大小 | 中文 | 英文 | 安装 |
+|------|------|:--:|------|:--:|:--:|------|
+| 🥇 中文用户 | `bge-large-zh-v1.5` | 1024 | 202MB | ⭐5 | ⭐2 | hf-mirror |
+| 🥇 英文用户 | `bge-large-en-v1.5` | 1024 | 219MB | ⭐2 | ⭐5 | hf-mirror |
+| 🥈 多语言 | `bge-m3` | 1024 | 437MB | ⭐3 | ⭐3 | hf-mirror |
+| 🥉 轻量英文 | `nomic-embed-text` | 768 | 146MB | ⭐1 | ⭐4 | `ollama pull` |
+
+Dashboard 自带模型诊断面板 → `http://localhost:8766`，实时展示当前模型的维度/中英文评分/推荐场景。
+
+**安装命令：**
 
 ```bash
-# 1. 下载 GGUF
+# 中文用户首选 (CompendiumLabs q4_k_m, 192MB)
+curl -L -o ~/Downloads/bge-large-zh-v1.5-q4_k_m.gguf \
+  "https://hf-mirror.com/CompendiumLabs/bge-large-zh-v1.5-gguf/resolve/main/bge-large-zh-v1.5-q4_k_m.gguf"
+ollama create bge-large-zh-v1.5 -f <(echo "FROM ~/Downloads/bge-large-zh-v1.5-q4_k_m.gguf")
+
+# 英文用户首选 (CompendiumLabs q4_k_m, 219MB)
+curl -L -o ~/Downloads/bge-large-en-v1.5-q4_k_m.gguf \
+  "https://hf-mirror.com/CompendiumLabs/bge-large-en-v1.5-gguf/resolve/main/bge-large-en-v1.5-q4_k_m.gguf"
+ollama create bge-large-en-v1.5 -f <(echo "FROM ~/Downloads/bge-large-en-v1.5-q4_k_m.gguf")
+
+# 多语言备选
 curl -L -o ~/Downloads/bge-m3-q4_k_m.gguf \
   "https://hf-mirror.com/groonga/bge-m3-Q4_K_M-GGUF/resolve/main/bge-m3-q4_k_m.gguf"
+ollama create bge-m3 -f <(echo "FROM ~/Downloads/bge-m3-q4_k_m.gguf")
 
-# 2. 导入 Ollama
-cat > /tmp/Modelfile.bge-m3 << 'EOF'
-FROM ~/Downloads/bge-m3-q4_k_m.gguf
-EOF
-ollama create bge-m3 -f /tmp/Modelfile.bge-m3
-
-# 3. 删除旧 nomic 索引 + 重建 bge-m3 索引（重启 Hermes 自动触发）
-rm ~/.hermes/plugins/ssr/embeddings.json
+# 轻量英文
+ollama pull nomic-embed-text
 ```
 
-**旧 nomic-embed-text（不推荐）：**
+**⚠️ 不要用 `nn200433/text2vec-bge-large-chinese`** — Ollama 中 GGML 断言崩溃，不可用。
 
-```yaml
-  embedding:
-    provider: ollama
-    model: nomic-embed-text   # 768维，英文优化，中文区分度极低
-    timeout: 15
-```
+**⚠️ 切换模型后必须验证四步（只改 config ≠ 已切换）：**
+1. `ollama list | grep <模型名>` — 模型存在
+2. `curl ... /api/embeddings -d '{"model":"...","prompt":"test"}'` — API 可用
+3. `grep embedding config.yaml` — config 一致
+4. `rm embeddings.json` + 重启 Hermes → `grep '插件注册完成' agent.log | tail -1` — 索引重建成功
 
 ```yaml
   b_layer:
@@ -433,13 +468,20 @@ Dashboard (`~/.hermes/dashboard/server.py`) 新增 `/api/stats` 端点：
 
 ## 当前状态
 
+**v1.6.1** (2026-06-21): 静默推荐模式（`ssr.display: false` 默认不展示）+ Dashboard benchmark 修复（3 bug：文件路径+解析正则+embedding 分数污染）+ 测试脚本动态模型名。plugin v0.6.5。
+
+**v1.5.2** (2026-06-21): 紧凑单行输出。`_format_recommendation` 移除多行设计的6空格缩进 — `[D] DISCOVER: xxx` → `[D] xxx`。单行中空格从 12+ 字符减到 2 字符。代码 1740→1738 行（精简）。
+
 **v1.5.0** (2026-06-20): 推荐位置硬编码 prepend（前置推荐到开头）。删除 `_ssr_position()` 函数和 `post_llm_call` 条件检查——append 模式结构性无解（截断从尾部来=推荐位置）。`post_llm_call` 必须开启。SKILL.md 配置节无 position 字段。
 
-**Embedding 模型**: bge-m3 (1024维, q4_k_m 438MB)。改模型时排查: `ollama list` vs `ssr.embedding.model` 一致性。切换后必须 `rm embeddings.json` + 重启。
+**发布包**: 含 SKILL.md + README.md + CHANGELOG.md + LICENSE + references/ + tests/ + plugin/（plugin.yaml v0.6.3 + \_\_init\_\_.py v0.6.3 + a_rules.json）。Desktop ZIP + GitHub Release 双轨发布。
 
-**配置**: `ssr.embedding.provider: ollama` + `ssr.embedding.model: bge-m3`
+**Embedding 模型**: bge-large-zh-v1.5 (1024维纯中文, q4_k_m 202MB, CompendiumLabs GGUF)。改模型时排查: `ollama list` vs `ssr.embedding.model` 一致性。切换后必须 `rm embeddings.json` + 重启。
+
+**配置**: `ssr.embedding.provider: ollama` + `ssr.embedding.model: bge-large-zh-v1.5`
 **A 层**: 6 条全手动规则, auto_gen_rules: false
 **计划**: `~/.hermes/plans/ssr/noise-reduction/` (✅已完成) + `~/.hermes/plans/ssr/smart-skill-router/`
+**版本分叉**: Skill 文档 1.5.0 ≠ Plugin 代码 0.6.3（只改文档→只升 Skill 版号。见坑点 32）
 
 ### 坑点 23: 空 a_rules.json ≠ SSR 干净 — 诊断陷阱（2026-06-14 实战）
 
@@ -455,7 +497,7 @@ Dashboard (`~/.hermes/dashboard/server.py`) 新增 `/api/stats` 端点：
 
 **当前缓解：** 接受 B 层噪声作为已知限制。a_rules.json 清空后等待 A 层规则从用户行为中重新积累。不要指望「删了文件重启」能根治 bge-m3 的语义匹配质量。
 
-**长期方向：** 换 embedding 模型。2026-06-14 已执行切换：bge-m3 → text2vec-bge-large-chinese (nn200433, 1024维纯中文, 207MB)。详见 `references/chinese-embedding-alternatives.md`。切换后需重启 Hermes 让 register() 重建索引。验证方法：对比 `ollama list` 和 `ssr.embedding.model` 确保一致（见坑点 24）。
+**长期方向：** 已切换。2026-06-21：bge-m3 → bge-large-zh-v1.5 (q4_k_m 202MB, 纯中文 1024维)。text2vec-bge-large-chinese 在 Ollama GGML 断言崩溃，不可用。详见 `references/chinese-embedding-alternatives.md`。切换后必须 `rm embeddings.json` + 重启 Hermes。验证：对比 `ollama list` 和 `ssr.embedding.model` 确保一致（见坑点 24）。
 
 ### 坑点 14: nomic-embed-text 中文区分度极低 + bge-m3 方案（2026-06-09 实测）
 
@@ -550,7 +592,26 @@ L1426 enforce 模式同修。共 3 处改动，影响 `__init__.py` L1424/1426/1
 3. 重启 Hermes（完全退出再开，非 /new）
 4. 发消息验证 [SSR] 推荐是否与当前话题相关
 
-**设计启示:** SSR embedding 层是语言无关的可插拔架构。中文用户用中文模型（text2vec-bge-large-chinese），英文用户用英文模型。维数不是决定性因素——领域专注度 > 维数。
+**设计启示:** SSR embedding 层是语言无关的可插拔架构。中文用户用中文模型（bge-large-zh-v1.5），英文用户用英文模型。维数不是决定性因素——领域专注度 > 维数。
+
+### 坑点：Dashboard 开发三禁 — JS/HTML 修改守则（2026-06-21 实战，4条致命 bug）
+
+**四次 Dashboard 空白/显示错误的根因，全部来自不遵守以下三条：**
+
+1. **禁 execute_code 中用 read_file 读 HTML/JS → 必须用 `open().read()`。** read_file 返回 `LINE_NUM|CONTENT` 格式。行号 bake 进文件后 JS 语法错误（`575|  try{...}` → SyntaxError → 全页面空白、所有按钮失效）。改后用 `node --check` 验证。
+
+2. **禁 subprocess grep/外部调用在 HTTP handler 中。** `BaseHTTPRequestHandler` 单线程。`/api/stats` 每次 grep 2.7MB agent.log → 10s+ 阻塞 → Dashboard 空白。所有 API 端点只读本地 JSON/YAML，零外部调用。
+
+3. **禁 JS forEach 中用同名 `var` 覆盖外层变量。** `var sc = scenario_text` → forEach 内 `var sc = css_class` → 外层 sc 变质。JS 无块作用域，`var` 重名即污染。内层用不同变量名（如 `stc`）。
+
+**症状对照：**
+
+| 症状 | 违反哪条 |
+|------|---------|
+| Dashboard 完全空白，按钮全失效 | #1 read_file 行号污染 JS |
+| /api/stats 超时，Dashboard 加载中 | #2 subprocess grep 阻塞 |
+| 模型面板 scenario 显示 CSS class 名 | #3 forEach 变量覆盖 |
+| nomic 模型显示 available 而非 installed | Ollama `:latest` 后缀 |
 
 **症状:** 发现格式不兼容后直接 `rm a_rules.json`，B 层 3 次累积升级的 10+ 条规则消失。auto-gen 粗糙关键词准确率 10%，完全无法替代。
 
@@ -640,6 +701,18 @@ cd ~/.hermes/plugins/ssr && python3 dashboard.py &
 
 **修复：** 代码（含 docstring）用半角标点。全角标点只用于面向用户的消息字符串。
 
+### 坑点 32: Skill 版本号 ≠ Plugin 版本号——两套编号体系（2026-06-20 实战）
+
+**症状：** SSR 有两个版本号：SKILL.md 声明 `version: 1.5.0`，plugin.yaml 声明 `version: 0.6.3`，`__init__.py` docstring 写 `v0.6.3`。外部看版本号不一致会困惑。
+
+**根因：** SSR 是 Skill + Plugin 组合包。SKILL.md 版本跟踪文档/设计/坑点的演进，plugin.yaml 版本跟踪插件代码的演进。v1.5.0 只改了文档（位置策略说明），没改代码——所以 plugin.yaml 保持 0.6.3。这是设计，不是 bug。
+
+**正确做法：**
+1. 只改文档 → SKILL.md 升版，plugin.yaml 不变
+2. 只改代码 → plugin.yaml + `__init__.py` docstring 升版，SKILL.md 补丁版号
+3. 两样都改 → 各自独立升版，CHANGELOG 分别记录
+4. 发布 Release 以 SKILL.md 版本号为准（面向用户的功能版本），plugin 版本号只对开发者有意义
+
 ### 坑点 31: 改代码后必须测试再声称完成（2026-06-20 实战）
 
 **症状：** 完成位置修复后直接说"搞定"。用户纠正：「测试了吗？通过测试再说」。
@@ -649,6 +722,53 @@ cd ~/.hermes/plugins/ssr && python3 dashboard.py &
 2. 函数行为测试：默认值、边界条件（无 session_id、cache miss）
 3. 配置文件一致性：plugin.yaml hooks 声明、SKILL.md 配置节
 4. 全绿后再声称完成
+
+### 坑点 34: Hermes pre_llm_call 只取第一行——多行 context 必截断（2026-06-20 确认+修复）
+
+**症状：** `_format_recommendation` 输出按阶段分组的多行文本（`[SSR] 建议加载:\n  [D] DISCOVER: ...\n  [B] BUILD: ...`），用户只看到 `[SSR] 建议加载:`——后面的技能列表全部消失。
+
+**根因（2026-06-20 最终确认）：** Hermes 的 pre_llm_call hook 处理 `{"context": rec}` 返回时，只取文本的**第一行**。换行符后面的内容直接被丢弃。这不是 Python 字符串转义问题（坑点 27 的 `"\\n"` vs `"\n"` 是另一回事），而是 Hermes 对注入上下文的行级截断。
+
+**证据：**
+- sentinel 的 CMG 约束文本（多行）正常显示 — 因为它不走 `{"context": ...}` 注入
+- SSR 的 `_format_recommendation` 输出正确（`\n` 是真实换行），但注入后只剩第一行
+- 单元测试打印完整（255 字符、2 换行），实际对话中截断
+
+**修复（已落地）：** 改 `_format_recommendation` 为**单行输出**：
+```python
+# ❌ 多行 — Hermes 吞掉第一行后所有内容
+body = "\n".join(lines)
+return f"{prefix}\n{body}"
+
+# ✅ 单行 — Hermes 完整保留
+body = " | ".join(lines)
+return f"{prefix} {body}"
+```
+改动位置：`__init__.py` `_format_recommendation()`，2 行改（L1442/1445）。
+
+**教训：**
+1. pre_llm_call 注入文本**禁止含换行符** — 多行信息必须压缩到单行
+2. 任何 pre_llm_call hook 返回多行 `context` 都静默截断，无日志无错误
+3. 这是 Hermes 行为，不是 SSR bug — 但 SSR 必须适配
+
+### 坑点 33: prepend 不等于用户可见——AI 必须 echo SSR 推荐（2026-06-20 实战）
+
+**症状：** v1.5.0 已将位置硬编码 prepend，但用户仍然反馈「SSR 又断了」「推荐看不见」。prepend 只解决了系统提示级别的截断（不会像 append 那样被尾部裁剪吃掉），但没有解决"用户看不到"的问题。
+
+**根因：** SSR 的 `pre_llm_call` 注入到系统提示中——这是一个"给 AI 看的"上下文，不是"给用户看的"消息。`[SSR] 建议加载:` 出现在 system prompt 里，但不出现对话中。用户只有在 AI 主动 echo（复述）时才能看到。
+```python
+# prepend 只把推荐放到系统提示开头（AI 能读到）
+return {"context": rec}  # → system prompt 追加
+# 但用户的对话界面看不到这个
+```
+
+**正确做法：**
+1. AI 收到 `pre_llm_call` 推荐后，必须在**第一条回复的第一行** echo 出来
+2. echo 格式：`[SSR] 建议加载: skill-name (PHASE) | ...`
+3. 这是 AI 的行为规则，不是代码能强制——prepend 是代码层的修复，echo 是行为层的修复。两个缺一不可。
+4. 忘记 echo = SSR 在用户看来就是"断了"→ 用户会反复追问为什么截断没修好
+
+**与 prepend 修复的关系：** prepend 解决了 append 的物理截断（系统提示尾部裁剪）。echo 规则解决用户可见性。两者独立、都需要做。
 
 ### 坑点 30: append 模式结构性无解——截断从尾部来=推荐在尾部（2026-06-20 最终确认）
 
@@ -713,6 +833,111 @@ python3 -c "import json; r=json.load(open('$HOME/.hermes/plugins/ssr/a_rules.jso
 **正确做法:** 涉及 SSR 改动前 → 先分析可行性/方案对比/影响链 → 让用户选方向 → 再动手。
 
 详见 `references/green-baseline-results.md`。
+
+详见 `references/green-baseline-results.md`。
+
+### 坑点 35: renderModelPanel 中 `sc` 变量被遮蔽 → scenario 文本变成 CSS class（2026-06-21 实战）
+
+**症状：** Dashboard 模型诊断面板的 "Scenario: Best for Chinese users" 显示为 "Scenario: m-status-active"。用户说"dashboard有bug"。
+
+**根因：** `renderModelPanel()` 中 `sc` 变量被用了两次——外层存 scenario 文本，内层 forEach 中覆写为 CSS class：
+
+```javascript
+var sc = d.scenario_en || "";       // ← 外层：scenario 文本
+(d.models||[]).forEach(function(m){
+  var sc = m.status === "active"    // ← forEach 内用 var 声明 sc，覆盖外部 sc
+    ? "m-status-active" : ...;
+  s += '...<span class="m-status '+sc+'">...';
+});
+s += '<div class="model-scenario">' + sc + '</div>';  // ← 读到的已是 CSS class
+```
+
+JavaScript `var` 是函数作用域，不是块级。forEach 回调内的 `var sc` 重新绑定到外部 `sc`——后续外部读取到的就是最后遍历的 status class。
+
+**修复：** 内层变量改名 `stc`（status class）：
+
+```javascript
+(d.models||[]).forEach(function(m){
+  var stc = m.status === "active" ? "m-status-active" : ...;
+  s += '...<span class="m-status '+stc+'">...';
+});
+```
+
+**教训：** Dashboard JS 中禁止变量名重载。每个 forEach 回调内的局部变量必须独立命名，不同意外层同名。用 node 直接跑 JS 片段验证——语法没错 ≠ 逻辑没错。
+
+### 坑点 36: TDD 测试脚本硬编码 embedding 模型名 → Ollama 404（2026-06-21 实战）
+
+**症状：** 运行 `ssr_tdd_baseline_test.py`，bge-m3 embedding 调用全部 404（`HTTP Error 404: Not Found`）。测试仍报 5/5 GREEN——因为 A 层关键词覆盖了全部场景，embedding 层 0 贡献但没被发现。
+
+**根因：** 测试脚本第 204/221/228 行硬编码了模型名：
+
+```python
+def get_embedding(text, model="bge-m3"):           # L204: 默认参数硬编码
+emb_bge[...] = get_embedding(..., model="bge-m3")  # L221: 调用时再硬编码
+get_embedding(..., model="nomic-embed-text:latest") # L228: nomic 也硬编码
+```
+
+脚本不读 `config.yaml`，不知道生产环境已切换到 `bge-large-zh-v1.5`。Ollama 里没有 `bge-m3` → 全部 404。
+
+**致命盲区：** A 层 100 条规则覆盖了 5 个 TDD 场景 → 5/5 GREEN → 假象。embedding 层完全失效但没人知道——因为评分逻辑是 `hit_bge or hit_a`（A 层兜底）。
+
+**正确做法：**
+
+1. 测试脚本必须从 `config.yaml` 读取当前 embedding 模型名，不用硬编码
+2. GREEN 阶段必须分别报告 A 层贡献和 embedding 贡献，不能混在一起算总分
+3. embedding 调用失败必须计为异常（当前静默吞掉）
+
+**修复示例：**
+```python
+# ✅ 从 config.yaml 读取
+import yaml
+with open(Path.home() / ".hermes/config.yaml") as f:
+    cfg = yaml.safe_load(f)
+emb_model = cfg.get("ssr", {}).get("embedding", {}).get("model", "bge-m3")
+
+def get_embedding(text, model=None):
+    if model is None:
+        model = emb_model
+    ...
+```
+
+**影响：** 2026-06-21 本次会话中测试脚本虚假通过——bge-m3 embedding 全部 404，A 层兜底掩盖了问题。`bge-large-zh-v1.5` 的 embedding 层实际质量从未被测试脚本验证过。
+
+### 坑点 37: Dashboard `_run_benchmark()` 三重 bug — 全路径硬编码 + 正则错配 + 行污染（2026-06-21 实战）
+
+**症状：** Dashboard `http://localhost:8766` 模型面板的 "Run Benchmark" 按钮始终显示「索引未建」，永远拿不到测试结果。
+
+**根因：** `dashboard.py` 的 `_run_benchmark()` 函数有三个 bug，每个都独立能导致 benchmark 返回空：
+
+**Bug 1 — 测试文件路径写死错文件：**
+
+```python
+# ❌ 旧：在 plugins/ssr/ 下找 test_ssr.py — 不存在
+test_path = Path(__file__).resolve().parent / "test_ssr.py"
+
+# ✅ 新：指向实际测试文件
+test_path = Path.home() / ".hermes/skills/software-development/smart-skill-router/tests/ssr_tdd_baseline_test.py"
+```
+
+**Bug 2 — 解析正则匹配旧输出格式：**
+
+旧正则在输出中找 `GREEN 关键词覆盖率 N/5` 和 `Embedding GREEN 覆盖率 N/5`，但当前测试脚本输出的是 `📊 bge-large-zh-v1.5: 5/5 | A层: 5/5`——格式完全不匹配，场景解析全部空。
+
+**Bug 3 — embedding 分数被 RED 行污染：**
+
+```python
+# ❌ 通用正则 \S+:\s+(\d+)/5 匹配到 RED 行: "🔴 RED: 0/5" → emb_score = 0/5
+m = re.search(r"\S+:\s+(\d+)/5", output)
+
+# ✅ 专属正则只匹配 bge- 前缀的 embedding 模型行
+m = re.search(r"bge-[\w.-]+:\s+(\d+)/5", output)
+```
+
+**修复：** Dashboard `_run_benchmark()` 的三个 bug 已在本次会话修复（文件路径 + 解析正则 + 场景解析正则全部更新为匹配当前 TDD 测试输出格式）。
+
+**教训：** 任何输出解析器必须对照实际输出验证正则。不要假设「之前跑通过现在也通」——测试脚本升级后格式变了，解析器不更新就是假通过。
+
+**兜底修复期间的危险操作：** 用 `py = py[:start_idx] + new_func + py[end_idx:]` 替换整个函数体时，误删了紧跟其后的 `class SSRHandler` 和 `if __name__ == "__main__"` 块。**dashboard.py 改前必须 `cp` 备份（已有 `.bak` 文件），改后必须 `python3 -c "import dashboard"` 验证能导入。**
 
 ## 外部工具集成
 

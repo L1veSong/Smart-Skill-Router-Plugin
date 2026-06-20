@@ -1,5 +1,5 @@
 name: ssr
-version: 0.6.3
+version: 0.6.5
 description: |
   智配技能路由插件 (Smart Skill Router Plugin)
   自动匹配用户意图到最合适的 skill 并推荐加载。

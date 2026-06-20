@@ -1,5 +1,34 @@
 # Smart Skill Router — Changelog
 
+## v1.6.1 (2026-06-21)
+
+### 新功能：静默推荐模式
+
+- **`ssr.display` 配置：** `false`（默认）静默推荐给 AI，用户不看到 SSR 输出；`true` 展示推荐。
+- **实现：** 插件注入 `[SSR:SILENT]` 前缀，AI 读推荐但不 echo 给用户。
+
+### Bug 修复
+
+- **Dashboard benchmark 三重 bug 修复：**
+  - 测试文件路径从 `test_ssr.py` 修复为实际路径 `ssr_tdd_baseline_test.py`
+  - 解析正则从旧输出格式更新为当前 TDD 格式
+  - embedding 分数误匹配 RED 行 `0/5` 修复为专匹配 bge 模型行
+- **TDD 测试脚本修复：** 硬编码 `bge-m3`→读取 `config.yaml` 实际模型名
+
+### 坑点新增
+
+- **坑点 36:** TDD 测试脚本硬编码 embedding 模型名 → Ollama 404
+- **坑点 37:** Dashboard `_run_benchmark()` 三重 bug — 全路径硬编码 + 正则错配 + 行污染
+- **坑点 38:** `display` 模式 — 静默/展示可配置
+
+### 文件
+
+- SKILL.md → v1.6.1
+- plugin.yaml → v0.6.5
+- `__init__.py` → +`_display_enabled()`, v0.6.5
+- `dashboard.py` → benchmark 修复
+- `tests/ssr_tdd_baseline_test.py` → 动态模型名
+
 ## v1.5.0 (2026-06-20)
 
 ### 修复：推荐位置硬编码 prepend

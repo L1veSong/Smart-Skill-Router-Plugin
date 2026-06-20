@@ -1,21 +1,15 @@
 """
-智配路由 (SSR) — Smart Skill Router Plugin v0.6.3
-
+智配路由 (SSR) — Smart Skill Router Plugin v0.6.5
 
 自动匹配用户意图到最合适的 skill 并推荐加载。
 A 层（Embedding 语义匹配，bge-m3 1024维）+ B 层（LLM 语义匹配，五后端可选）。
 支持 main / openai / ollama / lmstudio / llamacpp 五种后端。
 自学习升级 + Dashboard 可视化管理 + 推荐/强制模式 + 暂停开关。
 
-v0.6.2 (2026-06-14):
-  - _load_a_rules 损坏备份 + _save_a_rules 空覆盖保护
-  - register() A层规则加载/清理诊断日志
-  - miss 路径补日志（A/B两层无匹配时可见）
-  - 修复：重启后 a_rules.json 可能被空覆盖
-
-v0.6.1 (2026-06-10):
-  - 智能冷却：自适应冷却（已加载×3、反复推荐未加载×0.5、紧急×0.5、5次未加载跳过）
-  - 增量索引自动运行：每10分钟自动全量 sync + description 变更检测
+v0.6.5 (2026-06-21):
+  - _format_recommendation: 紧凑单行输出 — 移除多行遗留的6空格缩进
+  - 格式: [SSR] 建议加载: [D] skill1, skill2 | [B] skill3
+  - phase 标签从 "[D] DISCOVER:" 简化为 "[D]"
 
 配置（config.yaml）:
 
@@ -95,6 +89,12 @@ def _hook_enabled() -> bool:
         return False
     hooks = cfg.get("hooks", {})
     return hooks.get("pre_llm_call", True)
+
+
+def _display_enabled() -> bool:
+    """是否向用户展示 SSR 推荐（默认 false 静默）。ssr.display: true 时展示。"""
+    cfg = _load_ssr_config()
+    return cfg.get("display", False)
 
 
 def _ssr_mode() -> str:
@@ -1413,36 +1413,34 @@ def _log_session_stats(session_id: str) -> None:
 
 
 def _format_recommendation(skills: List[dict]) -> str:
-    """格式化推荐消息，按阶段分组。"""
-    phase_emoji = {"DISCOVER": "[D]", "PLAN": "[P]", "BUILD": "[B]", "VERIFY": "[V]"}
-    groups = {}
+    """格式化推荐消息，按阶段分组 — 单行紧凑输出（v1.5.2）。"""
+    phase_tag = {"DISCOVER": "D", "PLAN": "P", "BUILD": "B", "VERIFY": "V"}
+    groups: Dict[str, list] = {}
     for s in skills:
         phase = s.get("phase", "BUILD")
-        if phase not in groups:
-            groups[phase] = []
+        groups.setdefault(phase, [])
         name = s["name"]
         if s.get("shown_recently"):
             name = f"{name}(刚才)"
         groups[phase].append(name)
-    lines = []
+    parts = []
     max_display = _display_max()
     for phase in PHASE_ORDER:
         if phase not in groups:
             continue
-        emoji = phase_emoji.get(phase, "")
+        tag = phase_tag.get(phase, phase)
         names = groups[phase]
         if max_display > 0 and len(names) > max_display:
             shown = names[:max_display]
             rest = len(names) - max_display
-            lines.append(f"      {emoji} {phase}: {' | '.join(shown)} ...及 {rest} 个")
+            parts.append(f"[{tag}] {', '.join(shown)} …+{rest}")
         else:
-            lines.append(f"      {emoji} {phase}: {' | '.join(names)}")
+            parts.append(f"[{tag}] {', '.join(names)}")
     mode = _ssr_mode()
-    prefix = "[MUST-LOAD]" if mode == "enforce" else "[SSR] 建议加载:"
-    body = "\n".join(lines)
+    body = " | ".join(parts)
     if mode == "enforce":
-        return f"{prefix} SSR 强制加载:\n{body}\n以上技能必须在此回复中使用 skill_view() 加载，不可跳过。"
-    return f"{prefix}\n{body}"
+        return f"[MUST-LOAD] {body} — 以上技能必须在此回复中使用 skill_view() 加载，不可跳过。"
+    return f"[SSR] 建议加载: {body}"
 
 
 def _compute_confidence(result: list) -> float:
@@ -1579,6 +1577,8 @@ def _pre_llm_call(
             if stats["calls"] % _STATS_LOG_INTERVAL == 0:
                 _log_session_stats(session_id)
             logger.info("[ssr] A 层命中: %s", [s["name"] for s in fresh])
+            if not _display_enabled():
+                rec = "[SSR:SILENT] " + rec
             return {"context": rec}
 
         # ── B 层匹配 ──
@@ -1640,6 +1640,8 @@ def _pre_llm_call(
         if stats["calls"] % _STATS_LOG_INTERVAL == 0:
             _log_session_stats(session_id)
         logger.info("[ssr] B 层命中: %s", [s["name"] for s in fresh])
+        if not _display_enabled():
+            rec = "[SSR:SILENT] " + rec
         return {"context": rec}
 
     except Exception as e:

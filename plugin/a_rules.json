@@ -46,8 +46,8 @@
         "phase": "BUILD"
       }
     ],
-    "hits": 12,
-    "last_hit": "2026-06-09",
+    "hits": 13,
+    "last_hit": "2026-06-21",
     "source": "manual",
     "priority": 10
   },
@@ -62,8 +62,8 @@
         "phase": "DISCOVER"
       }
     ],
-    "hits": 250,
-    "last_hit": "2026-06-20",
+    "hits": 279,
+    "last_hit": "2026-06-21",
     "source": "manual",
     "priority": 10
   },
@@ -82,8 +82,8 @@
         "phase": "PLAN"
       }
     ],
-    "hits": 25,
-    "last_hit": "2026-06-20",
+    "hits": 26,
+    "last_hit": "2026-06-21",
     "source": "manual",
     "priority": 10
   },
@@ -98,8 +98,8 @@
         "phase": "DISCOVER"
       }
     ],
-    "hits": 274,
-    "last_hit": "2026-06-20",
+    "hits": 304,
+    "last_hit": "2026-06-21",
     "source": "manual",
     "priority": 10
   },
@@ -122,8 +122,8 @@
         "phase": "DISCOVER"
       }
     ],
-    "hits": 208,
-    "last_hit": "2026-06-20",
+    "hits": 236,
+    "last_hit": "2026-06-21",
     "source": "manual",
     "priority": 10
   },
@@ -132,743 +132,743 @@
       "writing-skills"
     ],
     "source": "auto-gen",
-    "hits": 261,
-    "last_hit": "2026-06-20"
+    "hits": 294,
+    "last_hit": "2026-06-21"
   },
   "skill": {
     "skills": [
       "canon-mnemonic-guard-dashboard"
     ],
     "source": "auto-gen",
-    "hits": 280,
-    "last_hit": "2026-06-20"
+    "hits": 313,
+    "last_hit": "2026-06-21"
   },
   "hermes": {
     "skills": [
       "kanban-codex-lane"
     ],
     "source": "auto-gen",
-    "hits": 217,
-    "last_hit": "2026-06-20"
+    "hits": 246,
+    "last_hit": "2026-06-21"
   },
   "agent": {
     "skills": [
       "triage"
     ],
     "source": "auto-gen",
-    "hits": 227,
-    "last_hit": "2026-06-20"
+    "hits": 256,
+    "last_hit": "2026-06-21"
   },
   "art": {
     "skills": [
       "algorithmic-art"
     ],
     "source": "auto-gen",
-    "hits": 207,
-    "last_hit": "2026-06-20"
+    "hits": 235,
+    "last_hit": "2026-06-21"
   },
   "gen": {
     "skills": [
       "p5js"
     ],
     "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-20"
+    "hits": 259,
+    "last_hit": "2026-06-21"
   },
   "mini": {
     "skills": [
       "imagegen-frontend-web"
     ],
     "source": "auto-gen",
-    "hits": 185,
-    "last_hit": "2026-06-20"
+    "hits": 211,
+    "last_hit": "2026-06-21"
   },
   "never": {
     "skills": [
       "canvas-design"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "always": {
     "skills": [
       "verification-before-completion"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "section": {
     "skills": [
       "zoom-out"
     ],
     "source": "auto-gen",
-    "hits": 187,
-    "last_hit": "2026-06-20"
+    "hits": 213,
+    "last_hit": "2026-06-21"
   },
   "config": {
     "skills": [
       "canon-mnemonic-guard-dashboard"
     ],
     "source": "auto-gen",
-    "hits": 205,
-    "last_hit": "2026-06-20"
+    "hits": 234,
+    "last_hit": "2026-06-21"
   },
   "need": {
     "skills": [
       "peft-fine-tuning"
     ],
     "source": "auto-gen",
-    "hits": 205,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "trigger": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 183,
-    "last_hit": "2026-06-20"
+    "hits": 209,
+    "last_hit": "2026-06-21"
   },
   "only": {
     "skills": [
       "design-taste-frontend-v1"
     ],
     "source": "auto-gen",
-    "hits": 257,
-    "last_hit": "2026-06-20"
+    "hits": 288,
+    "last_hit": "2026-06-21"
   },
   "doing": {
     "skills": [
       "slack-gif-creator"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "needs": {
     "skills": [
       "code-simplifier"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "invoke": {
     "skills": [
       "\"trip-website-generator\""
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "call": {
     "skills": [
       "mcporter"
     ],
     "source": "auto-gen",
-    "hits": 261,
-    "last_hit": "2026-06-20"
+    "hits": 292,
+    "last_hit": "2026-06-21"
   },
   "directly": {
     "skills": [
       "mcporter"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "type": {
     "skills": [
       "baoyu-article-illustrator"
     ],
     "source": "auto-gen",
-    "hits": 190,
-    "last_hit": "2026-06-20"
+    "hits": 216,
+    "last_hit": "2026-06-21"
   },
   "configure": {
     "skills": [
       "hermes-agent"
     ],
     "source": "auto-gen",
-    "hits": 204,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "auth": {
     "skills": [
       "github-auth"
     ],
     "source": "auto-gen",
-    "hits": 184,
-    "last_hit": "2026-06-20"
+    "hits": 210,
+    "last_hit": "2026-06-21"
   },
   "doc": {
     "skills": [
       "setup-matt-pocock-skills"
     ],
     "source": "auto-gen",
-    "hits": 207,
-    "last_hit": "2026-06-20"
+    "hits": 235,
+    "last_hit": "2026-06-21"
   },
   "format": {
     "skills": [
       "adapt-skill-to-hermes"
     ],
     "source": "auto-gen",
-    "hits": 205,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "persistent": {
     "skills": [
       "plur-memory"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "sessions": {
     "skills": [
       "plur-memory"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "learning": {
     "skills": [
       "plur-memory"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "corrections": {
     "skills": [
       "plur-memory"
     ],
     "source": "auto-gen",
-    "hits": 183,
-    "last_hit": "2026-06-20"
+    "hits": 209,
+    "last_hit": "2026-06-21"
   },
   "original": {
     "skills": [
       "algorithmic-art"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "cause": {
     "skills": [
       "systematic-debugging"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "smooth": {
     "skills": [
       "vercel-react-view-transitions"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "view": {
     "skills": [
       "canon-mnemonic-guard-dashboard"
     ],
     "source": "auto-gen",
-    "hits": 259,
-    "last_hit": "2026-06-20"
+    "hits": 290,
+    "last_hit": "2026-06-21"
   },
   "flat": {
     "skills": [
       "minimalist-ui"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "merge": {
     "skills": [
       "finishing-a-development-branch"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "main": {
     "skills": [
       "paper-spine"
     ],
     "source": "auto-gen",
-    "hits": 210,
-    "last_hit": "2026-06-20"
+    "hits": 241,
+    "last_hit": "2026-06-21"
   },
   "does": {
     "skills": [
       "imagegen-frontend-mobile"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "provider": {
     "skills": [
       "agent-s-deployment"
     ],
     "source": "auto-gen",
-    "hits": 183,
-    "last_hit": "2026-06-20"
+    "hits": 209,
+    "last_hit": "2026-06-21"
   },
   "other": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 258,
-    "last_hit": "2026-06-20"
+    "hits": 289,
+    "last_hit": "2026-06-21"
   },
   "give": {
     "skills": [
       "zoom-out"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "actions": {
     "skills": [
       "deploy-to-vercel"
     ],
     "source": "auto-gen",
-    "hits": 204,
-    "last_hit": "2026-06-20"
+    "hits": 232,
+    "last_hit": "2026-06-21"
   },
   "starting": {
     "skills": [
       "using-git-worktrees"
     ],
     "source": "auto-gen",
-    "hits": 185,
-    "last_hit": "2026-06-20"
+    "hits": 211,
+    "last_hit": "2026-06-21"
   },
   "exists": {
     "skills": [
       "using-git-worktrees"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "feature": {
     "skills": [
       "triage"
     ],
     "source": "auto-gen",
-    "hits": 205,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "save": {
     "skills": [
       "backup-skills-to-github"
     ],
     "source": "auto-gen",
-    "hits": 255,
-    "last_hit": "2026-06-20"
+    "hits": 286,
+    "last_hit": "2026-06-21"
   },
   "three": {
     "skills": [
       "backup-skills-to-github"
     ],
     "source": "auto-gen",
-    "hits": 204,
-    "last_hit": "2026-06-20"
+    "hits": 232,
+    "last_hit": "2026-06-21"
   },
   "modified": {
     "skills": [
       "code-simplifier"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "errors": {
     "skills": [
       "backup-skills-to-github"
     ],
     "source": "auto-gen",
-    "hits": 206,
-    "last_hit": "2026-06-20"
+    "hits": 234,
+    "last_hit": "2026-06-21"
   },
   "env": {
     "skills": [
       "delegate-reasonix"
     ],
     "source": "auto-gen",
-    "hits": 207,
-    "last_hit": "2026-06-20"
+    "hits": 235,
+    "last_hit": "2026-06-21"
   },
   "var": {
     "skills": [
       "delegate-reasonix"
     ],
     "source": "auto-gen",
-    "hits": 205,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "setup": {
     "skills": [
       "delegate-reasonix"
     ],
     "source": "auto-gen",
-    "hits": 204,
-    "last_hit": "2026-06-20"
+    "hits": 232,
+    "last_hit": "2026-06-21"
   },
   "they": {
     "skills": [
       "pptx"
     ],
     "source": "auto-gen",
-    "hits": 256,
-    "last_hit": "2026-06-20"
+    "hits": 287,
+    "last_hit": "2026-06-21"
   },
   "time": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 257,
-    "last_hit": "2026-06-20"
+    "hits": 288,
+    "last_hit": "2026-06-21"
   },
   "even": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 185,
-    "last_hit": "2026-06-20"
+    "hits": 211,
+    "last_hit": "2026-06-21"
   },
   "updating": {
     "skills": [
       "pptx"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "way": {
     "skills": [
       "pptx"
     ],
     "source": "auto-gen",
-    "hits": 236,
-    "last_hit": "2026-06-20"
+    "hits": 265,
+    "last_hit": "2026-06-21"
   },
   "created": {
     "skills": [
       "pptx"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "templates": {
     "skills": [
       "powerpoint"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "will": {
     "skills": [
       "pptx"
     ],
     "source": "auto-gen",
-    "hits": 255,
-    "last_hit": "2026-06-20"
+    "hits": 286,
+    "last_hit": "2026-06-21"
   },
   "blocks": {
     "skills": [
       "high-end-visual-design"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "look": {
     "skills": [
       "design-taste-frontend"
     ],
     "source": "auto-gen",
-    "hits": 185,
-    "last_hit": "2026-06-20"
+    "hits": 211,
+    "last_hit": "2026-06-21"
   },
   "credentials": {
     "skills": [
       "xitter"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "end": {
     "skills": [
       "paper-spine"
     ],
     "source": "auto-gen",
-    "hits": 207,
-    "last_hit": "2026-06-20"
+    "hits": 235,
+    "last_hit": "2026-06-21"
   },
   "point": {
     "skills": [
       "paper-spine"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "otherwise": {
     "skills": [
       "code-simplifier"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "exam": {
     "skills": [
       "survey"
     ],
     "source": "auto-gen",
-    "hits": 183,
-    "last_hit": "2026-06-20"
+    "hits": 209,
+    "last_hit": "2026-06-21"
   },
   "capture": {
     "skills": [
       "survey"
     ],
     "source": "auto-gen",
-    "hits": 205,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "these": {
     "skills": [
       "theme-factory"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "artifact": {
     "skills": [
       "brand-guidelines"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "block": {
     "skills": [
       "setup-matt-pocock-skills"
     ],
     "source": "auto-gen",
-    "hits": 207,
-    "last_hit": "2026-06-20"
+    "hits": 235,
+    "last_hit": "2026-06-21"
   },
   "know": {
     "skills": [
       "setup-matt-pocock-skills"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "pass": {
     "skills": [
       "finishing-a-development-branch"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "install": {
     "skills": [
       "comfyui"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "name": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 260,
-    "last_hit": "2026-06-20"
+    "hits": 288,
+    "last_hit": "2026-06-21"
   },
   "era": {
     "skills": [
       "pixel-art"
     ],
     "source": "auto-gen",
-    "hits": 260,
-    "last_hit": "2026-06-20"
+    "hits": 291,
+    "last_hit": "2026-06-21"
   },
   "refusals": {
     "skills": [
       "obliteratus"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "each": {
     "skills": [
       "grill-me"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "scale": {
     "skills": [
       "industrial-brutalist-ui"
     ],
     "source": "auto-gen",
-    "hits": 185,
-    "last_hit": "2026-06-20"
+    "hits": 211,
+    "last_hit": "2026-06-21"
   },
   "embedding": {
     "skills": [
       "smart-skill-router"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "ppo": {
     "skills": [
       "fine-tuning-with-trl"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "right": {
     "skills": [
       "design-taste-frontend"
     ],
     "source": "auto-gen",
-    "hits": 205,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "fits": {
     "skills": [
       "zoom-out"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "bundle": {
     "skills": [
       "vercel-react-best-practices"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "direct": {
     "skills": [
       "comfyui"
     ],
     "source": "auto-gen",
-    "hits": 206,
-    "last_hit": "2026-06-20"
+    "hits": 234,
+    "last_hit": "2026-06-21"
   },
   "repl": {
     "skills": [
       "python-debugpy"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "static": {
     "skills": [
       "canvas-design"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "path": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 204,
-    "last_hit": "2026-06-20"
+    "hits": 232,
+    "last_hit": "2026-06-21"
   },
   "produced": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "script": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 205,
-    "last_hit": "2026-06-20"
+    "hits": 233,
+    "last_hit": "2026-06-21"
   },
   "rows": {
     "skills": [
       "xlsx"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   },
   "benefit": {
     "skills": [
       "brand-guidelines"
     ],
     "source": "auto-gen",
-    "hits": 182,
-    "last_hit": "2026-06-20"
+    "hits": 208,
+    "last_hit": "2026-06-21"
   },
   "less": {
     "skills": [
       "unsloth"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "fixed": {
     "skills": [
       "verification-before-completion"
     ],
     "source": "auto-gen",
-    "hits": 202,
-    "last_hit": "2026-06-20"
+    "hits": 230,
+    "last_hit": "2026-06-21"
   },
   "claim": {
     "skills": [
       "verification-before-completion"
     ],
     "source": "auto-gen",
-    "hits": 203,
-    "last_hit": "2026-06-20"
+    "hits": 231,
+    "last_hit": "2026-06-21"
   }
 }

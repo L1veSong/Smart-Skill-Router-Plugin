@@ -1,0 +1,46 @@
+{
+  "bge-large-zh-v1.5": {
+    "dimension": 1024,
+    "size_mb": 202,
+    "chinese_score": 5,
+    "english_score": 2,
+    "overall": 4,
+    "scenario_en": "Best for Chinese users",
+    "scenario_zh": "中文用户首选",
+    "training_languages": ["zh"],
+    "install_cmd": "curl -L -o ~/Downloads/bge-large-zh-v1.5-q4_k_m.gguf \"https://hf-mirror.com/CompendiumLabs/bge-large-zh-v1.5-gguf/resolve/main/bge-large-zh-v1.5-q4_k_m.gguf\" && ollama create bge-large-zh-v1.5 -f <(echo \"FROM ~/Downloads/bge-large-zh-v1.5-q4_k_m.gguf\")"
+  },
+  "bge-large-en-v1.5": {
+    "dimension": 1024,
+    "size_mb": 219,
+    "chinese_score": 2,
+    "english_score": 5,
+    "overall": 4,
+    "scenario_en": "Best for English users",
+    "scenario_zh": "英文用户首选",
+    "training_languages": ["en"],
+    "install_cmd": "curl -L -o ~/Downloads/bge-large-en-v1.5-q4_k_m.gguf \"https://hf-mirror.com/CompendiumLabs/bge-large-en-v1.5-gguf/resolve/main/bge-large-en-v1.5-q4_k_m.gguf\" && ollama create bge-large-en-v1.5 -f <(echo \"FROM ~/Downloads/bge-large-en-v1.5-q4_k_m.gguf\")"
+  },
+  "bge-m3": {
+    "dimension": 1024,
+    "size_mb": 437,
+    "chinese_score": 3,
+    "english_score": 3,
+    "overall": 3,
+    "scenario_en": "Balanced multilingual",
+    "scenario_zh": "多语言均衡",
+    "training_languages": ["zh", "en", "multilingual"],
+    "install_cmd": "curl -L -o ~/Downloads/bge-m3-q4_k_m.gguf \"https://hf-mirror.com/groonga/bge-m3-Q4_K_M-GGUF/resolve/main/bge-m3-q4_k_m.gguf\" && ollama create bge-m3 -f <(echo \"FROM ~/Downloads/bge-m3-q4_k_m.gguf\")"
+  },
+  "nomic-embed-text": {
+    "dimension": 768,
+    "size_mb": 146,
+    "chinese_score": 1,
+    "english_score": 4,
+    "overall": 2,
+    "scenario_en": "Lightweight English, not for Chinese",
+    "scenario_zh": "轻量英文，中文不推荐",
+    "training_languages": ["en"],
+    "install_cmd": "ollama pull nomic-embed-text"
+  }
+}
