@@ -1,0 +1,874 @@
+{
+  "设计.*(页面|UI|界面|网站|组件|布局|导航|样式|登录|注册)": {
+    "skills": [
+      {
+        "name": "brainstorming",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "ui-ux-pro-max",
+        "phase": "BUILD"
+      },
+      {
+        "name": "popular-web-designs",
+        "phase": "BUILD"
+      }
+    ],
+    "hits": 12,
+    "last_hit": "2026-06-10",
+    "source": "manual",
+    "priority": 10
+  },
+  "写.*(代码|程序|功能|模块|接口|服务|爬虫)": {
+    "skills": [
+      {
+        "name": "brainstorming",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "test-driven-development",
+        "phase": "BUILD"
+      },
+      {
+        "name": "planning-with-files",
+        "phase": "PLAN"
+      }
+    ],
+    "hits": 6,
+    "last_hit": "2026-06-15",
+    "source": "manual",
+    "priority": 10
+  },
+  "ASCII|ascii|字符画|cowsay|figlet|文字艺术": {
+    "skills": [
+      {
+        "name": "ascii-art",
+        "phase": "BUILD"
+      }
+    ],
+    "hits": 12,
+    "last_hit": "2026-06-09",
+    "source": "manual",
+    "priority": 10
+  },
+  "股票|均线|MACD|KDJ|RSI|K线|走势|财务|A股|期货": {
+    "skills": [
+      {
+        "name": "technical-analysis",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "tushare-finance",
+        "phase": "DISCOVER"
+      }
+    ],
+    "hits": 250,
+    "last_hit": "2026-06-20",
+    "source": "manual",
+    "priority": 10
+  },
+  "规划|方案|架构|设计.*系统|技术选型": {
+    "skills": [
+      {
+        "name": "brainstorming",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "writing-plans",
+        "phase": "PLAN"
+      },
+      {
+        "name": "idea-foundry",
+        "phase": "PLAN"
+      }
+    ],
+    "hits": 25,
+    "last_hit": "2026-06-20",
+    "source": "manual",
+    "priority": 10
+  },
+  "debug|修复|报.*(错|Error|Exception|异常)|bug|不工作|调试|KeyError|Traceback": {
+    "skills": [
+      {
+        "name": "diagnose",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "systematic-debugging",
+        "phase": "DISCOVER"
+      }
+    ],
+    "hits": 274,
+    "last_hit": "2026-06-20",
+    "source": "manual",
+    "priority": 10
+  },
+  "学术论文|research|Related Work|literature review|论文.*写|写.*论文|paper.*writing|academic": {
+    "skills": [
+      {
+        "name": "research-paper-writing",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "planning-with-files",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "paper-spine-research",
+        "phase": "DISCOVER"
+      },
+      {
+        "name": "survey",
+        "phase": "DISCOVER"
+      }
+    ],
+    "hits": 208,
+    "last_hit": "2026-06-20",
+    "source": "manual",
+    "priority": 10
+  },
+  "work": {
+    "skills": [
+      "writing-skills"
+    ],
+    "source": "auto-gen",
+    "hits": 261,
+    "last_hit": "2026-06-20"
+  },
+  "skill": {
+    "skills": [
+      "canon-mnemonic-guard-dashboard"
+    ],
+    "source": "auto-gen",
+    "hits": 280,
+    "last_hit": "2026-06-20"
+  },
+  "hermes": {
+    "skills": [
+      "kanban-codex-lane"
+    ],
+    "source": "auto-gen",
+    "hits": 217,
+    "last_hit": "2026-06-20"
+  },
+  "agent": {
+    "skills": [
+      "triage"
+    ],
+    "source": "auto-gen",
+    "hits": 227,
+    "last_hit": "2026-06-20"
+  },
+  "art": {
+    "skills": [
+      "algorithmic-art"
+    ],
+    "source": "auto-gen",
+    "hits": 207,
+    "last_hit": "2026-06-20"
+  },
+  "gen": {
+    "skills": [
+      "p5js"
+    ],
+    "source": "auto-gen",
+    "hits": 230,
+    "last_hit": "2026-06-20"
+  },
+  "mini": {
+    "skills": [
+      "imagegen-frontend-web"
+    ],
+    "source": "auto-gen",
+    "hits": 185,
+    "last_hit": "2026-06-20"
+  },
+  "never": {
+    "skills": [
+      "canvas-design"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "always": {
+    "skills": [
+      "verification-before-completion"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "section": {
+    "skills": [
+      "zoom-out"
+    ],
+    "source": "auto-gen",
+    "hits": 187,
+    "last_hit": "2026-06-20"
+  },
+  "config": {
+    "skills": [
+      "canon-mnemonic-guard-dashboard"
+    ],
+    "source": "auto-gen",
+    "hits": 205,
+    "last_hit": "2026-06-20"
+  },
+  "need": {
+    "skills": [
+      "peft-fine-tuning"
+    ],
+    "source": "auto-gen",
+    "hits": 205,
+    "last_hit": "2026-06-20"
+  },
+  "trigger": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 183,
+    "last_hit": "2026-06-20"
+  },
+  "only": {
+    "skills": [
+      "design-taste-frontend-v1"
+    ],
+    "source": "auto-gen",
+    "hits": 257,
+    "last_hit": "2026-06-20"
+  },
+  "doing": {
+    "skills": [
+      "slack-gif-creator"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "needs": {
+    "skills": [
+      "code-simplifier"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "invoke": {
+    "skills": [
+      "\"trip-website-generator\""
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "call": {
+    "skills": [
+      "mcporter"
+    ],
+    "source": "auto-gen",
+    "hits": 261,
+    "last_hit": "2026-06-20"
+  },
+  "directly": {
+    "skills": [
+      "mcporter"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "type": {
+    "skills": [
+      "baoyu-article-illustrator"
+    ],
+    "source": "auto-gen",
+    "hits": 190,
+    "last_hit": "2026-06-20"
+  },
+  "configure": {
+    "skills": [
+      "hermes-agent"
+    ],
+    "source": "auto-gen",
+    "hits": 204,
+    "last_hit": "2026-06-20"
+  },
+  "auth": {
+    "skills": [
+      "github-auth"
+    ],
+    "source": "auto-gen",
+    "hits": 184,
+    "last_hit": "2026-06-20"
+  },
+  "doc": {
+    "skills": [
+      "setup-matt-pocock-skills"
+    ],
+    "source": "auto-gen",
+    "hits": 207,
+    "last_hit": "2026-06-20"
+  },
+  "format": {
+    "skills": [
+      "adapt-skill-to-hermes"
+    ],
+    "source": "auto-gen",
+    "hits": 205,
+    "last_hit": "2026-06-20"
+  },
+  "persistent": {
+    "skills": [
+      "plur-memory"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "sessions": {
+    "skills": [
+      "plur-memory"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "learning": {
+    "skills": [
+      "plur-memory"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "corrections": {
+    "skills": [
+      "plur-memory"
+    ],
+    "source": "auto-gen",
+    "hits": 183,
+    "last_hit": "2026-06-20"
+  },
+  "original": {
+    "skills": [
+      "algorithmic-art"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "cause": {
+    "skills": [
+      "systematic-debugging"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "smooth": {
+    "skills": [
+      "vercel-react-view-transitions"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "view": {
+    "skills": [
+      "canon-mnemonic-guard-dashboard"
+    ],
+    "source": "auto-gen",
+    "hits": 259,
+    "last_hit": "2026-06-20"
+  },
+  "flat": {
+    "skills": [
+      "minimalist-ui"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "merge": {
+    "skills": [
+      "finishing-a-development-branch"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "main": {
+    "skills": [
+      "paper-spine"
+    ],
+    "source": "auto-gen",
+    "hits": 210,
+    "last_hit": "2026-06-20"
+  },
+  "does": {
+    "skills": [
+      "imagegen-frontend-mobile"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "provider": {
+    "skills": [
+      "agent-s-deployment"
+    ],
+    "source": "auto-gen",
+    "hits": 183,
+    "last_hit": "2026-06-20"
+  },
+  "other": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 258,
+    "last_hit": "2026-06-20"
+  },
+  "give": {
+    "skills": [
+      "zoom-out"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "actions": {
+    "skills": [
+      "deploy-to-vercel"
+    ],
+    "source": "auto-gen",
+    "hits": 204,
+    "last_hit": "2026-06-20"
+  },
+  "starting": {
+    "skills": [
+      "using-git-worktrees"
+    ],
+    "source": "auto-gen",
+    "hits": 185,
+    "last_hit": "2026-06-20"
+  },
+  "exists": {
+    "skills": [
+      "using-git-worktrees"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "feature": {
+    "skills": [
+      "triage"
+    ],
+    "source": "auto-gen",
+    "hits": 205,
+    "last_hit": "2026-06-20"
+  },
+  "save": {
+    "skills": [
+      "backup-skills-to-github"
+    ],
+    "source": "auto-gen",
+    "hits": 255,
+    "last_hit": "2026-06-20"
+  },
+  "three": {
+    "skills": [
+      "backup-skills-to-github"
+    ],
+    "source": "auto-gen",
+    "hits": 204,
+    "last_hit": "2026-06-20"
+  },
+  "modified": {
+    "skills": [
+      "code-simplifier"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "errors": {
+    "skills": [
+      "backup-skills-to-github"
+    ],
+    "source": "auto-gen",
+    "hits": 206,
+    "last_hit": "2026-06-20"
+  },
+  "env": {
+    "skills": [
+      "delegate-reasonix"
+    ],
+    "source": "auto-gen",
+    "hits": 207,
+    "last_hit": "2026-06-20"
+  },
+  "var": {
+    "skills": [
+      "delegate-reasonix"
+    ],
+    "source": "auto-gen",
+    "hits": 205,
+    "last_hit": "2026-06-20"
+  },
+  "setup": {
+    "skills": [
+      "delegate-reasonix"
+    ],
+    "source": "auto-gen",
+    "hits": 204,
+    "last_hit": "2026-06-20"
+  },
+  "they": {
+    "skills": [
+      "pptx"
+    ],
+    "source": "auto-gen",
+    "hits": 256,
+    "last_hit": "2026-06-20"
+  },
+  "time": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 257,
+    "last_hit": "2026-06-20"
+  },
+  "even": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 185,
+    "last_hit": "2026-06-20"
+  },
+  "updating": {
+    "skills": [
+      "pptx"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "way": {
+    "skills": [
+      "pptx"
+    ],
+    "source": "auto-gen",
+    "hits": 236,
+    "last_hit": "2026-06-20"
+  },
+  "created": {
+    "skills": [
+      "pptx"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "templates": {
+    "skills": [
+      "powerpoint"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "will": {
+    "skills": [
+      "pptx"
+    ],
+    "source": "auto-gen",
+    "hits": 255,
+    "last_hit": "2026-06-20"
+  },
+  "blocks": {
+    "skills": [
+      "high-end-visual-design"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "look": {
+    "skills": [
+      "design-taste-frontend"
+    ],
+    "source": "auto-gen",
+    "hits": 185,
+    "last_hit": "2026-06-20"
+  },
+  "credentials": {
+    "skills": [
+      "xitter"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "end": {
+    "skills": [
+      "paper-spine"
+    ],
+    "source": "auto-gen",
+    "hits": 207,
+    "last_hit": "2026-06-20"
+  },
+  "point": {
+    "skills": [
+      "paper-spine"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "otherwise": {
+    "skills": [
+      "code-simplifier"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "exam": {
+    "skills": [
+      "survey"
+    ],
+    "source": "auto-gen",
+    "hits": 183,
+    "last_hit": "2026-06-20"
+  },
+  "capture": {
+    "skills": [
+      "survey"
+    ],
+    "source": "auto-gen",
+    "hits": 205,
+    "last_hit": "2026-06-20"
+  },
+  "these": {
+    "skills": [
+      "theme-factory"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "artifact": {
+    "skills": [
+      "brand-guidelines"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "block": {
+    "skills": [
+      "setup-matt-pocock-skills"
+    ],
+    "source": "auto-gen",
+    "hits": 207,
+    "last_hit": "2026-06-20"
+  },
+  "know": {
+    "skills": [
+      "setup-matt-pocock-skills"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "pass": {
+    "skills": [
+      "finishing-a-development-branch"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "install": {
+    "skills": [
+      "comfyui"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "name": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 260,
+    "last_hit": "2026-06-20"
+  },
+  "era": {
+    "skills": [
+      "pixel-art"
+    ],
+    "source": "auto-gen",
+    "hits": 260,
+    "last_hit": "2026-06-20"
+  },
+  "refusals": {
+    "skills": [
+      "obliteratus"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "each": {
+    "skills": [
+      "grill-me"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "scale": {
+    "skills": [
+      "industrial-brutalist-ui"
+    ],
+    "source": "auto-gen",
+    "hits": 185,
+    "last_hit": "2026-06-20"
+  },
+  "embedding": {
+    "skills": [
+      "smart-skill-router"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "ppo": {
+    "skills": [
+      "fine-tuning-with-trl"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "right": {
+    "skills": [
+      "design-taste-frontend"
+    ],
+    "source": "auto-gen",
+    "hits": 205,
+    "last_hit": "2026-06-20"
+  },
+  "fits": {
+    "skills": [
+      "zoom-out"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "bundle": {
+    "skills": [
+      "vercel-react-best-practices"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "direct": {
+    "skills": [
+      "comfyui"
+    ],
+    "source": "auto-gen",
+    "hits": 206,
+    "last_hit": "2026-06-20"
+  },
+  "repl": {
+    "skills": [
+      "python-debugpy"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "static": {
+    "skills": [
+      "canvas-design"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "path": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 204,
+    "last_hit": "2026-06-20"
+  },
+  "produced": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "script": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 205,
+    "last_hit": "2026-06-20"
+  },
+  "rows": {
+    "skills": [
+      "xlsx"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  },
+  "benefit": {
+    "skills": [
+      "brand-guidelines"
+    ],
+    "source": "auto-gen",
+    "hits": 182,
+    "last_hit": "2026-06-20"
+  },
+  "less": {
+    "skills": [
+      "unsloth"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "fixed": {
+    "skills": [
+      "verification-before-completion"
+    ],
+    "source": "auto-gen",
+    "hits": 202,
+    "last_hit": "2026-06-20"
+  },
+  "claim": {
+    "skills": [
+      "verification-before-completion"
+    ],
+    "source": "auto-gen",
+    "hits": 203,
+    "last_hit": "2026-06-20"
+  }
+}
