@@ -1,7 +1,7 @@
 ---
 name: smart-skill-router
-description: "智配路由 (SSR) 插件 v0.6.1 — A 层 Embedding 语义匹配 (bge-m3 1024维) + 关键词正则 + B 层 LLM 五后端兜底 + 中文查询增强(14域中英映射) + 描述富化(正文提取) + 会话命中统计 + Dashboard /api/stats + 智能冷却(自适应×3×0.5跳过) + 增量索引自动运行(10分钟)。三层漏斗自动推荐 skill。"
-version: 1.3.0
+description: "智配路由 (SSR) 插件 v0.6.3 — A 层 Embedding 语义匹配 (bge-m3 1024维) + 关键词正则(6条全手动) + B 层 LLM 五后端兜底。v1.5.0: 推荐位置硬编码prepend（删除_ssr_position()，append模式结构性无解）。"
+version: 1.5.0
 author: L1veSong
 license: MIT
 metadata:
@@ -10,19 +10,22 @@ metadata:
     related_skills: [writing-skills, test-driven-development, verification-before-completion]
 ---
 
-# 智配路由 (SSR) — Smart Skill Router v0.6.0
+# 智配路由 (SSR) — Smart Skill Router v1.5.0
 
 > 插件位置: `~/.hermes/plugins/ssr/__init__.py`
 > 配置文件: `~/.hermes/plugins/ssr/a_rules.json`（启动时 auto-gen 动态生成）
 > **Embedding 索引**: `~/.hermes/plugins/ssr/embeddings.json`（bge-m3 1024维, 206 skill）
-> 规划文件: `~/.hermes/plans/ssr/precision-upgrade/`
+> 规划文件: `~/.hermes/plans/ssr/smart-skill-router/`（诊断 + 修复计划 + 进度）
+> **v1.5.0 (2026-06-20)**: 推荐位置硬编码 prepend。删除 `_ssr_position()` 函数和 `post_llm_call` 条件检查。append 模式因结构性截断（回复尾部截断=推荐位置）判定为无解→废弃。12 项测试全通过。plugin.yaml 0.6.3（不变）。
 > 运维指南: `ssr-operations` skill
 > **Embedding 基准**: `references/embedding-benchmark-2026-06-09.md`
+> **重启验证报告**: `references/restart-verification-2026-06-14.md`（text2vec-bge-large-chinese + DeepSeek main B层 = 2/5 GREEN基线，echo格式bug，Reasonix集成通过）
 > **Dashboard v3**: [references/dashboard-design-v3.md](references/dashboard-design-v3.md) — 2026-06-10 玻璃特效 + 动画 + i18n 纯化 + 四 skill 组合设计流程
 > **GREEN 实时验证**: `references/green-live-verification-2026-06-09.md`（2026-06-09 生产环境 4.5/5）
 > **Dashboard 美化**: `references/dashboard-beautification-combo.md`（2026-06-10 实战：四 skill 组合工作流）
 > **Dashboard 美化工作流**: `references/dashboard-design-workflow.md`（2026-06-10 四 skill 组合实战）
 > **Dashboard 设计**: `references/dashboard-design.md`（Linear 暗色主题 · 设计 token 映射 · 美化流程）
+> **降噪计划**: `~/.hermes/plans/ssr/noise-reduction/task_plan.md`（2026-06-13: 删单英文词规则 + Embedding 语义门控 + 中文扩展域匹配度 + GREEN/RED 双基准验证）
 
 ## 设计原则
 
@@ -76,6 +79,7 @@ Dashboard: GET /api/stats → read_stats() → {intercept_count, error_count, se
 ssr:
   hooks:
     pre_llm_call: true
+    post_llm_call: true     # 必须开启。SSR 推荐固定前置到回复开头（末尾模式会因截断丢失）
   a_rules_max: 100
   a_rules_ttl_days: 30
   auto_gen_rules: true       # v0.5.1: false 关闭 auto-gen，仅保留手动规则 + embedding
@@ -429,10 +433,29 @@ Dashboard (`~/.hermes/dashboard/server.py`) 新增 `/api/stats` 端点：
 
 ## 当前状态
 
-**v0.6.1** (2026-06-10): Phase 5 — 智能冷却（自适应×3×0.5跳过）+ 增量索引自动运行（10分钟全量sync + description变更检测）。Dashboard 全面美化：Ethereal Glass 暗色玻璃主题 + Geist 字体 + Emerald 主色 + 亮/暗切换 + 中/英文 i18n。重启后 embedding 全量重建（296 skill），Dashboard 端口 8766。
+**v1.5.0** (2026-06-20): 推荐位置硬编码 prepend（前置推荐到开头）。删除 `_ssr_position()` 函数和 `post_llm_call` 条件检查——append 模式结构性无解（截断从尾部来=推荐位置）。`post_llm_call` 必须开启。SKILL.md 配置节无 position 字段。
 
-**Embedding 模型**: bge-m3:q4_k_m（438MB GGUF，hf-mirror 下载 → ollama create 导入）。旧 nomic-embed-text 已淘汰。
+**Embedding 模型**: bge-m3 (1024维, q4_k_m 438MB)。改模型时排查: `ollama list` vs `ssr.embedding.model` 一致性。切换后必须 `rm embeddings.json` + 重启。
+
 **配置**: `ssr.embedding.provider: ollama` + `ssr.embedding.model: bge-m3`
+**A 层**: 6 条全手动规则, auto_gen_rules: false
+**计划**: `~/.hermes/plans/ssr/noise-reduction/` (✅已完成) + `~/.hermes/plans/ssr/smart-skill-router/`
+
+### 坑点 23: 空 a_rules.json ≠ SSR 干净 — 诊断陷阱（2026-06-14 实战）
+
+**症状:** 重启 Hermes 后 a_rules.json 为空（2 bytes, `{}`），embeddings.json 已重建（8MB），但 SSR 推荐仍充斥 huashu-nuwa、paper-spine-rewrite、design-taste-frontend-v1 等与当前 CMG/SSR 话题完全无关的 skill。
+
+**根因:** a_rules.json 清空只影响 A 层关键词匹配。B 层 bge-m3 embedding 是独立搜索——embeddings.json 重建后仍包含所有 296 skill 向量。用户消息的语义向量与无关 skill 的余弦相似度可能仍然较高（bge-m3 中文领域术语盲区，坑点 20）。
+
+**正确诊断流程:**
+1. ❌ 不要看 a_rules.json 是空的就断定「SSR 干净」
+2. ✅ 必须查看用户消息中 [SSR] 块的实际推荐内容
+3. ✅ 判断推荐是否与当前话题相关 → 不相关 = B 层仍在产噪声
+4. ✅ 此时 a_rules.json 清空是正确的，但没有 A 层兜底，B 层裸奔
+
+**当前缓解：** 接受 B 层噪声作为已知限制。a_rules.json 清空后等待 A 层规则从用户行为中重新积累。不要指望「删了文件重启」能根治 bge-m3 的语义匹配质量。
+
+**长期方向：** 换 embedding 模型。2026-06-14 已执行切换：bge-m3 → text2vec-bge-large-chinese (nn200433, 1024维纯中文, 207MB)。详见 `references/chinese-embedding-alternatives.md`。切换后需重启 Hermes 让 register() 重建索引。验证方法：对比 `ollama list` 和 `ssr.embedding.model` 确保一致（见坑点 24）。
 
 ### 坑点 14: nomic-embed-text 中文区分度极低 + bge-m3 方案（2026-06-09 实测）
 
@@ -464,7 +487,70 @@ rm ~/.hermes/plugins/ssr/embeddings.json
 
 **修复:** 换 embedding 模型后必须删除旧索引文件，让重启时 `_sync_embeddings()` 全量重建。`rm ~/.hermes/plugins/ssr/embeddings.json`
 
-### 坑点 11: 删除 a_rules.json 不备份 → B 层升级规则全丢（2026-06-09）
+### 坑点 24: config 中的 embedding 模型未实际安装（2026-06-14 实战）
+
+**症状:** `ssr.embedding.model` 写的是 `bge-m3`，但 `ollama list` 只显示 `nomic-embed-text` 和 `qwen2.5:3b`——bge-m3 根本没装。SSR 推荐质量极差（全是不相关的 huashu-nuwa、paper-spine、design 类 skill），但无任何错误日志。a_rules.json 清空后 B 层裸奔，噪声更明显。
+
+**根因:** config 和实际安装是两套系统——改了 config 不等于模型在 Ollama 里。SSR 的 embedding 构建被 try/except 包裹，若模型缺失可能静默降级到旧索引或空索引。
+
+**诊断:**
+```bash
+# 对比期望 vs 实际
+grep 'embedding:' -A 3 ~/.hermes/config.yaml
+ollama list | grep -i embed
+```
+
+### 坑点 25: _pre_llm_call miss 路径无日志 → 假性沉默（2026-06-14 实战）
+
+**症状:** SSR 注册成功，a_rules.json 为空（2 bytes），agent.log 无 `[ssr]` 输出——看起来像 hook 未触发。实际是 A 层空 + B 层 miss → `_pre_llm_call` 第 1588-1589 行 `stats["misses"] += 1; return None` 无任何 logger 调用。对比：A/B 命中、置信不足、异常全都有 logger.info/warning。唯独 miss 路径零输出。
+
+**修复 (v0.6.2):** 补 `logger.info("[ssr] 无匹配（A层 %d 条 + B层 %s, 本轮第 %d 次）", len(_A_RULES), _b_provider(), stats["calls"])`。
+
+详见 `ssr-operations` 的 [`references/silent-miss-path.md`](../devops/ssr-operations/references/silent-miss-path.md)。
+
+### 坑点 26: a_rules.json 空覆盖导致规则永久丢失（2026-06-14 实战 · v0.6.2 修复）
+
+**症状:** 重启后 a_rules.json 从有规则变为 2 字节 `{}`，所有 A 层规则永久消失。
+
+**根因:** v0.6.1 `_save_a_rules()` 无空覆盖保护。`_flush_a_rules()` 每 5 次命中写盘一次——若此时 `_A_RULES` 全局 dict 被异常重置为空（模块热重载、内存异常），则 `json.dumps({})` → 2 字节 `{}` → 所有规则永久丢失。2026-06-14 实战确认：主 session 内存规则完好，但文件已被覆写，新 session 加载 0 条。
+
+**修复 (v0.6.2):**
+1. **写前备份:** `_save_a_rules` 检测空覆盖 → 自动备份到 `a_rules.json.bak`
+2. **损坏备份:** `_load_a_rules` 解析失败 → 自动备份到 `a_rules.json.corrupted`
+3. **诊断日志:** `register()` 加 3 行 logger.info（`加载 A 层规则: N条 → 清理后: N条 → 单字净化后: N条`）定位清空步骤
+
+**恢复步骤:** 详见 `references/a_rules-recovery.md`。
+快速恢复：`cp ~/.hermes/plugins/ssr/a_rules.json.bak ~/.hermes/plugins/ssr/a_rules.json` + 重启。
+
+### 坑点 27: SSR echo 输出格式截断 — `[SSR] 建议加载:\n` skill 名不显示（2026-06-14 确认根因+修复）
+
+**症状:** 用户看到 `[SSR] 建议加载:\n` 字面量反斜杠-n，skill 名不显示。
+
+**根因（已确认）:** `__init__.py` L1424-1427，Python 字符串转义过度：
+```python
+# ❌ L1424: "\\n" = 两个字面字符（反斜杠+n）
+body = "\\n".join(lines)
+# ❌ L1427: f-string 中 \\\\n = 字面量 \n
+return f"{prefix}\\\\n{body}"
+```
+`"\\n"` 是两个字面字符，`"\n"` 才是换行。f-string 同理——`\\\\n` = 字面量。
+
+**修复 (v0.6.3):**
+```python
+# ✅ L1424: 实际换行拼接
+body = "\n".join(lines)
+# ✅ L1427: 实际换行分隔
+return f"{prefix}\n{body}"
+```
+L1426 enforce 模式同修。共 3 处改动，影响 `__init__.py` L1424/1426/1427。
+
+**修复:**
+1. 如果 config 写的模型不在 ollama list 中 → `ollama pull <模型名>`
+2. `rm ~/.hermes/plugins/ssr/embeddings.json`
+3. 重启 Hermes（完全退出再开，非 /new）
+4. 发消息验证 [SSR] 推荐是否与当前话题相关
+
+**设计启示:** SSR embedding 层是语言无关的可插拔架构。中文用户用中文模型（text2vec-bge-large-chinese），英文用户用英文模型。维数不是决定性因素——领域专注度 > 维数。
 
 **症状:** 发现格式不兼容后直接 `rm a_rules.json`，B 层 3 次累积升级的 10+ 条规则消失。auto-gen 粗糙关键词准确率 10%，完全无法替代。
 
@@ -536,6 +622,53 @@ cd ~/.hermes/plugins/ssr && python3 dashboard.py &
 
 **配置:** `hermes config set ssr.auto_gen_rules false`
 
+### 坑点 28: 手动改 `__init__.py` 时函数误入模块 docstring（2026-06-20 实战）
+
+**症状：** 在 `__init__.py` 顶部手动插入 `_ssr_position()` 函数，恰好落在模块 docstring 的 `"""`...`"""` 之间。Python 把函数定义当作文档字符串内容 → 后续裸文字变成非法语句 → 插件无法加载。
+
+**检测：** `python3 -c "compile(open('$HOME/.hermes/plugins/ssr/__init__.py').read(), '__init__.py', 'exec')"` 
+
+**正确做法：**
+1. 函数必须放在 docstring 闭合 `"""` 之后
+2. 必须放在 `from __future__ import annotations` 之后
+3. 安全位置：常量区（`A_RULES_PATH`）之后、配置区之前
+4. 改后立即 `python3 -c compile(...)` 验证
+
+### 坑点 29: 全角标点（`：` `（）`）触发 Python 3.12 SyntaxError（2026-06-20 实战）
+
+**症状：** docstring 中含全角冒号 `：` (U+FF1A) → `SyntaxError: invalid character '：' (U+FF1A)`。
+
+**修复：** 代码（含 docstring）用半角标点。全角标点只用于面向用户的消息字符串。
+
+### 坑点 31: 改代码后必须测试再声称完成（2026-06-20 实战）
+
+**症状：** 完成位置修复后直接说"搞定"。用户纠正：「测试了吗？通过测试再说」。
+
+**正确流程：**
+1. 编译验证：`python3 -c "compile(...)"` 
+2. 函数行为测试：默认值、边界条件（无 session_id、cache miss）
+3. 配置文件一致性：plugin.yaml hooks 声明、SKILL.md 配置节
+4. 全绿后再声称完成
+
+### 坑点 30: append 模式结构性无解——截断从尾部来=推荐在尾部（2026-06-20 最终确认）
+
+**症状：** `position: append`（旧默认）下 SSR 推荐通过 `pre_llm_call` 注入到回复末尾。长回复末尾被 Hermes 截断 → SSR 推荐不可见。`prepend` 模式作为规避方案存在但需手动配置。
+
+**根因：** 不是 bug，是物理限制。Hermes 回复截断从尾部开始，append 模式把推荐放在尾部——两者在同一位置，截断必中。**这不是可以通过调整参数修复的问题，append 和截断是互斥的。**
+
+**修复（v1.5.0，已落地）：** 硬编码 prepend。
+- 删除 `_ssr_position()` 函数——不再读取配置
+- 删除 `post_llm_call` 中的条件检查——始终前置
+- SKILL.md 配置节移除 `position` 字段
+- `post_llm_call` hook 必须开启（`ssr.hooks.post_llm_call: true`）
+
+**正确做法：**
+1. 识别结构性限制 vs 可配置 tradeoff——append 是前者，不是后者
+2. 不要提供"注定失败"的选项——假灵活性比硬编码更差
+3. 被人质疑时坚持分析结论，不是谁的口气大听谁的
+
+**本会话教训：** AI 两次摇摆——先硬编码→用户问"硬编码是对的吗"→AI 回退到可配置→用户纠正"所以你一开始是对的为什么不坚持"→最终确认硬编码。如果第一次就站稳分析，省了两轮往返。
+
 ### 坑点 19: README 不得暴露隐私信息（2026-06-10 用户纠正）
 
 **症状:** README badge 写了 `skill count 296`、`A rules 100`，暴露用户已安装 skill 数量和规则数量。README 还列出了 Dashboard 美化用到的 4 个设计 skill 名称（redesign-existing-projects 等），暴露用户开发工具链。用户纠正：「我都说不要包含隐私，这些包括skill数量和设计系统都算隐私」。
@@ -554,7 +687,22 @@ cd ~/.hermes/plugins/ssr && python3 dashboard.py &
 3. `toggleLang()` 必须同时调用 `render()` 和 `loadStats()` 以刷新动态内容
 4. 统计卡 label（如 "命中率"）不能用拼接（`t("col-hits")+"率"`），必须独立 key（`"hit-rate"`）
 
-### 坑点 21: Dashboard 美化后需验证主题切换功能不丢失（2026-06-10 实战）
+### 坑点 22: 空索引零告警——embeddings.json 和 a_rules.json 同时为空（2026-06-12 生产环境确认）
+
+**症状：** SSR 注册日志正常（"插件注册完成"），但所有推荐全由 B 层 LLM 产出。查 embeddings.json 含 0 skill（非文件缺失，是内容为 `{"skills":{}}`），a_rules.json 含 0 条规则。bge-m3 Ollama 端点完全可用。用户全程收到的推荐全部跑偏（本会话连续 10+ 条 SSR 建议与当前话题无关）。
+
+**根因：** `register()` 中索引构建被 try/except 包裹。若构建中途任何瞬态错误（Ollama 超时、config 加载失败、维度不匹配），异常被静默吞掉——插件标记"已注册"，但两层索引全空。B 层成为唯一工作层，推荐质量从三层漏斗跌至 LLM 盲猜。
+
+**检测：**
+```bash
+# embeddings.json 含 0 skill（不是文件缺失）
+python3 -c "import json; d=json.load(open('$HOME/.hermes/plugins/ssr/embeddings.json')); print(len(d.get('skills',{})))"
+# a_rules.json 含 0 条
+python3 -c "import json; r=json.load(open('$HOME/.hermes/plugins/ssr/a_rules.json')); print(len(r if isinstance(r,list) else r.get('rules',[])))"
+```
+
+**修复：** `rm` 两个文件 + 重启 Hermes（完整重启，非 /new）→ `register()` 重建全部索引。
+详见 `ssr-operations` skill 的对应坑点。
 
 **症状:** 重写 CSS 变量时去掉了 `[data-theme="light"]` 规则和 `toggleTheme()` 函数。用户立即指出「黑白切换没有了」。
 
