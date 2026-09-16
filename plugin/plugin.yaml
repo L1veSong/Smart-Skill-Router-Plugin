@@ -1,9 +1,10 @@
 name: ssr
-version: 0.6.5
+version: "3.0.1"
 description: |
-  智配技能路由插件 (Smart Skill Router Plugin)
-  自动匹配用户意图到最合适的 skill 并推荐加载。
-  A 层关键词精确匹配（零延迟）+ B 层 LLM 语义匹配（兜底）。
+  智配技能路由插件 (Smart Skill Router Plugin) v3.0.1
+  关键词解耦(规则运行时匹配·不硬编码 skill 名；MoE 域路由)。
+  噪音白名单→embedding→LLM统一决策(意图+匹配,1次调用)。准确率80%+。
+  三层漏斗: keyword(高召回) + embedding(高精准) → LLM(语境理解)。
   B 层连续命中自动升级到 A 层。完全解耦——匹配功能语义，不依赖具体 skill 名。
 author: L1veSong
 license: MIT

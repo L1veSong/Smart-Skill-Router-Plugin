@@ -1,874 +1,4441 @@
 {
-  "设计.*(页面|UI|界面|网站|组件|布局|导航|样式|登录|注册)": {
+  "(?i)(机票|飞.*航班|飞.*过去|航班|酒店|住.*地方|住宿|订.*房|订.*酒店)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
     "skills": [
       {
-        "name": "brainstorming",
-        "phase": "DISCOVER"
-      },
-      {
-        "name": "ui-ux-pro-max",
-        "phase": "BUILD"
-      },
-      {
-        "name": "popular-web-designs",
-        "phase": "BUILD"
+        "name": "travel-api",
+        "phase": "SEARCH"
       }
     ],
+    "domain": "travel",
     "hits": 12,
-    "last_hit": "2026-06-10",
-    "source": "manual",
-    "priority": 10
+    "last_hit": "2026-08-21"
   },
-  "写.*(代码|程序|功能|模块|接口|服务|爬虫)": {
+  "(?i)(天气|冷不冷|热不热|下雨|下雪|温度|气温|带.*衣服|穿.*什么)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
     "skills": [
       {
-        "name": "brainstorming",
-        "phase": "DISCOVER"
+        "name": "travel-api",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "travel"
+  },
+  "(?i)(旅行.*(?:网站|网页|html)|行程.*(?:网站|网页|html))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "travel-itinerary-html",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "travel"
+  },
+  "(?i)(论文|paper|academic|sci|nature|润色|学术.*写)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "nature-writing",
+        "phase": "CREATE"
       },
       {
-        "name": "test-driven-development",
-        "phase": "BUILD"
+        "name": "nature-polishing",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "writing",
+    "hits": 4,
+    "last_hit": "2026-08-07"
+  },
+  "(?i)(文笔|写作.*规范|文书|prose)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "nature-polishing",
+        "phase": "CREATE"
       },
       {
-        "name": "planning-with-files",
+        "name": "nature-writing",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "writing",
+    "hits": 57,
+    "last_hit": "2026-08-07"
+  },
+  "(?i)(画.*地图|做.*地图|地图.*可视|svg.*地图|geo.*map|省份.*地图)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "svg-geo-map",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "map",
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(玩.*几天|去哪.*玩|想去.*玩|旅游|旅行|行程|攻略(?!.*网页)|路线|假期.*去|周.*去|假期|转转|出去.*转|安排.*几天|安排.*行程)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "travel-plan-html-editor",
         "phase": "PLAN"
       }
     ],
-    "hits": 6,
-    "last_hit": "2026-06-15",
-    "source": "manual",
-    "priority": 10
+    "domain": "travel",
+    "hits": 12,
+    "last_hit": "2026-08-26"
   },
-  "ASCII|ascii|字符画|cowsay|figlet|文字艺术": {
+  "(?i)(写.*文章|写.*稿|写篇|出.*稿|长文|公众号)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
     "skills": [
       {
-        "name": "ascii-art",
-        "phase": "BUILD"
+        "name": "khazix-writer",
+        "phase": "CREATE"
       }
     ],
-    "hits": 13,
-    "last_hit": "2026-06-21",
-    "source": "manual",
-    "priority": 10
+    "domain": "writing",
+    "hits": 6,
+    "last_hit": "2026-08-06"
   },
-  "股票|均线|MACD|KDJ|RSI|K线|走势|财务|A股|期货": {
+  "(?i)(磁盘|存储.*空间|清理.*垃圾|清.*垃圾|清了|满了|不够了|空间.*不够)": {
+    "source": "manual",
+    "phases": [
+      "MAINTAIN"
+    ],
     "skills": [
       {
-        "name": "technical-analysis",
-        "phase": "DISCOVER"
+        "name": "storage-analyzer",
+        "phase": "EXECUTE"
       },
       {
-        "name": "tushare-finance",
-        "phase": "DISCOVER"
+        "name": "macos-disk-cleanup",
+        "phase": "EXECUTE"
       }
     ],
-    "hits": 279,
-    "last_hit": "2026-06-21",
-    "source": "manual",
-    "priority": 10
+    "domain": "storage",
+    "hits": 4,
+    "last_hit": "2026-09-08"
   },
-  "规划|方案|架构|设计.*系统|技术选型": {
+  "查.*(信息|内容|资料)|搜索.*(内容|信息|自媒体|社交)": {
+    "keywords": [
+      "agent-reach",
+      "web",
+      "search",
+      "content",
+      "search",
+      "research",
+      "deep"
+    ],
+    "phases": [
+      "DISCOVER"
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual"
+  },
+  "自媒体|社交.*(内容|平台|媒体)|content.*(creator|creation|platform)": {
+    "keywords": [
+      "agent-reach",
+      "web",
+      "content",
+      "social",
+      "media",
+      "crawl",
+      "search",
+      "xitter"
+    ],
+    "phases": [
+      "DISCOVER"
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual"
+  },
+  "机票|飞机票|航班|订.*飞|机票.*订|air.*ticket|flight.*book": {
+    "keywords": [
+      "travel",
+      "trip",
+      "flight",
+      "机票",
+      "air",
+      "book",
+      "plan",
+      "road"
+    ],
+    "phases": [
+      "DISCOVER"
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual"
+  },
+  "高铁|火车票|动车|订.*火车|train.*ticket|railway": {
+    "keywords": [
+      "travel",
+      "trip",
+      "train",
+      "高铁",
+      "railway",
+      "book",
+      "plan"
+    ],
+    "phases": [
+      "DISCOVER"
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual"
+  },
+  "(?i)(短剧|故事板|storyboard|13镜|墨刑)": {
+    "source": "manual",
+    "phases": [
+      "CREATE",
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "cinema-dna-21x9x3",
+        "phase": "CREATE"
+      },
+      {
+        "name": "zy-cinematic-realism",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图",
+    "hits": 2,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(文化.*海报|culture.*poster|非遗.*海报|素材.*整理.*海报)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "culture-fragment-poster-engine",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图"
+  },
+  "(?i)(海报|poster|kv|封面|广告)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "oriental-editorial-poster",
+        "phase": "CREATE"
+      },
+      {
+        "name": "culture-fragment-poster-engine",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图",
+    "hits": 2,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(分镜|storyboard)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "cinema-dna-21x9x3",
+        "phase": "CREATE"
+      },
+      {
+        "name": "zy-cinematic-realism",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图",
+    "hits": 2,
+    "last_hit": "2026-07-26"
+  },
+  "(?i)(关键帧|keyframe|电影单帧|电影感|电影画面|电影镜头|电影.*prompt|cinematic|电影.*感觉|电影.*风格|电影.*那种)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "zy-cinematic-realism",
+        "phase": "CREATE"
+      },
+      {
+        "name": "cinema-dna-21x9x3",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图",
+    "hits": 2,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(分镜.*构图|构图.*分析|视线.*流量|shot.*composition|电影.*构图|画面.*分析|怎么.*构图)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "cinema-dna-21x9x3",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图",
+    "hits": 25,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(东方.*编辑|东方.*海报|东方.*美学|东方.*风格|编辑.*海报|文字.*极简|oriental|中国风|国风|中式)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "oriental-editorial-poster",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图"
+  },
+  "(?i)(城市.*海报|城市.*视觉|城市.*主题|地域.*海报|地域.*视觉|regional|城市.*字体)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "regional-culture-poster",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图"
+  },
+  "(?i)(徕卡|哈苏|理光|leica|hasselblad|ricoh|摄影.*组图|摄影.*拼图|photo.*collage|旅行.*摄影|旅行.*拍照|拍照|拍.*照)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "fantasy-photography-simulation",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "生图"
+  },
+  "(?i)(做.*(?:ppt|幻灯片|演示)|presentation|slides|汇报.*(?:材料|ppt)|课件)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "powerpoint",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "docs",
+    "hits": 6,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(word|文档|docx|\\.doc|合同|报告.*(?:模板|格式|排版))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "docx",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "docs",
+    "hits": 48,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(excel|表格|电子表格|xlsx|csv|数据.*(?:表|报表|统计))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "xlsx",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "docs",
+    "hits": 26,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(pdf|导出.*pdf|转.*pdf|合并.*pdf|拆分.*pdf)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "pdf",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "docs",
+    "hits": 25,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(脑暴|头脑风暴|想.*方案|设计.*方案|构思|先.*想|别.*急.*写|briainstorm)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
     "skills": [
       {
         "name": "brainstorming",
-        "phase": "DISCOVER"
-      },
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "planning",
+    "hits": 4,
+    "last_hit": "2026-08-20"
+  },
+  "(?i)(写.*计划|plan.*写|任务.*拆|规划|执行.*计划|implement.*plan)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
       {
         "name": "writing-plans",
         "phase": "PLAN"
       },
       {
-        "name": "idea-foundry",
+        "name": "planning-with-files",
         "phase": "PLAN"
       }
     ],
-    "hits": 26,
-    "last_hit": "2026-06-21",
-    "source": "manual",
-    "priority": 10
+    "domain": "planning",
+    "hits": 29,
+    "last_hit": "2026-09-16"
   },
-  "debug|修复|报.*(错|Error|Exception|异常)|bug|不工作|调试|KeyError|Traceback": {
+  "(?i)(测试|test|tdd|单元测试|先写.*测试|red.*green|pytest)": {
+    "source": "manual",
+    "phases": [
+      "TEST"
+    ],
+    "skills": [
+      {
+        "name": "tdd",
+        "phase": "TEST"
+      },
+      {
+        "name": "test-driven-development",
+        "phase": "TEST"
+      }
+    ],
+    "domain": "code-quality",
+    "hits": 287,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(简化|重构|clean.*code|refactor|代码.*简化|simplify)": {
+    "source": "manual",
+    "phases": [
+      "REFACTOR"
+    ],
+    "skills": [
+      {
+        "name": "code-simplifier",
+        "phase": "REFACTOR"
+      },
+      {
+        "name": "simplify-code",
+        "phase": "REFACTOR"
+      }
+    ],
+    "domain": "code-quality",
+    "hits": 4,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(code.*review|review.*code|代码审查|check.*code|pre.*commit)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "requesting-code-review",
+        "phase": "REVIEW"
+      }
+    ],
+    "domain": "code-quality",
+    "hits": 3,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(国内.*(?:生图|生成.*图|AI.*画|视频.*生成)|人民币.*(?:AI|api|生成)|国产.*(?:模型|AI|大模型))": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "china-ai-media-gen",
+        "phase": "SEARCH"
+      },
+      {
+        "name": "china-ai-services",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "china-services",
+    "hits": 1,
+    "last_hit": "2026-08-22"
+  },
+  "(?i)(国内.*镜像|npm.*(?:慢|装不上|超时)|pip.*(?:慢|超时)|github.*(?:慢|下不了|加速)|镜像.*源|mirror)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "china-network-mirrors",
+        "phase": "SETUP"
+      },
+      {
+        "name": "github-china-mirrors",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "china-services"
+  },
+  "(?i)(Hermes.*(?:维护|升级|出问题|报错|更新)|hermes.*(?:config|setup|tool|plugin.*装))": {
+    "source": "manual",
+    "phases": [
+      "MAINTENANCE"
+    ],
+    "skills": [
+      {
+        "name": "hermes-system-maintenance",
+        "phase": "MAINTENANCE"
+      },
+      {
+        "name": "hermes-agent",
+        "phase": "MAINTENANCE"
+      }
+    ],
+    "domain": "system",
+    "hits": 4,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(找.*(?:设备|手机|mac|airpods|airtag)|find.*my|定位.*设备|设备.*在哪)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "findmy",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "macos",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(附近|周边|nearby|找.*吃的|找.*餐厅|找.*咖啡|找.*酒吧|周边.*店)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "find-nearby",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "leisure"
+  },
+  "(?i)(元宝|yuanbao|腾讯.*元宝|@元宝)": {
+    "source": "manual",
+    "phases": [
+      "MESSAGE"
+    ],
+    "skills": [
+      {
+        "name": "yuanbao",
+        "phase": "MESSAGE"
+      }
+    ],
+    "domain": "messaging"
+  },
+  "(?i)(spotify|音乐.*播放|放.*歌|听.*歌|播放列表|playlist)": {
+    "source": "manual",
+    "phases": [
+      "PLAY"
+    ],
+    "skills": [
+      {
+        "name": "spotify",
+        "phase": "PLAY"
+      }
+    ],
+    "domain": "media"
+  },
+  "(?i)(youtube|油管|yt.*视频|视频.*总结|video.*summary)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "youtube-content",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "media",
+    "hits": 4,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(灯|开灯|关灯|灯光|hue|智能.*灯|氛围.*灯|调.*亮度)": {
+    "source": "manual",
+    "phases": [
+      "CONTROL"
+    ],
+    "skills": [
+      {
+        "name": "openhue",
+        "phase": "CONTROL"
+      }
+    ],
+    "domain": "smarthome",
+    "hits": 3,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(obsidian|笔记.*(?:整理|管理|归档)|知识库|vault|moc|双向链接|知识.*管理)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "obsidian",
+        "phase": "MANAGE"
+      },
+      {
+        "name": "knowledge-base",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "obsidian",
+    "hits": 40,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(拆.*任务|task.*break|issue.*create|to.*issue|任务.*分解|工单)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "to-issues",
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "project",
+    "hits": 24,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(prd|产品.*需求|需求.*文档|spec|to.*prd|规格.*书)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "to-prd",
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "project",
+    "hits": 327,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(并行|同时.*(?:做|跑|处理)|parallel|dispatch.*agent|多.*agent|subagent|委托.*(?:做|写|查))": {
+    "source": "manual",
+    "phases": [
+      "DISPATCH"
+    ],
+    "skills": [
+      {
+        "name": "dispatching-parallel-agents",
+        "phase": "DISPATCH"
+      },
+      {
+        "name": "subagent-driven-development",
+        "phase": "DISPATCH"
+      }
+    ],
+    "domain": "agent",
+    "hits": 29,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(TUI|terminal.*ui|终端.*界面|terminal.*widget|终端.*小部件)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "tui-widgets",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "cli",
+    "hits": 5,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(Hermes.*(?:desktop|桌面|app)|桌面.*端|electron.*hermes)": {
+    "source": "manual",
+    "phases": [
+      "MAINTENANCE"
+    ],
+    "skills": [
+      {
+        "name": "hermes-desktop",
+        "phase": "MAINTENANCE"
+      },
+      {
+        "name": "hermes-desktop-maintain",
+        "phase": "MAINTENANCE"
+      }
+    ],
+    "domain": "system",
+    "hits": 6,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(模型.*(?:配置|切换|provider)|model.*(?:config|switch|inspect)|换.*模型|模型.*(?:看|查|检查))": {
+    "source": "manual",
+    "phases": [
+      "CONFIG"
+    ],
+    "skills": [
+      {
+        "name": "hermes-model-inspection",
+        "phase": "CONFIG"
+      }
+    ],
+    "domain": "system",
+    "hits": 18,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(本地.*模型|local.*llm|ollama|llama.*cpp|本地.*跑|本地.*推理|量化|gguf)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "local-model-management",
+        "phase": "SETUP"
+      },
+      {
+        "name": "llama-cpp",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "system",
+    "hits": 29,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(便携|U盘|usb.*hermes|移动.*hermes|随身.*hermes|portable)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "hermes-portable",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "system",
+    "hits": 3,
+    "last_hit": "2026-08-26"
+  },
+  "(?i)(STT|语音.*转|speech.*text|whisper|语音.*输入|语音.*识别)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "hermes-stt-setup",
+        "phase": "SETUP"
+      },
+      {
+        "name": "whisper",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "system",
+    "hits": 2,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(自驾|road.*trip|开车.*玩|路线.*规划|多日.*自驾|公路.*旅行)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "road-trip-planner",
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "travel",
+    "hits": 2,
+    "last_hit": "2026-08-26"
+  },
+  "(?i)(美食.*(?:攻略|推荐|收集|验证)|吃的.*(?:攻略|清单|验证)|food.*(?:guide|verify|curat))": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "travel-food-verification",
+        "phase": "SEARCH"
+      },
+      {
+        "name": "travel-food-guide",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "travel"
+  },
+  "(?i)(审稿|reviewer|peer.*review|审稿.*意见|rebuttal|回复.*审稿)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "nature-reviewer",
+        "phase": "REVIEW"
+      },
+      {
+        "name": "academic-paper-reviewer",
+        "phase": "REVIEW"
+      }
+    ],
+    "domain": "学术"
+  },
+  "(?i)(latex|tex|排版|编译.*论文|overleaf)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "paper-spine-latex",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "学术",
+    "hits": 32,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(论文.*(?:图|figure|图表|插图)|scientific.*figure|nature.*figure)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "nature-figure",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "学术"
+  },
+  "(?i)(PPT.*论文|学术.*PPT|论文.*答辩|defense.*slides|paper.*presentation)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "nature-paper2ppt",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "学术"
+  },
+  "(?i)(Go.*(?:API|部署|上线|服务)|golang.*(?:api|deploy|serve))": {
+    "source": "manual",
+    "phases": [
+      "DEPLOY"
+    ],
+    "skills": [
+      {
+        "name": "go-api-deploy",
+        "phase": "DEPLOY"
+      },
+      {
+        "name": "go-algorithm-to-api",
+        "phase": "DEPLOY"
+      }
+    ],
+    "domain": "部署",
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(OpenWebUI|open.*webui|ollama.*web|网页.*聊天|chat.*web)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "openwebui",
+        "phase": "SETUP"
+      },
+      {
+        "name": "hermes-openwebui-integration",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "部署"
+  },
+  "(?i)(one.*api|api.*管理|api.*key.*管理|渠道.*管理)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "one-api-mac-deployment",
+        "phase": "SETUP"
+      },
+      {
+        "name": "oneapi-add-deepseek-channel",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "部署",
+    "hits": 23,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(prediction.*market|预测.*市场|bet|polymarket|事件.*交易)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "polymarket",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "金融",
+    "hits": 2,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(notion|笔记.*协作|airtable|数据库.*表格|linear.*issue|项目管理.*工具)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "notion",
+        "phase": "MANAGE"
+      },
+      {
+        "name": "airtable",
+        "phase": "MANAGE"
+      },
+      {
+        "name": "linear",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "collab",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(邮件|email|mail|发.*邮件|收.*邮件|inbox|gmail)": {
+    "source": "manual",
+    "phases": [
+      "MESSAGE"
+    ],
+    "skills": [
+      {
+        "name": "himalaya",
+        "phase": "MESSAGE"
+      },
+      {
+        "name": "google-workspace",
+        "phase": "MESSAGE"
+      }
+    ],
+    "domain": "通讯",
+    "hits": 2,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(markdown|md.*文档|readme|文档.*生成|doc.*(?:生成|自动))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "handoff",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "docs",
+    "hits": 8,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(ocr|文字.*识别|图片.*转.*文字|扫描.*文字|提取.*文字)": {
+    "source": "manual",
+    "phases": [
+      "PROCESS"
+    ],
+    "skills": [
+      {
+        "name": "ocr-and-documents",
+        "phase": "PROCESS"
+      },
+      {
+        "name": "document-processing",
+        "phase": "PROCESS"
+      }
+    ],
+    "domain": "docs",
+    "hits": 3,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(人脸.*(?:换|swap)|face.*swap|换脸|deepfake|facefusion)": {
+    "source": "manual",
+    "phases": [
+      "EDIT"
+    ],
+    "skills": [
+      {
+        "name": "facefusion",
+        "phase": "EDIT"
+      }
+    ],
+    "domain": "视频",
+    "hits": 1,
+    "last_hit": "2026-07-26"
+  },
+  "(?i)(音频.*(?:可视化|频谱|波形)|spectrogram|mfcc|chroma|mel.*spectrogram)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "songsee",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "音乐"
+  },
+  "(?i)(git.*worktree|分支.*隔离|feature.*branch|多.*分支.*同时)": {
+    "source": "manual",
+    "phases": [
+      "DEV"
+    ],
+    "skills": [
+      {
+        "name": "using-git-worktrees",
+        "phase": "DEV"
+      }
+    ],
+    "domain": "github"
+  },
+  "(?i)(代码.*(?:统计|分析|审计)|loc|代码.*行数|codebase.*inspect|pygount)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "codebase-inspection",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "code-quality",
+    "hits": 302,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(minecraft|mc.*服务器|我的世界|mod.*(?:pack|整合)|curseforge)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "minecraft-modpack-server",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "gaming"
+  },
+  "(?i)(pokemon|宝可梦|口袋妖怪|pokémon)": {
+    "source": "manual",
+    "phases": [
+      "PLAY"
+    ],
+    "skills": [
+      {
+        "name": "pokemon-player",
+        "phase": "PLAY"
+      }
+    ],
+    "domain": "gaming"
+  },
+  "(?i)(微调|fine.*tune|finetune|训练.*模型|train.*model|LoRA|QLoRA|RLHF|DPO|GRPO)": {
+    "source": "manual",
+    "phases": [
+      "TRAIN"
+    ],
+    "skills": [
+      {
+        "name": "fine-tuning-with-trl",
+        "phase": "TRAIN"
+      },
+      {
+        "name": "unsloth",
+        "phase": "TRAIN"
+      },
+      {
+        "name": "axolotl",
+        "phase": "TRAIN"
+      }
+    ],
+    "domain": "ml",
+    "hits": 3,
+    "last_hit": "2026-08-06"
+  },
+  "(?i)(huggingface|hf.*model|hugging.*face|模型.*下载|model.*download|hf.*hub)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "huggingface-hub",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "ml",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(vllm|模型.*部署|model.*serve|推理.*服务|GPU.*推理|tensor.*rt)": {
+    "source": "manual",
+    "phases": [
+      "DEPLOY"
+    ],
+    "skills": [
+      {
+        "name": "serving-llms-vllm",
+        "phase": "DEPLOY"
+      }
+    ],
+    "domain": "ml",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(jupyter|notebook|ipynb|交互.*python|python.*交互|数据.*探索)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "jupyter-live-kernel",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "ml"
+  },
+  "(?i)(serverless.*gpu|modal.*gpu|GPU.*(?:按需|serverless)|modal.*lab)": {
+    "source": "manual",
+    "phases": [
+      "DEPLOY"
+    ],
+    "skills": [
+      {
+        "name": "modal-serverless-gpu",
+        "phase": "DEPLOY"
+      }
+    ],
+    "domain": "ml"
+  },
+  "(?i)(wandb|weights.*biases|实验.*跟踪|experiment.*track|ML.*实验)": {
+    "source": "manual",
+    "phases": [
+      "TRACK"
+    ],
+    "skills": [
+      {
+        "name": "weights-and-biases",
+        "phase": "TRACK"
+      }
+    ],
+    "domain": "ml",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(DSPy|llm.*program|prompt.*optim|自动.*prompt|声明.*lm)": {
+    "source": "manual",
+    "phases": [
+      "DEV"
+    ],
+    "skills": [
+      {
+        "name": "dspy",
+        "phase": "DEV"
+      }
+    ],
+    "domain": "ml"
+  },
+  "(?i)(jailbreak|越狱|绕过.*限制|godmode|parseltongue|abliterate|obliterate)": {
+    "source": "manual",
+    "phases": [
+      "TEST"
+    ],
+    "skills": [
+      {
+        "name": "godmode",
+        "phase": "TEST"
+      },
+      {
+        "name": "obliteratus",
+        "phase": "TEST"
+      }
+    ],
+    "domain": "security"
+  },
+  "(?i)(Figma|figjam|设计.*系统|design.*system|design.*token)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "design-quality-tools",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "设计",
+    "hits": 24,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(洁癖|收.*尾|清理.*(?:会话|记忆|冗余)|neat.*freak|对齐.*规则)": {
+    "source": "manual",
+    "phases": [
+      "MAINTAIN"
+    ],
+    "skills": [
+      {
+        "name": "neat-freak",
+        "phase": "EXECUTE"
+      }
+    ],
+    "domain": "storage",
+    "hits": 31,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(验证.*(?:完成|结果|通过|正确|一下|是否)|verify.*(?:done|complete|pass|before)|确认.*(?:完成|交付|ok|没问题)|先.*验证.*再.*(?:提交|发布|交|说)|别.*直接.*交|check.*before.*(?:commit|submit|merge))": {
+    "source": "manual",
+    "phases": [
+      "VERIFY"
+    ],
+    "skills": [
+      {
+        "name": "verification-before-completion",
+        "phase": "VERIFY"
+      }
+    ],
+    "domain": "code-quality",
+    "hits": 25,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(gif|动图|表情包|tenor|搞笑.*图|斗图|meme.*图)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "gif-search",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "media",
+    "hits": 4,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(原型.*(?:做|开发|建|搭|实现|验证)|prototype.*(?:build|create|make|test)|spike.*(?:test|solution)|throwaway.*(?:prototype|code|demo)|快速.*(?:原型|验证.*原型|做.*原型))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "prototype",
+        "phase": "CREATE"
+      },
+      {
+        "name": "spike",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "planning",
+    "hits": 1,
+    "last_hit": "2026-07-25"
+  },
+  "(?i)(高端.*(?:设计|视觉)|agency.*(?:design|level)|premium.*(?:design|look)|品牌.*(?:视觉|设计|形象)|视觉.*(?:升级|品牌|系统)|luxury.*design)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "high-end-visual-design",
+        "phase": "CREATE"
+      },
+      {
+        "name": "fusion-stack",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "设计"
+  },
+  "(?i)(重新.*设计|redesign|改版|翻新.*(?:网站|页面|UI|界面)|设计.*(?:升级|翻新|重做)|网站.*重做)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "redesign-existing-projects",
+        "phase": "CREATE"
+      },
+      {
+        "name": "design-taste-frontend",
+        "phase": "CREATE"
+      },
+      {
+        "name": "fusion-stack",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "设计",
+    "hits": 1,
+    "last_hit": "2026-07-25"
+  },
+  "(?i)(设计.*(?:品味|审美|taste)|不好看|丑|美观|好看.*(?:一点|些|点)|design.*taste|风格.*(?:设计|选择|推荐))": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "frontend-design-workflow",
+        "phase": "DESIGN"
+      },
+      {
+        "name": "ui-ux-pro-max",
+        "phase": "DESIGN"
+      },
+      {
+        "name": "fusion-stack",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "设计"
+  },
+  "(?i)(动画|animation|transition|gsap|motion.*design|动效|页面.*(?:动|特效)|滚动.*(?:效果|动画)|scroll.*(?:effect|animation)|交互.*动画)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "ui-ux-pro-max",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "设计",
+    "hits": 7,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(配色|颜色.*(?:方案|搭配|选择)|字体.*(?:选择|搭配|推荐)|color.*palette|font.*pair|设计.*(?:资源|素材|token))": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "ui-ux-pro-max",
+        "phase": "DESIGN"
+      },
+      {
+        "name": "fusion-stack",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "设计",
+    "hits": 2,
+    "last_hit": "2026-08-03"
+  },
+  "(?i)(邮件|email|mail|inbox|himalaya|发.*邮件|收.*邮件|gmail)": {
+    "source": "manual",
+    "phases": [
+      "MESSAGE"
+    ],
+    "skills": [
+      {
+        "name": "himalaya",
+        "phase": "MESSAGE"
+      }
+    ],
+    "domain": "通讯",
+    "hits": 2,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(linear|issue.*track|项目管理.*工具|bug.*track|sprint)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "linear",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "collab"
+  },
+  "(?i)(airtable|电子.*表格.*数据库|表单.*数据库|数据.*表.*管理)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "airtable",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "collab",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(代码.*(?:统计|分析|审计)|loc|代码.*行数|codebase.*inspect|pygount|代码.*结构)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "codebase-inspection",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "code-quality",
+    "hits": 302,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(多.*agent.*(?:整合|集成)|agent.*(?:架构|设计|框架)|multi.*agent|agent.*整合)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "agent-integration-patterns",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "agent",
+    "hits": 1,
+    "last_hit": "2026-07-25"
+  },
+  "(?i)(MCP|model.*context.*protocol|写.*MCP.*(?:server|服务|工具)|创建.*MCP|build.*MCP)": {
+    "source": "manual",
+    "phases": [
+      "DEV"
+    ],
+    "skills": [
+      {
+        "name": "mcp-builder",
+        "phase": "DEV"
+      }
+    ],
+    "domain": "dev-tools"
+  },
+  "(?i)(GUI.*(?:壳|shell|界面)|agent.*(?:界面|ui|shell)|聊天.*界面.*做|网页.*聊天.*(?:做|建|搭)|openwebui.*style)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "agent-gui-shell",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "dev-tools"
+  },
+  "(?i)(llama.*cpp|GGUF|量化.*模型|本地.*推理.*引擎|local.*inference.*engine)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "llama-cpp",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "ml",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(预测.*(?:市场|事件|政治)|polymarket|事件.*(?:下注|交易|结果)|betting.*market)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "polymarket",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "金融"
+  },
+  "(?i)(并行.*(?:执行|处理|操作|跑)|多.*并行|parallel.*exec|几个.*同时.*(?:做|跑|执行)|分.*几路)": {
+    "source": "manual",
+    "phases": [
+      "DISPATCH"
+    ],
+    "skills": [
+      {
+        "name": "dispatching-parallel-agents",
+        "phase": "DISPATCH"
+      }
+    ],
+    "domain": "agent",
+    "hits": 25,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(subagent|子.*agent|worker.*agent|spawn.*worker|子任务.*执行)": {
+    "source": "manual",
+    "phases": [
+      "DISPATCH"
+    ],
+    "skills": [
+      {
+        "name": "subagent-driven-development",
+        "phase": "DISPATCH"
+      }
+    ],
+    "domain": "agent",
+    "hits": 23,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(pokemon|宝可梦|口袋妖怪|精灵.*宝可梦|pokémon|showdown|宠物.*小精灵)": {
+    "source": "manual",
+    "phases": [
+      "PLAY"
+    ],
+    "skills": [
+      {
+        "name": "pokemon-player",
+        "phase": "PLAY"
+      }
+    ],
+    "domain": "gaming"
+  },
+  "(?i)(minecraft.*(?:server|服|rout|代理|网络|中转)|MC.*(?:server|服|路由|中转)|我的世界.*(?:服务|服|建服))": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "minecraft-modpack-server",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "gaming",
+    "hits": 1,
+    "last_hit": "2026-08-03"
+  },
+  "(?i)(系统.*(?:出.*问题|排查|诊断|修|检查)|环境.*(?:问题|报错|排查)|配置.*(?:问题|错了|不对)|依赖.*(?:问题|报错|冲突))": {
+    "source": "manual",
+    "phases": [
+      "DEBUG"
+    ],
+    "skills": [
+      {
+        "name": "hermes-system-maintenance",
+        "phase": "BUILD"
+      }
+    ],
+    "domain": "system",
+    "_note": "intentionally empty: no matching skill installed"
+  },
+  "(?i)(你确定吗|真的吗|你觉得呢|是不是.*(?:搞错了|不对|有问题)|质疑.*结论|再.*确认.*下)": {
+    "source": "manual",
+    "phases": [
+      "VERIFY"
+    ],
+    "skills": [
+      {
+        "name": "backbone",
+        "phase": "VERIFY"
+      }
+    ],
+    "domain": "code-quality"
+  },
+  "(?i)(工具.*(?:调用|使用).*(?:检查|规范|约束|规则)|tool.*call.*(?:check|rule|constrain)|幻.*(?:觉|调用|工具))": {
+    "source": "manual",
+    "phases": [
+      "VERIFY"
+    ],
+    "skills": [
+      {
+        "name": "verification-before-completion",
+        "phase": "VERIFY"
+      }
+    ],
+    "domain": "code-quality",
+    "hits": 26,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(PPT.*(?:提取|转|导出|内容)|PDF.*(?:提取|转|导出|内容)|docx.*(?:提取|转|导出|内容)|文档.*(?:处理|转换|格式化))": {
+    "source": "manual",
+    "phases": [
+      "PROCESS"
+    ],
+    "skills": [
+      {
+        "name": "document-processing",
+        "phase": "PROCESS"
+      }
+    ],
+    "domain": "docs"
+  },
+  "(?i)(Go.*(?:部署|API|上线|服务|接口)|golang.*(?:api|deploy|service|server)|写.*Go.*后端)": {
+    "source": "manual",
+    "phases": [
+      "DEPLOY"
+    ],
+    "skills": [
+      {
+        "name": "go-api-deploy",
+        "phase": "DEPLOY"
+      }
+    ],
+    "domain": "部署",
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(blog.*(?:监控|监测|watch|track)|RSS.*(?:监控|订阅|feed)|atom.*feed|博客.*(?:监控|跟踪|关注))": {
+    "source": "manual",
+    "phases": [
+      "MONITOR"
+    ],
+    "skills": [
+      {
+        "name": "blogwatcher",
+        "phase": "MONITOR"
+      }
+    ],
+    "domain": "media",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(adapt.*(?:skill|superpower)|适配.*skill|迁移.*skill|skill.*(?:适配|迁移|转换)|superpower.*(?:skill|适配))": {
+    "source": "manual",
+    "phases": [
+      "MAINTAIN"
+    ],
+    "skills": [
+      {
+        "name": "adapt-superpowers-skill",
+        "phase": "MAINTAIN"
+      }
+    ],
+    "domain": "system",
+    "hits": 2,
+    "last_hit": "2026-07-25"
+  },
+  "(?i)(vllm|大模型.*(?:推理|服务|部署|上线)|LLM.*(?:serve|deploy|infer)|高吞吐.*(?:推理|服务)|PagedAttention)": {
+    "source": "manual",
+    "phases": [
+      "DEPLOY"
+    ],
+    "skills": [
+      {
+        "name": "serving-llms-vllm",
+        "phase": "DEPLOY"
+      }
+    ],
+    "domain": "ml",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(modal.*(?:serverless|gpu|lab)|GPU.*(?:按需|serverless|按秒)|按需.*GPU|按秒.*计费.*GPU)": {
+    "source": "manual",
+    "phases": [
+      "DEPLOY"
+    ],
+    "skills": [
+      {
+        "name": "modal-serverless-gpu",
+        "phase": "DEPLOY"
+      }
+    ],
+    "domain": "ml"
+  },
+  "(?i)(本地.*模型.*(?:管理|配置|优化)|GGUF.*模型|模型.*(?:量化|压缩|优化).*本地|Ollama.*模型)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "local-model-management",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "ml"
+  },
+  "(?i)(one.*api|统一.*API.*(?:管理|密钥)|API.*(?:key|密钥).*管理.*平台|多.*模型.*proxy)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "one-api-mac-deployment",
+        "phase": "SETUP"
+      },
+      {
+        "name": "oneapi-add-deepseek-channel",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "部署"
+  },
+  "(?i)(bypass.*(?:restrict|censor|filter|guard)|越狱|绕过.*限制|解除.*限制|jailbreak|red.*team|oblite)": {
+    "source": "manual",
+    "phases": [
+      "TEST"
+    ],
+    "skills": [
+      {
+        "name": "obliteratus",
+        "phase": "TEST"
+      }
+    ],
+    "domain": "security"
+  },
+  "(?i)(plan.*→.*issue|spec.*→.*issue|转.*issue|issue.*(?:create|生成|创建)|拆.*issue|github.*issue.*(?:create|生成|创建))": {
+    "source": "manual",
+    "phases": [
+      "CONVERT"
+    ],
+    "skills": [
+      {
+        "name": "to-issues",
+        "phase": "CONVERT"
+      }
+    ],
+    "domain": "github"
+  },
+  "(?i)(PRD|产品.*需求.*文档|product.*req.*doc|需求.*规格|spec.*(?:写|文档|创建)|功能.*规格.*书)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "to-prd",
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "project"
+  },
+  "(?i)(skill.*(?:加载.*问题|不工作|失效|报错|失败)|skill.*(?:load|fail|error)|skill.*(?:debug|调试|排查))": {
+    "source": "manual",
+    "phases": [
+      "DEBUG"
+    ],
+    "skills": [
+      {
+        "name": "skill-installation-guide",
+        "phase": "BUILD"
+      },
+      {
+        "name": "hermes-skill-patterns",
+        "phase": "BUILD"
+      }
+    ],
+    "domain": "system",
+    "_note": "intentionally empty: no matching skill installed",
+    "hits": 312,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(/compact|/big|/clever|/caveman|/tdd|/brainstorm|TUI.*(?:命令|command|特殊)|slash.*command)": {
+    "source": "manual",
+    "phases": [
+      "EXECUTE"
+    ],
+    "skills": [
+      {
+        "name": "debugging-hermes-tui-commands",
+        "phase": "EXECUTE"
+      }
+    ],
+    "domain": "cli",
+    "hits": 3,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(代码.*(?:行数|统计|计数|多少行)|loc.*count|count.*line|lines.*of.*code|recount)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "codebase-inspection",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "code-quality",
+    "hits": 2,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(agent.*s.*(?:deploy|部署|安装)|Simular.*AI.*agent|computer.*use.*agent.*部署|os.*agent.*部署)": {
+    "source": "manual",
+    "phases": [
+      "SETUP"
+    ],
+    "skills": [
+      {
+        "name": "agent-s-deployment",
+        "phase": "SETUP"
+      }
+    ],
+    "domain": "agent",
+    "hits": 26,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(skill.*(?:冲突|安全|兼容|检查|分析)|两个.*skill.*(?:一起|同时)|companion.*skill.*(?:safety|test|check))": {
+    "source": "manual",
+    "phases": [
+      "VERIFY"
+    ],
+    "skills": [
+      {
+        "name": "skill-directory-maintenance",
+        "phase": "BUILD"
+      }
+    ],
+    "domain": "system",
+    "_note": "intentionally empty: no matching skill installed",
+    "hits": 27,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(知识库.*(?:管理|整理|搭建)|knowledge.*base.*(?:管理|组织|创建)|obsidian.*vault.*(?:管理|组织))": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "knowledge-base",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "obsidian",
+    "hits": 1,
+    "last_hit": "2026-08-06"
+  },
+  "(?i)(openwebui.*(?:慢|卡|性能|优化|问题)|open.*webui.*(?:slow|lag|performance|diagnos))": {
+    "source": "manual",
+    "phases": [
+      "DEBUG"
+    ],
+    "skills": [
+      {
+        "name": "openwebui-hermes-performance-diagnosis",
+        "phase": "DEBUG"
+      }
+    ],
+    "domain": "部署"
+  },
+  "(?i)([Mm]ac.*(?:磁盘|清理|空间|垃圾|不够|满了)|清理.*[Mm]ac|macOS.*(?:清理|磁盘|空间)|磁盘.*(?:清理|满|不够).*[Mm]ac|[Mm]ac.*(?:storage|disk|ssd))": {
+    "source": "manual",
+    "phases": [
+      "CLEANUP"
+    ],
+    "skills": [
+      {
+        "name": "macos-disk-cleanup",
+        "phase": "CLEANUP"
+      }
+    ],
+    "domain": "macos",
+    "hits": 3,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(idea.*foundry|(?:创建|新建|建|做|搭|开).*(?:项目|project|App|应用|网站|工具|服务)(?!.*(?:[Mm]inecraft|server|服|MC|我的世界|宝可梦|pokemon|pokémon|游戏))|从零.*(?:建|做|搭|写)(?!.*(?:[Mm]inecraft|server|服|MC|我的世界|pokemon|游戏))|脚手架|项目.*(?:创建|初始化|init))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "idea-foundry",
+        "phase": "CREATE"
+      },
+      {
+        "name": "smart-project-workflow",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "project",
+    "hits": 33,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(写.*(?:新|一个|个).*skill|创建.*skill|skill.*(?:模板|创建|制作|编写|开发|author)|新建.*skill|做.*(?:新|一个).*skill)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "hermes-agent-skill-authoring",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "system",
+    "hits": 31,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(/(?:compact|big|clever|caveman|tdd|brainstorm)|slash.*command|TUI.*(?:命令|command|特殊))": {
+    "source": "manual",
+    "phases": [
+      "EXECUTE"
+    ],
+    "skills": [
+      {
+        "name": "cli-hub-meta-skill",
+        "phase": "EXECUTE"
+      }
+    ],
+    "domain": "cli",
+    "hits": 3,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(吃什么|今天吃|今晚吃|美食|小吃|馆子|特色.*(?:美食|小吃)|名吃|好吃.*(?:店|馆|餐厅|推荐|攻略|清单|极了|死了|得很)|餐厅|饭店|美食.*(?:攻略|推荐|收集|清单))": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "travel-food-guide",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "travel",
+    "hits": 1,
+    "last_hit": "2026-08-06"
+  },
+  "(?i)(帮我写(?:(?!.*(?:代码|程序|脚本|邮件|email|mail|微信|消息|飞书|通知|回复|评论|短信)).)*(?:文章|文案|报告|总结|作文|论文|日记|小说|故事|内容|稿子|材料|方案|策划|文档|博客))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "khazix-writer",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "writing",
+    "hits": 3,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(做.*视频|生成.*视频|制作.*视频|视频.*制作|视频.*生成|视频.*创作|render.*video|make.*video|create.*video|拍.*视频|剪.*视频|视频.*编辑|视频.*合成|视频.*渲染|视频.*产出|出.*视频)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "hyperframes",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(产品.*宣传.*视频|产品.*发布.*视频|网站.*视频|product.*launch.*video|产品.*介绍.*视频)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "hyperframes",
+        "phase": "CREATE"
+      },
+      {
+        "name": "product-launch-video",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(remotion|react.*视频|react.*video|编程.*视频|程序化.*视频)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "remotion-best-practices",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(字幕|caption|加.*字幕|字幕.*叠加|配.*字幕|字幕.*嵌入|字幕.*生成)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "embedded-captions",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(动效|动态.*图形|motion.*graphic|标题.*动画|logo.*动画|片头|片尾|动态.*标题|动画.*logo)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "motion-graphics",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(幻灯片.*视频|slideshow.*video|演示.*视频|deck.*video|ppt.*视频|演示.*录制)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "slideshow",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(bgm|背景音乐|配乐|音效|sfx|配音|tts|语音.*合成|旁白.*生成|voiceover|媒体.*素材|视频.*素材|声音.*素材)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "media-use",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(pr.*视频|pull.*request.*视频|代码.*变更.*视频|github.*pr.*视频|changelog.*视频)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "pr-to-video",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(讲解.*视频|说明.*视频|教程.*视频|教育.*视频|explainer.*video|科普.*视频|知识.*视频|任意.*视频)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "general-video",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(音乐.*视频|beat.*sync|节奏.*视频|歌曲.*视频|music.*video|音频.*可视化)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "music-to-video",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(口播.*包装|访谈.*包装|采访.*包装|talking.*head|口播.*美化|视频.*包装.*设计)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "talking-head-recut",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "video"
+  },
+  "(?i)(商业.*诊断|商业模式|创业.*问题|生意.*问题|帮我.*看看.*生意|商业.*咨询|做生意|怎么.*赚钱|我的.*业务)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-diagnosis",
+        "phase": "ANALYZE"
+      },
+      {
+        "name": "dbs",
+        "phase": "ROUTE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(对标|模仿.*谁|找.*参考|竞品.*分析|学谁|benchmark|同行.*分析|参考.*账号|研究.*对手)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-benchmark",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "business",
+    "hits": 4,
+    "last_hit": "2026-08-26"
+  },
+  "(?i)(内容.*创作|内容.*方向|怎么做.*内容|选题|内容.*诊断|内容.*策略|content.*strategy|这个.*选题|内容.*优化|视频.*选题)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-content",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "business",
+    "hits": 24,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(开头.*优化|开头.*怎么写|hook|前.*秒|黄金.*秒|开头.*抓|短视频.*开头|怎么.*开头)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-hook",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "business",
+    "hits": 24,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(小红书.*标题|起.*标题|标题.*公式|标题.*怎么|文案.*标题|xhs.*title|爆款.*标题)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-xhs-title",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(ai.*味|ai.*检测|机器.*味|ai.*写作|是不是.*ai|ai.*痕迹|像.*ai.*写)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "dbs-ai-check",
+        "phase": "REVIEW"
+      }
+    ],
+    "domain": "business",
+    "hits": 2,
+    "last_hit": "2026-08-06"
+  },
+  "(?i)(拖延|做不动|执行力|行动.*障碍|知道.*不做|卡住.*了|推进.*不了|行动.*力|怎么.*开始)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-action",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "business",
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(慢.*方法|慢.*就是|走.*捷径|slow.*fast|深入.*方法|更.*深.*方法|不想.*走.*捷径)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-slowisfast",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(概念.*拆|拆.*概念|这个词.*什么|定义.*一下|什么.*意思.*概念|deconstruct|维特根斯坦)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-deconstruct",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "business",
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(目标.*清晰|目标.*模糊|目标.*怎么|goal.*setting|目标.*设定|想.*成为|我想.*做.*但|愿望.*语法)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-goal",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "business",
+    "hits": 1,
+    "last_hit": "2026-08-20"
+  },
+  "(?i)(问题.*说.*清楚|怎么.*问|问题.*说明书|好.*问题|good.*question|把.*问题.*写|问题.*模糊)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-good-question",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "business",
+    "hits": 26,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(决策.*记录|决策.*跟踪|复盘.*决策|记.*决策|决策.*系统|长期.*记录|回填.*结果)": {
+    "source": "manual",
+    "phases": [
+      "RECORD"
+    ],
+    "skills": [
+      {
+        "name": "dbs-decision",
+        "phase": "RECORD"
+      }
+    ],
+    "domain": "business",
+    "hits": 24,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(知识库|知识.*管理|文件夹.*知识|资料.*整理|知识.*导航|知识.*系统|knowledge.*base|本地.*资料|资料.*归档)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-knowledge",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "business",
+    "hits": 47,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(内容.*资产|内容.*系统|内容.*工程|content.*system|内容.*结构|内容.*管理|内容.*仓库|素材.*管理)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-content-system",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "business",
+    "hits": 26,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(存档|保存.*状态|记下来.*留着|restore|恢复.*存档|接着.*上次|出.*报告|打包.*报告|整理.*报告)": {
+    "source": "manual",
+    "phases": [
+      "RECORD"
+    ],
+    "skills": [
+      {
+        "name": "dbs-save",
+        "phase": "RECORD"
+      },
+      {
+        "name": "dbs-restore",
+        "phase": "RECORD"
+      },
+      {
+        "name": "dbs-report",
+        "phase": "RECORD"
+      }
+    ],
+    "domain": "business",
+    "hits": 7,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(agent.*迁移|工作台.*迁移|多端.*统一|bridge|桥接|skill.*桥接|agent.*统一|claude.*codex|工作台.*乱)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-agent-migration",
+        "phase": "MANAGE"
+      },
+      {
+        "name": "dbs-bridge",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "business",
+    "hits": 23,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(公众号.*排版|公众号.*html|微信.*排版|公众号.*格式|微信.*html|公众号.*版)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-wechat-html",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(多.*角色.*讨论|多.*视角|聊天室|几个.*专家|不同.*观点.*讨论|chatroom|多个.*角度)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-chatroom",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(为什么.*火|传播.*分析|共鸣.*分析|为什么.*爆|spread|传播.*心理|能.*火.*吗)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-spread",
+        "phase": "ANALYZE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(稿子.*顺|段落.*衔接|逐字稿|script.*flow|逻辑.*断|划走|口播.*流畅|稿子.*流畅)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "dbs-script-flow",
+        "phase": "REVIEW"
+      }
+    ],
+    "domain": "business",
+    "hits": 24,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(文稿.*共鸣|文稿.*诊断|没.*戳中|全面.*但|resonate|没.*刺中)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "dbs-resonate",
+        "phase": "REVIEW"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(skill.*审查|skill.*清理|skill.*安全|skill.*风险|审查.*skill|清理.*skill|检查.*skill.*安全)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-skill-cleaner",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "business",
+    "hits": 24,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(系统.*学习|交互.*学习|连续.*学|带我.*学|learning.*mode|写.*课|课程.*生成)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-learning",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(更新.*dbskill|升级.*dbskill|dbskill.*更新|dbs.*update)": {
+    "source": "manual",
+    "phases": [
+      "MANAGE"
+    ],
+    "skills": [
+      {
+        "name": "dbs-update",
+        "phase": "MANAGE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(/dbs|dbskill|dbs.*工具箱|dontbesilent|商业.*工具)": {
+    "source": "manual",
+    "phases": [
+      "ROUTE"
+    ],
+    "skills": [
+      {
+        "name": "dbs",
+        "phase": "ROUTE"
+      }
+    ],
+    "domain": "business"
+  },
+  "(?i)(apple.*(?:备忘录|便签|提醒|note|reminder)|icloud.*(?:备忘录|note|提醒)|mac.*(?:备忘录|提醒))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "apple-notes",
+        "phase": "CREATE"
+      },
+      {
+        "name": "apple-reminders",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "macos",
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(apple.*(?:备忘录|提醒.*事项)|siri.*提醒|icloud.*提醒)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "apple-notes",
+        "phase": "CREATE"
+      },
+      {
+        "name": "apple-reminders",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "macos"
+  },
+  "(?i)(人像.*摄影|人物.*摄影|生命感.*人像|肖像.*摄影|portrait.*photo|生活.*随拍.*升级|废片.*升级|人像.*写真)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "生图",
+    "skills": [
+      {
+        "name": "fantasy-life-force-portrait-photography",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(写.*公众号|公众号.*文章|卡兹克|khazix|长文.*写|写.*长文|写.*稿子|按.*风格.*写|帮我.*写.*文章)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "writing",
+    "skills": [
+      {
+        "name": "khazix-writer",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(写.*小说|写.*网文|网文.*写|小说.*写|帮我写.*小说|帮我写.*网文|写.*长篇|写.*短篇|创作.*小说)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "writing",
+    "skills": [
+      {
+        "name": "claude-code",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 28,
+    "last_hit": "2026-08-07"
+  },
+  "(?i)(扫榜|拆文|拆书|黄金三章|爽点.*设计|节奏.*分析|爆款.*拆|热门.*分析)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "domain": "writing",
+    "skills": [
+      {
+        "name": "claude-code",
+        "phase": "SEARCH"
+      }
+    ],
+    "hits": 35,
+    "last_hit": "2026-08-07"
+  },
+  "(?i)(去AI味|AI.*味|AI.*痕迹|deslop|去.*AI|AI.*改写|反检测.*改写)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "writing",
+    "skills": [
+      {
+        "name": "claude-code",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 25,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(续写|连载|更新.*章节|写.*第.*章|下一章|章纲|卷纲|大纲.*搭建|人物.*设定|角色.*设定|世界观.*设定)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "writing",
+    "skills": [
+      {
+        "name": "claude-code",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 32,
+    "last_hit": "2026-08-07"
+  },
+  "(?i)(番茄.*小说|起点.*中文|晋江|知乎.*盐|七猫|刺猬猫|投稿.*平台|网文.*平台|写作.*助手)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "domain": "writing",
+    "skills": [
+      {
+        "name": "claude-code",
+        "phase": "SEARCH"
+      }
+    ],
+    "hits": 3,
+    "last_hit": "2026-08-05"
+  },
+  "(?i)(originkit|origin.?kit|动画.*组件|animated.*component|粒子.*效果|文字.*动画|按钮.*动画|UI.*动画|前端.*动效|black.?hole|juice.*effect|spin.*image|pixel.*card|glitch.*text)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "animation-engines",
+        "phase": "BUILD"
+      }
+    ]
+  },
+  "(?i)(量化.*(?:交易|回测|策略|分析)|回测|股票.*回测|因子.*分析|alpha.*zoo|多因子|交易.*回测|vibe.*trading|quant.*trading|炒股|选股|盯盘|股票.*筛选)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "domain": "金融",
+    "skills": [
+      {
+        "name": "technical-analysis",
+        "phase": "ANALYZE"
+      },
+      {
+        "name": "tushare-finance",
+        "phase": "SEARCH"
+      },
+      {
+        "name": "finance-news-analyzer",
+        "phase": "SEARCH"
+      }
+    ]
+  },
+  "(?i)(股票.*行情|k线|macd|rsi|涨停|跌停|盘口|均线|成交量)": {
+    "source": "manual",
+    "phases": [
+      "ANALYZE"
+    ],
+    "domain": "金融",
+    "skills": [
+      {
+        "name": "technical-analysis",
+        "phase": "ANALYZE"
+      },
+      {
+        "name": "tushare-finance",
+        "phase": "SEARCH"
+      }
+    ],
+    "hits": 333,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(高级.*设计|high.*end.*design|设计.*咨询|design.*consult|设计.*猎枪|design.*shotgun)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "high-end-visual-design",
+        "phase": "CREATE"
+      },
+      {
+        "name": "design-consultation",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(设计.*转.*html|design.*html|设计.*转.*代码|html.*编辑.*设计)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "design-html",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(stitch.*design|google.*stitch|设计.*拼接)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "stitch-design-taste",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(web.*设计.*指南|web.*design.*guideline|设计.*规范.*web)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "web-design-guidelines",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(brandkit|品牌.*套件|brand.*kit|品牌.*物料)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "brandkit",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(移动.*端.*设计|mobile.*ui.*gen|imagegen.*mobile|app.*设计.*生成)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "imagegen-frontend-mobile",
+        "phase": "CREATE"
+      },
+      {
+        "name": "imagegen-frontend-web",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(设计.*评审|design.*review|plan.*design|设计.*计划)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "plan-design-review",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(design.*taste|设计.*品味|前端.*审美|设计.*审美|gpt.*taste|taste.*skill|前端.*设计.*质量)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "design-taste-frontend",
+        "phase": "CREATE"
+      },
+      {
+        "name": "gpt-taste",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(bl |bailian|百炼|阿里.*生图|阿里.*百炼|万相|dashscope)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "生图",
+    "skills": [
+      {
+        "name": "bailian-cli",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(shotcraft|shot.*craft|分镜.*配方|remotion.*(?:宣传|视频|promo|产品)|promo.*video.*remotion|video.*shot.*craft|106.*shot)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "视频",
+    "skills": [
+      {
+        "name": "video-shotcraft",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(前端.*设计|frontend.*design|design.*taste|ui.*ux.*pro|image.*to.*code|web.*design|redesign|web.*artifact|imagegen.*frontend)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "frontend-design-workflow",
+        "phase": "CREATE"
+      },
+      {
+        "name": "ui-ux-pro-max",
+        "phase": "CREATE"
+      },
+      {
+        "name": "image-to-code",
+        "phase": "CREATE"
+      },
+      {
+        "name": "design-taste-frontend",
+        "phase": "CREATE"
+      },
+      {
+        "name": "fusion-stack",
+        "phase": "DESIGN"
+      }
+    ],
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(设计.*风格|ui.*风格|设计.*主题|视觉.*风格|brutal|glassmorph|minimalist|neumorph|retro.*ui|vintage.*design|设计.*系统.*风格)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "theme-factory",
+        "phase": "CREATE"
+      },
+      {
+        "name": "ui-ux-pro-max",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 5,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(brand.*design|brand.*guide|设计.*规范|design.*system|design.*token|品牌.*设计|设计.*语言|stitch.*design)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "brand-guidelines",
+        "phase": "CREATE"
+      },
+      {
+        "name": "design-quality-tools",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 2,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(gsap|动画.*库|web.*动画|scroll.*trigger|three\\.js|3d.*动画|关键帧.*动画|motion.*design)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "gsap-core",
+        "phase": "CREATE"
+      },
+      {
+        "name": "threejs-fundamentals",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 3,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(canvas|生成.*艺术|algorithmic.*art|creative.*cod|p5\\.js|creative.*design)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "canvas-design",
+        "phase": "CREATE"
+      },
+      {
+        "name": "algorithmic-art",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(shadcn|组件.*库|ui.*component|react.*ui|组件.*设计|web.*组件)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "ui-ux-pro-max",
+        "phase": "CREATE"
+      },
+      {
+        "name": "frontend-design-workflow",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(hermes.*主题|hermes.*theme|hermes.*配色|hermes.*皮肤|换.*皮肤|改.*配色)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "hermes-themes",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 1,
+    "last_hit": "2026-08-03"
+  },
+  "(?i)(video.*编辑|视频.*编辑|视频.*处理|video.*process|media.*extract|face.*fusion|换脸)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "视频",
+    "skills": [
+      {
+        "name": "facefusion",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 2,
+    "last_hit": "2026-08-22"
+  },
+  "(?i)(视频.*截图|提取.*帧|frame.*extract|视频.*封面|video.*frame)": {
+    "source": "manual",
+    "phases": [
+      "PROCESS"
+    ],
+    "domain": "视频",
+    "skills": [
+      {
+        "name": "video-frame-extract",
+        "phase": "PROCESS"
+      }
+    ],
+    "hits": 1,
+    "last_hit": "2026-08-22"
+  },
+  "(?i)(impeccable|设计.*qa|design.*audit|设计.*审查|设计.*质量.*检查|前端.*审查|polish.*design)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "impeccable",
+        "phase": "REVIEW"
+      }
+    ]
+  },
+  "(?i)(karpathy|编码.*风格|code.*style.*guide|编程.*指南|简洁.*代码|surgical.*change|goal.*driven)": {
+    "source": "manual",
+    "phases": [
+      "REFERENCE"
+    ],
+    "domain": "code-quality",
+    "skills": [
+      {
+        "name": "karpathy-coding-guidelines",
+        "phase": "REFERENCE"
+      },
+      {
+        "name": "karpathy-guidelines",
+        "phase": "REFERENCE"
+      }
+    ]
+  },
+  "(?i)(语音.*转写|音频.*转文字|说话人.*分离|diariz|字幕.*生成.*音频|moss.*transcribe|转写.*字幕)": {
+    "source": "manual",
+    "phases": [
+      "PROCESS"
+    ],
+    "domain": "media",
+    "skills": [
+      {
+        "name": "whisper",
+        "phase": "PROCESS"
+      }
+    ]
+  },
+  "(?i)(DESIGN\\.md|design.*system.*token|设计.*系统.*文档|design.*language|awesome.*design.*md|设计.*规范.*md)": {
+    "source": "manual",
+    "phases": [
+      "REFERENCE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "stitch-design-taste",
+        "phase": "CREATE"
+      },
+      {
+        "name": "web-design-guidelines",
+        "phase": "CREATE"
+      }
+    ],
+    "hits": 1,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(健身|exercise|workout|训练.*动作|肌肉|gym|力量.*训练)": {
+    "source": "manual",
+    "phases": [
+      "REFERENCE"
+    ],
+    "domain": "lifestyle",
+    "skills": [
+      {
+        "name": "obsidian",
+        "phase": "REFERENCE"
+      }
+    ]
+  },
+  "(?i)(ai.*资讯|ai.*热点|ai.*新闻|今日.*ai|ai.*日报)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "domain": "search",
+    "skills": [
+      {
+        "name": "aihot",
+        "phase": "SEARCH"
+      }
+    ]
+  },
+  "(?i)(电脑.*操作|桌面.*控制|desktop.*control|computer.*use|操控.*电脑|屏幕.*操作)": {
+    "source": "manual",
+    "phases": [
+      "EXECUTE"
+    ],
+    "domain": "macos",
+    "skills": [
+      {
+        "name": "computer-use",
+        "phase": "EXECUTE"
+      },
+      {
+        "name": "desktop-control",
+        "phase": "EXECUTE"
+      }
+    ],
+    "hits": 3,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(claude.*api|anthropic.*api|anthropic.*sdk|claude.*调用)": {
+    "source": "manual",
+    "phases": [
+      "REFERENCE"
+    ],
+    "domain": "agent",
+    "skills": [
+      {
+        "name": "claude-api",
+        "phase": "REFERENCE"
+      }
+    ]
+  },
+  "(?i)(social.*media.*crawl|社媒.*爬|小红书.*爬|抖音.*爬|微博.*爬)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "domain": "social",
+    "skills": [
+      {
+        "name": "social-media-crawl",
+        "phase": "SEARCH"
+      },
+      {
+        "name": "chinese-platform-data",
+        "phase": "SEARCH"
+      }
+    ]
+  },
+  "(?i)(deploy.*vercel|vercel.*部署|部署.*vercel|deploy.*to.*vercel)": {
+    "source": "manual",
+    "phases": [
+      "DEPLOY"
+    ],
+    "domain": "部署",
+    "skills": [
+      {
+        "name": "deploy-to-vercel",
+        "phase": "DEPLOY"
+      }
+    ]
+  },
+  "(?i)(发.*推特|发.*推文|x.*发帖|twitter.*post|xitter|xurl|推特.*操作)": {
+    "source": "manual",
+    "phases": [
+      "PUBLISH"
+    ],
+    "domain": "social",
+    "skills": [
+      {
+        "name": "xitter",
+        "phase": "PUBLISH"
+      },
+      {
+        "name": "xurl",
+        "phase": "PUBLISH"
+      }
+    ]
+  },
+  "(?i)(mcp.*server|mcp.*构建|mcp.*build|mcp.*开发|创建.*mcp)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "dev-tools",
+    "skills": [
+      {
+        "name": "mcp-builder",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(figma)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "设计",
+    "skills": [
+      {
+        "name": "figma",
+        "phase": "CREATE"
+      }
+    ]
+  },
+  "(?i)(minecraft.*服务器|mc.*服务器|我的世界.*服务|minecraft.*server)": {
+    "source": "manual",
+    "phases": [
+      "DEPLOY"
+    ],
+    "domain": "gaming",
+    "skills": [
+      {
+        "name": "minecraft-modpack-server",
+        "phase": "DEPLOY"
+      }
+    ]
+  },
+  "(?i)(邮件|email|发.*邮件|查.*邮件|收件箱|himalaya)": {
+    "source": "manual",
+    "phases": [
+      "COMMUNICATE"
+    ],
+    "domain": "通讯",
+    "skills": [
+      {
+        "name": "himalaya",
+        "phase": "COMMUNICATE"
+      }
+    ],
+    "hits": 2,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(地图|geocode|poi|导航|路线.*规划|maps|osm)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "domain": "travel",
+    "skills": [
+      {
+        "name": "maps",
+        "phase": "SEARCH"
+      }
+    ],
+    "hits": 2,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(arxiv|搜索.*论文|论文.*检索|学术.*搜索|文献.*检索)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "domain": "学术",
+    "skills": [
+      {
+        "name": "arxiv",
+        "phase": "SEARCH"
+      }
+    ],
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(学术.*论文.*写|academic.*paper|论文.*全流程|论文.*生成|学术.*研究.*流程|deep.*research|论文.*调研)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "domain": "学术",
+    "skills": [
+      {
+        "name": "academic-paper",
+        "phase": "CREATE"
+      },
+      {
+        "name": "academic-pipeline",
+        "phase": "CREATE"
+      },
+      {
+        "name": "deep-research",
+        "phase": "SEARCH"
+      }
+    ]
+  },
+  "小红书|xiaohongshu|RED.*book|rednote": {
+    "skills": [
+      {
+        "name": "social-media-crawler",
+        "phase": "FETCH"
+      },
+      {
+        "name": "agent-reach",
+        "phase": "FETCH"
+      }
+    ],
+    "keywords": [
+      "小红书",
+      "xiaohongshu",
+      "红书"
+    ],
+    "phases": [
+      "FETCH"
+    ]
+  },
+  "douyin\\.com/video|v\\.douyin\\.com|抖音|dy-video": {
+    "skills": [
+      {
+        "name": "social-media-crawler",
+        "phase": "FETCH"
+      },
+      {
+        "name": "agent-reach",
+        "phase": "FETCH"
+      }
+    ],
+    "keywords": [
+      "抖音",
+      "douyin",
+      "视频"
+    ],
+    "phases": [
+      "FETCH"
+    ]
+  },
+  "(xiaohongshu\\.com|douyin\\.com|v\\.douyin\\.com|bilibili\\.com)/": {
+    "skills": [],
+    "keywords": [
+      "社交媒体",
+      "链接",
+      "share"
+    ],
+    "phases": [
+      "FETCH"
+    ]
+  },
+  "(?i)(code.*review.*diff|审查.*代码.*改动|review.*PR.*code|code.*review.*standard)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "code-review",
+        "phase": "REVIEW"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(to.*spec|写.*spec|write.*spec|需求.*文档|spec.*document)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "to-spec",
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "dev",
+    "hits": 247,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(domain.*model|领域.*模型|ubiquitous.*language|通用.*语言)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "domain-modeling",
+        "phase": "DESIGN"
+      },
+      {
+        "name": "ubiquitous-language",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(codebase.*design|代码.*架构.*设计|软件.*设计|system.*design)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "codebase-design",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(diagnos.*bug|调试.*bug|debug.*root.*cause|排查.*问题|bug.*诊断)": {
+    "source": "manual",
+    "phases": [
+      "DEBUG"
+    ],
+    "skills": [
+      {
+        "name": "diagnosing-bugs",
+        "phase": "DEBUG"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(merge.*conflict|合并.*冲突|resolve.*conflict|解决.*冲突)": {
+    "source": "manual",
+    "phases": [
+      "FIX"
+    ],
+    "skills": [
+      {
+        "name": "resolving-merge-conflicts",
+        "phase": "FIX"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(teach.*me|教.*我|learn.*new|学.*新|上课|教学.*模式)": {
+    "source": "manual",
+    "phases": [
+      "TEACH"
+    ],
+    "skills": [
+      {
+        "name": "teach",
+        "phase": "TEACH"
+      }
+    ],
+    "domain": "learning",
+    "hits": 8,
+    "last_hit": "2026-09-08"
+  },
+  "(?i)(write.*great.*skill|写好.*skill|skill.*writing.*guide|skill.*最佳.*实践)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "writing-great-skills",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "meta"
+  },
+  "(?i)(anime.*js|animejs|anime\\.js|js.*动画.*引擎|javascript.*animation.*engine|网页.*动画.*库)": {
+    "source": "manual",
+    "phases": [
+      "USE"
+    ],
+    "skills": [
+      {
+        "name": "animation-engines",
+        "phase": "USE"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(qa|question.*answer|问答|ask.*matt|问.*matt)": {
+    "source": "manual",
+    "phases": [
+      "CHAT"
+    ],
+    "skills": [
+      {
+        "name": "ask-matt",
+        "phase": "CHAT"
+      }
+    ],
+    "domain": "dev",
+    "hits": 25,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(refactor.*plan|重构.*计划|request.*refactor|申请.*重构)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "request-refactor-plan",
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(design.*interface|设计.*接口|UI.*设计|界面.*设计)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "design-an-interface",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "design"
+  },
+  "(?i)(research|调研|研究.*(?:主题|方向|领域|课题)|深.*研究)": {
+    "source": "manual",
+    "phases": [
+      "RESEARCH"
+    ],
+    "skills": [
+      {
+        "name": "research",
+        "phase": "RESEARCH"
+      }
+    ],
+    "domain": "research"
+  },
+  "(?i)(wayfinder|找路|导航|代码.*导航|项目.*导航)": {
+    "source": "manual",
+    "phases": [
+      "NAVIGATE"
+    ],
+    "skills": [
+      {
+        "name": "wayfinder",
+        "phase": "NAVIGATE"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(做.*(?:游戏|肉鸽|rogue|独立游戏|小游戏)|游戏.*(?:设计|开发|制作)|写.*GDD|玩法.*设计)": {
+    "source": "manual",
+    "phases": [
+      "CREATE",
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "game-design-reference",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "gamedev"
+  },
+  "(?i)(肉鸽|roguelike|rogue.*like|选.*游戏.*类型|游戏.*选型)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "game-design-reference",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "gamedev"
+  },
+  "(?i)(unity|godot|unreal|ue5|游戏引擎|选.*引擎)": {
+    "source": "manual",
+    "phases": [
+      "CREATE",
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "game-design-reference",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "gamedev"
+  },
+  "(?i)(抖音.*游戏|微信.*游戏|小程序.*游戏|小游戏.*上线|游戏.*变现|游戏.*广告)": {
+    "source": "manual",
+    "phases": [
+      "CREATE",
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "game-design-reference",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "gamedev"
+  },
+  "(?i)(GDD|游戏.*文档|游戏.*策划|游戏.*方案|游戏.*规划)": {
+    "source": "manual",
+    "phases": [
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "game-design-reference",
+        "phase": "DESIGN"
+      }
+    ],
+    "domain": "gamedev"
+  },
+  "(?i)(游戏.*原型|原型.*游戏|验证.*玩法|游戏.*demo|游戏.*概念)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "game-design-reference",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "gamedev"
+  },
+  "(?i)(CCGS|Claude.Code.Game|claude.*code.*game|game.*studio)": {
+    "source": "manual",
+    "phases": [
+      "CREATE",
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "game-design-reference",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "gamedev"
+  },
+  "(?i)(独立游戏|indie.*game|单人.*游戏|solo.*dev.*game)": {
+    "source": "manual",
+    "phases": [
+      "CREATE",
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "game-design-reference",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "gamedev"
+  },
+  "(?i)(执行.*计划|implement.*plan|按.*计划.*执行|execute.*task.*plan|照.*计划.*做)": {
+    "source": "manual",
+    "phases": [
+      "EXECUTE"
+    ],
+    "skills": [
+      {
+        "name": "executing-plans",
+        "phase": "EXECUTE"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(完成.*开发|finish.*branch|合并.*分支|merge.*PR|清理.*分支|cleanup.*branch|收尾|开发.*完成)": {
+    "source": "manual",
+    "phases": [
+      "FINISH"
+    ],
+    "skills": [
+      {
+        "name": "finishing-a-development-branch",
+        "phase": "FINISH"
+      }
+    ],
+    "domain": "dev",
+    "hits": 34,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(收到.*审查|review.*feedback|审查.*意见|code.*review.*comment|处理.*审查|别人.*提.*意见)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "receiving-code-review",
+        "phase": "REVIEW"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(\\.docx|word.*(?:文档|文件|document)|创建.*word|编辑.*word|docx.*文件)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-docx",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "document"
+  },
+  "(?i)(\\.xlsx|\\.xls|excel|电子表格|表格.*(?:处理|创建|生成)|spreadsheet)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-xlsx",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "document"
+  },
+  "(?i)(创建.*PDF|生成.*PDF|PDF.*(?:创建|生成|制作|设计|报告)|pdf.*report)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-pdf",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "document"
+  },
+  "(?i)(canvas.*design|设计哲学|画布.*设计|poster.*design|海报.*设计|create.*art)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-canvas-design",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "design"
+  },
+  "(?i)(p5\\.js|algorithmic.*art|算法艺术|generative.*art|生成艺术)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-algorithmic-art",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "design"
+  },
+  "(?i)(brand.*guideline|品牌.*(?:规范|指南|手册))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-brand-guidelines",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "design"
+  },
+  "(?i)(frontend.*design|前端.*设计|web.*design.*direction)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-frontend-design",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "design"
+  },
+  "(?i)(theme.*(?:factory|design|系统)|风格.*(?:主题|系统)|design.*token)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-theme-factory",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "design"
+  },
+  "(?i)(build.*MCP|create.*MCP|MCP.*(?:server|服务|开发|构建))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-mcp-builder",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(web.*artifact|html.*component|网页.*组件|web.*builder)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-web-artifacts-builder",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "dev",
+    "hits": 3,
+    "last_hit": "2026-09-15"
+  },
+  "(?i)(webapp.*test|playwright.*test|网页.*测试|browser.*test|e2e.*test)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-webapp-testing",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(claude.*api|anthropic.*api|claude.*model|claude.*pricing)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-claude-api",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(slack.*gif|GIF.*(?:制作|生成)|animated.*gif)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-slack-gif-creator",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(internal.*comm|内部.*通讯|company.*(?:memo|update)|企业.*(?:通知|公告))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-internal-comms",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "dev"
+  },
+  "(?i)(doc.*coauthor|文档.*协作|co.*author|协作.*(?:写|编辑|文档))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "anthropic-doc-coauthoring",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "document"
+  },
+  "(?i)(react.*bits|react.*component.*animat|react.*UI.*animat|动画.*react.*组件|炫酷.*网页.*组件)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "gsap-react",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "design"
+  },
+  "(?i)(oh-story|oh story|拆文分析|拆文.*分析|ohstory)": {
+    "skills": [
+      {
+        "name": "claude-code",
+        "phase": "SEARCH"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 20,
+    "last_hit": "2026-08-06"
+  },
+  "(?i)(chinese-novelist|chinese novelist|中文网文|中国网文|中式.*网文)": {
+    "skills": [
+      {
+        "name": "claude-code",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 1,
+    "last_hit": "2026-07-26"
+  },
+  "(?i)(webnovel-writer|webnovel writer|网文写作|网文.*创作|写网文)": {
+    "skills": [
+      {
+        "name": "claude-code",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(originkit|origin kit|origin-kit|组件库.*浏览|列出.*组件|搜索.*组件|originkit.*组件)": {
+    "skills": [
+      {
+        "name": "originkit",
+        "phase": "BUILD"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(做.*计划|写.*计划|plan|规划.*方案|实施.*计划|执行.*计划|task.*plan|action.*plan)": {
+    "skills": [
+      {
+        "name": "plan",
+        "phase": "PLAN"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 37,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(ralph|ralph-loop|闭环|自动.*循环|ralph.*loop|loop.*me)": {
+    "skills": [
+      {
+        "name": "ralph-loop",
+        "phase": "VERIFY"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 38,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(旅行|旅游|机票|酒店.*预订|高铁.*票|火车.*票|航班|住宿|自驾|攻略|行程|去哪儿|玩.*几天)": {
+    "skills": [
+      {
+        "name": "travel-skill",
+        "phase": "PLAN"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 11,
+    "last_hit": "2026-08-26"
+  },
+  "(?i)(PR|pull.request|提交.*PR|创建.*PR|代码.*审查|code.*review|merge.*request|提交.*代码|合入|合并.*请求)": {
+    "skills": [
+      {
+        "name": "github-pr-workflow",
+        "phase": "VERIFY"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 460,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(remotion|视频.*编辑|视频.*制作|视频.*生成|渲染.*视频|remotion.*render)": {
+    "skills": [
+      {
+        "name": "remotion",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 1,
+    "last_hit": "2026-07-26"
+  },
+  "(?i)(imessage|iMessage|发短信|发.*iMessage|苹果.*短信|mac.*短信|imessage.*发送)": {
+    "skills": [
+      {
+        "name": "imessage",
+        "phase": "BUILD"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 2,
+    "last_hit": "2026-08-12"
+  },
+  "(?i)(finesse|finesse-ui|用.*finesse|finesse.*设计|高级.*UI|品牌.*站|landing.*page.*设计)": {
+    "skills": [
+      {
+        "name": "finesse-ui",
+        "phase": "DESIGN"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(frame-smith|frame.*smith|动效.*视频|promo.*video|宣传片|产品.*发布.*视频|remotion.*视频|视频.*动效)": {
+    "skills": [
+      {
+        "name": "frame-smith",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(做.*(?:网站|网页|站|页面|landing|homepage)|建站|brand.*(?:page|landing|site)|landing.page|产品.*(?:落地页|页面)|dashboard.*(?:设计|美化|UI)|finesse|fusion.stack|glassmorphism|玻璃质感|dark.tech.*(?:网站|页面)|高科技.*(?:网站|页面)|premium.*(?:site|landing|page)|portfolio.*site|saas.*landing|设计.*(?:工具|平台).*(?:页面|网站|落地)|重设计.*(?:网站|页面)|redesign.*(?:site|page))": {
+    "source": "manual",
+    "phases": [
+      "CREATE",
+      "DESIGN"
+    ],
+    "skills": [
+      {
+        "name": "fusion-stack",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "design",
+    "_note": "四 skill 联合造站 - finesse-ui substrate + taste direction + pro-max palette + impeccable discipline"
+  },
+  "(?i)(做.*(?:PPT|ppt|幻灯片|演示|deck|slides)|PPT.*(?:生成|制作|创建)|ppt.*(?:生成|制作|创建|master)|slides.*(?:生成|制作)|deck.*(?:生成|制作|创建)|presentation.*(?:生成|制作|创建|gen)|把.*做.*PPT|把.*转.*PPT|生成.*PPT|制作.*PPT)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "ppt-master",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "presentation"
+  },
+  "(?i)(网页.*PPT|html.*(?:PPT|slide|deck)|杂志.*PPT|瑞士.*PPT|guizang|归藏|swiss.*(?:PPT|slide|deck)|magazine.*(?:PPT|slide))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "guizang-ppt-skill",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "presentation"
+  },
+  "(?i)(查.*(?:唐诗|宋词|成语|知识库|vault|笔记|note)|知识库.*搜索|vault.*search|search.*vault|note.*search|翻.*笔记|找.*笔记)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "tolaria",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "knowledge"
+  },
+  "(?i)(短剧|漫剧|AI.*视频.*制作|生.*视频|图生视频|文生视频|Seedance|libtv|lib.*tv|画布.*创作|光场|lytro)": {
+    "skills": [
+      {
+        "name": "libtv-cli",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 18,
+    "last_hit": "2026-09-16"
+  },
+  "(?i)(橙星梦工厂|funai|fun\\.tv|ai\\.fun|漫剧.*创作|漫画.*生成|AI.*漫剧)": {
+    "skills": [
+      {
+        "name": "funai-skill",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(auto.?editor|自动.*剪辑|自动.*剪.*视频|自动.*去.*静音|自动.*卡点)": {
+    "skills": [
+      {
+        "name": "video-toolchain",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(whisperx|词级.*转录|说话人.*识别|diarize|音频.*转.*字幕|whisper.*word)": {
+    "skills": [
+      {
+        "name": "whisper",
+        "phase": "ANALYZE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(lossless.?cut|不.*重编码.*剪辑|无损.*剪切|无损.*剪辑)": {
+    "skills": [
+      {
+        "name": "video-toolchain",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(shotcut|开源.*剪辑.*器|免费.*视频.*编辑.*器)": {
+    "skills": [
+      {
+        "name": "video-toolchain",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(油价|加油|汽油|柴油|92#|95#|98#|今日油价)": {
+    "skills": [
+      {
+        "name": "life-services (油价)",
+        "phase": "ASK"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(节假日|放假|法定.*假日|调休|假期.*安排|元旦|春节|清明|五一|端午|中秋|国庆)": {
+    "skills": [
+      {
+        "name": "life-services (节假日)",
+        "phase": "ASK"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(快递|物流|查.*单号|快递.*到哪|包裹.*跟踪)": {
+    "skills": [
+      {
+        "name": "life-services (快递)",
+        "phase": "ASK"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(汇率|换.*钱|人民币.*兑换|CNY.*USD|美元.*汇率)": {
+    "skills": [
+      {
+        "name": "life-services (汇率)",
+        "phase": "ASK"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(inkos|写.*小说.*agent|AI.*写.*小说|小说.*自动.*写|网文.*自动|智能.*写作|长篇小说.*AI|剧本.*AI.*创作|故事.*创作.*agent|写.*书.*AI)": {
+    "skills": [
+      {
+        "name": "webnovel-writer",
+        "phase": "BUILD"
+      }
+    ],
+    "source": "manual",
+    "priority": 1,
+    "hits": 3,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(去AI味|反.*AI.*检测|文风.*仿写|小说.*审计|章节.*审计|连续性.*检查)": {
+    "skills": [
+      {
+        "name": "humanizer-zh",
+        "phase": "BUILD"
+      }
+    ],
+    "source": "manual",
+    "priority": 1,
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(自动校对|六维审查|写完.*审|保存.*前.*检查|一致性.*校对|章节.*校对|审.*稿.*自动)": {
+    "skills": [
+      {
+        "name": "qmai",
+        "phase": "REVIEW"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(角色.*防崩|角色.*灵魂|人设.*崩|角色.*一致|性格.*统一|角色.*DNA|角色.*认知)": {
+    "skills": [
+      {
+        "name": "qmai",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(剧情.*推演|角色.*沙盘|多.*agent.*推演|角色.*独立.*行动|推演室|导演.*agent)": {
+    "skills": [
+      {
+        "name": "qmai",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(拆书库|拆.*书.*提取|文风.*提取|文风.*指标|九维.*文风|角色.*skill.*提取)": {
+    "skills": [
+      {
+        "name": "qmai",
+        "phase": "ANALYZE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(关系.*图谱|人物.*关系.*图|角色.*关系.*追踪|实体.*关系.*可.*视)": {
+    "skills": [
+      {
+        "name": "qmai",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 0
+  },
+  "(?i)(青幕|qmai|qm.*ai|青幕.*写作)": {
+    "skills": [
+      {
+        "name": "qmai",
+        "phase": "CREATE"
+      }
+    ],
+    "source": "auto",
+    "priority": 1,
+    "hits": 1,
+    "last_hit": "2026-08-05"
+  },
+  "(?i)(to.*ticket|issue.*创建|创建.*issue|break.*into.*ticket|拆分.*任务.*issue|拆.*ticket|拆.*需求.*ticket)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "to-tickets",
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "dev",
+    "hits": 1,
+    "last_hit": "2026-08-03"
+  },
+  "(?i)((?:代码|程序|函数|bug|报错|不工作|异常|崩溃).*(?:调试|排查|诊断|fix|debug|diagonse)|(?:调试|排查|诊断|定位).*(?:代码|程序|函数|bug|报错|异常|崩溃)|帮我.*(?:debug|调试|定位|排查)(?:(?!.*(?:系统|环境|配置|依赖)).)*$|(?:代码|程序|脚本|函数).*(?:报错|报|异常|错误|KeyError|TypeError|ValueError|Traceback).*(?:看看|解决|修复|为什么|原因))": {
+    "source": "manual",
+    "phases": [
+      "DEBUG"
+    ],
     "skills": [
       {
         "name": "diagnose",
-        "phase": "DISCOVER"
+        "phase": "DEBUG"
       },
       {
         "name": "systematic-debugging",
-        "phase": "DISCOVER"
+        "phase": "DEBUG"
       }
     ],
-    "hits": 304,
-    "last_hit": "2026-06-21",
-    "source": "manual",
-    "priority": 10
-  },
-  "学术论文|research|Related Work|literature review|论文.*写|写.*论文|paper.*writing|academic": {
-    "skills": [
-      {
-        "name": "research-paper-writing",
-        "phase": "DISCOVER"
-      },
-      {
-        "name": "planning-with-files",
-        "phase": "DISCOVER"
-      },
-      {
-        "name": "paper-spine-research",
-        "phase": "DISCOVER"
-      },
-      {
-        "name": "survey",
-        "phase": "DISCOVER"
-      }
-    ],
-    "hits": 236,
-    "last_hit": "2026-06-21",
-    "source": "manual",
-    "priority": 10
-  },
-  "work": {
-    "skills": [
-      "writing-skills"
-    ],
-    "source": "auto-gen",
-    "hits": 294,
-    "last_hit": "2026-06-21"
-  },
-  "skill": {
-    "skills": [
-      "canon-mnemonic-guard-dashboard"
-    ],
-    "source": "auto-gen",
-    "hits": 313,
-    "last_hit": "2026-06-21"
-  },
-  "hermes": {
-    "skills": [
-      "kanban-codex-lane"
-    ],
-    "source": "auto-gen",
-    "hits": 246,
-    "last_hit": "2026-06-21"
-  },
-  "agent": {
-    "skills": [
-      "triage"
-    ],
-    "source": "auto-gen",
-    "hits": 256,
-    "last_hit": "2026-06-21"
-  },
-  "art": {
-    "skills": [
-      "algorithmic-art"
-    ],
-    "source": "auto-gen",
-    "hits": 235,
-    "last_hit": "2026-06-21"
-  },
-  "gen": {
-    "skills": [
-      "p5js"
-    ],
-    "source": "auto-gen",
-    "hits": 259,
-    "last_hit": "2026-06-21"
-  },
-  "mini": {
-    "skills": [
-      "imagegen-frontend-web"
-    ],
-    "source": "auto-gen",
-    "hits": 211,
-    "last_hit": "2026-06-21"
-  },
-  "never": {
-    "skills": [
-      "canvas-design"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "always": {
-    "skills": [
-      "verification-before-completion"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "section": {
-    "skills": [
-      "zoom-out"
-    ],
-    "source": "auto-gen",
-    "hits": 213,
-    "last_hit": "2026-06-21"
-  },
-  "config": {
-    "skills": [
-      "canon-mnemonic-guard-dashboard"
-    ],
-    "source": "auto-gen",
-    "hits": 234,
-    "last_hit": "2026-06-21"
-  },
-  "need": {
-    "skills": [
-      "peft-fine-tuning"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "trigger": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 209,
-    "last_hit": "2026-06-21"
-  },
-  "only": {
-    "skills": [
-      "design-taste-frontend-v1"
-    ],
-    "source": "auto-gen",
-    "hits": 288,
-    "last_hit": "2026-06-21"
-  },
-  "doing": {
-    "skills": [
-      "slack-gif-creator"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "needs": {
-    "skills": [
-      "code-simplifier"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "invoke": {
-    "skills": [
-      "\"trip-website-generator\""
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "call": {
-    "skills": [
-      "mcporter"
-    ],
-    "source": "auto-gen",
-    "hits": 292,
-    "last_hit": "2026-06-21"
-  },
-  "directly": {
-    "skills": [
-      "mcporter"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "type": {
-    "skills": [
-      "baoyu-article-illustrator"
-    ],
-    "source": "auto-gen",
-    "hits": 216,
-    "last_hit": "2026-06-21"
-  },
-  "configure": {
-    "skills": [
-      "hermes-agent"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "auth": {
-    "skills": [
-      "github-auth"
-    ],
-    "source": "auto-gen",
-    "hits": 210,
-    "last_hit": "2026-06-21"
-  },
-  "doc": {
-    "skills": [
-      "setup-matt-pocock-skills"
-    ],
-    "source": "auto-gen",
-    "hits": 235,
-    "last_hit": "2026-06-21"
-  },
-  "format": {
-    "skills": [
-      "adapt-skill-to-hermes"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "persistent": {
-    "skills": [
-      "plur-memory"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "sessions": {
-    "skills": [
-      "plur-memory"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "learning": {
-    "skills": [
-      "plur-memory"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "corrections": {
-    "skills": [
-      "plur-memory"
-    ],
-    "source": "auto-gen",
-    "hits": 209,
-    "last_hit": "2026-06-21"
-  },
-  "original": {
-    "skills": [
-      "algorithmic-art"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "cause": {
-    "skills": [
-      "systematic-debugging"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "smooth": {
-    "skills": [
-      "vercel-react-view-transitions"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "view": {
-    "skills": [
-      "canon-mnemonic-guard-dashboard"
-    ],
-    "source": "auto-gen",
-    "hits": 290,
-    "last_hit": "2026-06-21"
-  },
-  "flat": {
-    "skills": [
-      "minimalist-ui"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "merge": {
-    "skills": [
-      "finishing-a-development-branch"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "main": {
-    "skills": [
-      "paper-spine"
-    ],
-    "source": "auto-gen",
-    "hits": 241,
-    "last_hit": "2026-06-21"
-  },
-  "does": {
-    "skills": [
-      "imagegen-frontend-mobile"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "provider": {
-    "skills": [
-      "agent-s-deployment"
-    ],
-    "source": "auto-gen",
-    "hits": 209,
-    "last_hit": "2026-06-21"
-  },
-  "other": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 289,
-    "last_hit": "2026-06-21"
-  },
-  "give": {
-    "skills": [
-      "zoom-out"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "actions": {
-    "skills": [
-      "deploy-to-vercel"
-    ],
-    "source": "auto-gen",
-    "hits": 232,
-    "last_hit": "2026-06-21"
-  },
-  "starting": {
-    "skills": [
-      "using-git-worktrees"
-    ],
-    "source": "auto-gen",
-    "hits": 211,
-    "last_hit": "2026-06-21"
-  },
-  "exists": {
-    "skills": [
-      "using-git-worktrees"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "feature": {
-    "skills": [
-      "triage"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "save": {
-    "skills": [
-      "backup-skills-to-github"
-    ],
-    "source": "auto-gen",
-    "hits": 286,
-    "last_hit": "2026-06-21"
-  },
-  "three": {
-    "skills": [
-      "backup-skills-to-github"
-    ],
-    "source": "auto-gen",
-    "hits": 232,
-    "last_hit": "2026-06-21"
-  },
-  "modified": {
-    "skills": [
-      "code-simplifier"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "errors": {
-    "skills": [
-      "backup-skills-to-github"
-    ],
-    "source": "auto-gen",
-    "hits": 234,
-    "last_hit": "2026-06-21"
-  },
-  "env": {
-    "skills": [
-      "delegate-reasonix"
-    ],
-    "source": "auto-gen",
-    "hits": 235,
-    "last_hit": "2026-06-21"
-  },
-  "var": {
-    "skills": [
-      "delegate-reasonix"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "setup": {
-    "skills": [
-      "delegate-reasonix"
-    ],
-    "source": "auto-gen",
-    "hits": 232,
-    "last_hit": "2026-06-21"
-  },
-  "they": {
-    "skills": [
-      "pptx"
-    ],
-    "source": "auto-gen",
-    "hits": 287,
-    "last_hit": "2026-06-21"
-  },
-  "time": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 288,
-    "last_hit": "2026-06-21"
-  },
-  "even": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 211,
-    "last_hit": "2026-06-21"
-  },
-  "updating": {
-    "skills": [
-      "pptx"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "way": {
-    "skills": [
-      "pptx"
-    ],
-    "source": "auto-gen",
-    "hits": 265,
-    "last_hit": "2026-06-21"
-  },
-  "created": {
-    "skills": [
-      "pptx"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "templates": {
-    "skills": [
-      "powerpoint"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "will": {
-    "skills": [
-      "pptx"
-    ],
-    "source": "auto-gen",
-    "hits": 286,
-    "last_hit": "2026-06-21"
-  },
-  "blocks": {
-    "skills": [
-      "high-end-visual-design"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "look": {
-    "skills": [
-      "design-taste-frontend"
-    ],
-    "source": "auto-gen",
-    "hits": 211,
-    "last_hit": "2026-06-21"
-  },
-  "credentials": {
-    "skills": [
-      "xitter"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "end": {
-    "skills": [
-      "paper-spine"
-    ],
-    "source": "auto-gen",
-    "hits": 235,
-    "last_hit": "2026-06-21"
-  },
-  "point": {
-    "skills": [
-      "paper-spine"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "otherwise": {
-    "skills": [
-      "code-simplifier"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "exam": {
-    "skills": [
-      "survey"
-    ],
-    "source": "auto-gen",
-    "hits": 209,
-    "last_hit": "2026-06-21"
-  },
-  "capture": {
-    "skills": [
-      "survey"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "these": {
-    "skills": [
-      "theme-factory"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "artifact": {
-    "skills": [
-      "brand-guidelines"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "block": {
-    "skills": [
-      "setup-matt-pocock-skills"
-    ],
-    "source": "auto-gen",
-    "hits": 235,
-    "last_hit": "2026-06-21"
-  },
-  "know": {
-    "skills": [
-      "setup-matt-pocock-skills"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "pass": {
-    "skills": [
-      "finishing-a-development-branch"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "install": {
-    "skills": [
-      "comfyui"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "name": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 288,
-    "last_hit": "2026-06-21"
-  },
-  "era": {
-    "skills": [
-      "pixel-art"
-    ],
-    "source": "auto-gen",
-    "hits": 291,
-    "last_hit": "2026-06-21"
-  },
-  "refusals": {
-    "skills": [
-      "obliteratus"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "each": {
-    "skills": [
-      "grill-me"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "scale": {
-    "skills": [
-      "industrial-brutalist-ui"
-    ],
-    "source": "auto-gen",
-    "hits": 211,
-    "last_hit": "2026-06-21"
-  },
-  "embedding": {
-    "skills": [
-      "smart-skill-router"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "ppo": {
-    "skills": [
-      "fine-tuning-with-trl"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "right": {
-    "skills": [
-      "design-taste-frontend"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "fits": {
-    "skills": [
-      "zoom-out"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "bundle": {
-    "skills": [
-      "vercel-react-best-practices"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "direct": {
-    "skills": [
-      "comfyui"
-    ],
-    "source": "auto-gen",
-    "hits": 234,
-    "last_hit": "2026-06-21"
-  },
-  "repl": {
-    "skills": [
-      "python-debugpy"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "static": {
-    "skills": [
-      "canvas-design"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "path": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 232,
-    "last_hit": "2026-06-21"
-  },
-  "produced": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "script": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 233,
-    "last_hit": "2026-06-21"
-  },
-  "rows": {
-    "skills": [
-      "xlsx"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
-  },
-  "benefit": {
-    "skills": [
-      "brand-guidelines"
-    ],
-    "source": "auto-gen",
-    "hits": 208,
-    "last_hit": "2026-06-21"
-  },
-  "less": {
-    "skills": [
-      "unsloth"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "fixed": {
-    "skills": [
-      "verification-before-completion"
-    ],
-    "source": "auto-gen",
-    "hits": 230,
-    "last_hit": "2026-06-21"
-  },
-  "claim": {
-    "skills": [
-      "verification-before-completion"
-    ],
-    "source": "auto-gen",
-    "hits": 231,
-    "last_hit": "2026-06-21"
+    "domain": "code-quality",
+    "hits": 1,
+    "last_hit": "2026-07-25"
+  },
+  "Reviewtheconversationaboveandu": {
+    "keywords": [
+      "reviewtheconversationaboveandu"
+    ],
+    "phases": [
+      "DISCOVER",
+      "PLAN",
+      "BUILD"
+    ],
+    "hits": 3,
+    "last_hit": "2026-09-08",
+    "source": "auto"
+  },
+  "TheuserattachedanimageHereswha": {
+    "keywords": [
+      "theuserattachedanimagehereswha"
+    ],
+    "phases": [
+      "VERIFY",
+      "DISCOVER"
+    ],
+    "hits": 3,
+    "last_hit": "2026-08-09",
+    "source": "auto"
+  },
+  "Reviewtheconversationaboveandc": {
+    "keywords": [
+      "reviewtheconversationaboveandc"
+    ],
+    "phases": [
+      "DISCOVER",
+      "PLAN"
+    ],
+    "hits": 3,
+    "last_hit": "2026-08-21",
+    "source": "auto"
+  },
+  "IMPORTANTBackgroundprocessproc": {
+    "keywords": [
+      "importantbackgroundprocessproc"
+    ],
+    "phases": [
+      "BUILD",
+      "PLAN"
+    ],
+    "hits": 3,
+    "last_hit": "2026-08-07",
+    "source": "auto"
+  },
+  "UserattachedfileUsersholiday_h": {
+    "keywords": [
+      "userattachedfileusersholiday_h"
+    ],
+    "phases": [
+      "DISCOVER",
+      "PLAN"
+    ],
+    "hits": 3,
+    "last_hit": "2026-08-21",
+    "source": "auto"
+  },
+  "sudocodesignforcesignApplicati": {
+    "keywords": [
+      "sudocodesignforcesignapplicati"
+    ],
+    "phases": [
+      "VERIFY",
+      "PLAN",
+      "BUILD"
+    ],
+    "hits": 3,
+    "last_hit": "2026-08-08",
+    "source": "auto"
+  },
+  "IMPORTANTTheuserhasinvokedtheu": {
+    "keywords": [
+      "importanttheuserhasinvokedtheu"
+    ],
+    "phases": [
+      "DISCOVER",
+      "PLAN"
+    ],
+    "hits": 3,
+    "last_hit": "2026-09-16",
+    "source": "auto"
+  },
+  "IMPORTANTYouarerunningasasched": {
+    "keywords": [
+      "importantyouarerunningasasched"
+    ],
+    "phases": [
+      "VERIFY",
+      "ANALYZE",
+      "SEARCH"
+    ],
+    "hits": 3,
+    "last_hit": "2026-09-16",
+    "source": "auto"
   }
 }

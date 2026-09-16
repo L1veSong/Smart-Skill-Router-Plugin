@@ -32,6 +32,18 @@
     "training_languages": ["zh", "en", "multilingual"],
     "install_cmd": "curl -L -o ~/Downloads/bge-m3-q4_k_m.gguf \"https://hf-mirror.com/groonga/bge-m3-Q4_K_M-GGUF/resolve/main/bge-m3-q4_k_m.gguf\" && ollama create bge-m3 -f <(echo \"FROM ~/Downloads/bge-m3-q4_k_m.gguf\")"
   },
+  "Qwen3-Embedding-8B": {
+    "dimension": 4096,
+    "size_mb": 0,
+    "chinese_score": 5,
+    "english_score": 5,
+    "overall": 5,
+    "scenario_en": "Top-tier multilingual via SiliconFlow API",
+    "scenario_zh": "顶级多语言（硅基流动 API）",
+    "training_languages": ["zh", "en", "multilingual"],
+    "calibrated_floor": 0.58,
+    "install_cmd": ""
+  },
   "nomic-embed-text": {
     "dimension": 768,
     "size_mb": 146,
