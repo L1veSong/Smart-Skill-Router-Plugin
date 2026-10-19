@@ -1,0 +1,29 @@
+{
+  "_note": "本文件由 2026-06-24 会话生成。6条新 video+weather skill 的 A 层规则草稿，等待合并到 a_rules.json。自循环将在 B 层累积 3 次命中后自动升级，此文件作为备用。",
+  "rules": {
+    "做(个|一段|一个).*(视频|宣传片|动画|短片|MV)": {
+      "skills": [{"name": "hyperframes", "phase": "BUILD"}],
+      "note": "视频制作 → HyperFrames"
+    },
+    "剪(这个|一段|一下).*(视频|素材|vlog|采访|片段)": {
+      "skills": [{"name": "video-use", "phase": "BUILD"}],
+      "note": "视频剪辑 → video-use"
+    },
+    "(数学|科学|定理|公式|证明|几何).*动画": {
+      "skills": [{"name": "manim-skill", "phase": "BUILD"}],
+      "note": "数学动画 → manim"
+    },
+    "(短视频|Short|Reel|TikTok).*(生成|一键|自动)": {
+      "skills": [{"name": "pixelle-video", "phase": "BUILD"}],
+      "note": "中文短视频 → Pixelle-Video"
+    },
+    "(React|组件|remotion).*视频": {
+      "skills": [{"name": "remotion", "phase": "BUILD"}],
+      "note": "React 视频 → Remotion"
+    },
+    "(和风|qweather).*天气": {
+      "skills": [{"name": "travel-data-apis", "phase": "BUILD"}],
+      "note": "和风天气 → travel-data-apis"
+    }
+  }
+}
