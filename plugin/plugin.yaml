@@ -1,7 +1,7 @@
 name: ssr
-version: "3.0.2"
+version: "3.0.1"
 description: |
-  智配技能路由插件 (Smart Skill Router Plugin) v3.0.2
+  智配技能路由插件 (Smart Skill Router Plugin) v3.0.1
   关键词解耦(规则运行时匹配·不硬编码 skill 名；MoE 域路由)。
   噪音白名单→embedding→LLM统一决策(意图+匹配,1次调用)。准确率80%+。
   三层漏斗: keyword(高召回) + embedding(高精准) → LLM(语境理解)。

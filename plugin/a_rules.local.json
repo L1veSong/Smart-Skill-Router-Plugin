@@ -1,0 +1,123 @@
+{
+  "小红书|xiaohongshu|RED.*book|rednote": {
+    "skills": [
+      {
+        "name": "social-media-crawler",
+        "phase": "FETCH"
+      },
+      {
+        "name": "agent-reach",
+        "phase": "FETCH"
+      }
+    ],
+    "keywords": [
+      "小红书",
+      "xiaohongshu",
+      "红书"
+    ],
+    "phases": [
+      "FETCH"
+    ]
+  },
+  "查.*(信息|内容|资料)|搜索.*(内容|信息|自媒体|社交)": {
+    "keywords": [
+      "agent-reach",
+      "web",
+      "search",
+      "content",
+      "search",
+      "research",
+      "deep"
+    ],
+    "phases": [
+      "DISCOVER"
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual"
+  },
+  "自媒体|社交.*(内容|平台|媒体)|content.*(creator|creation|platform)": {
+    "keywords": [
+      "agent-reach",
+      "web",
+      "content",
+      "social",
+      "media",
+      "crawl",
+      "search",
+      "xitter"
+    ],
+    "phases": [
+      "DISCOVER"
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual"
+  },
+  "机票|飞机票|航班|订.*飞|机票.*订|air.*ticket|flight.*book": {
+    "keywords": [
+      "travel",
+      "trip",
+      "flight",
+      "机票",
+      "air",
+      "book",
+      "plan",
+      "road"
+    ],
+    "phases": [
+      "DISCOVER"
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual"
+  },
+  "高铁|火车票|动车|订.*火车|train.*ticket|railway": {
+    "keywords": [
+      "travel",
+      "trip",
+      "train",
+      "高铁",
+      "railway",
+      "book",
+      "plan"
+    ],
+    "phases": [
+      "DISCOVER"
+    ],
+    "hits": 0,
+    "last_hit": "",
+    "source": "manual"
+  },
+  "douyin\\.com/video|v\\.douyin\\.com|抖音|dy-video": {
+    "skills": [
+      {
+        "name": "social-media-crawler",
+        "phase": "FETCH"
+      },
+      {
+        "name": "agent-reach",
+        "phase": "FETCH"
+      }
+    ],
+    "keywords": [
+      "抖音",
+      "douyin",
+      "视频"
+    ],
+    "phases": [
+      "FETCH"
+    ]
+  },
+  "(xiaohongshu\\.com|douyin\\.com|v\\.douyin\\.com|bilibili\\.com)/": {
+    "skills": [],
+    "keywords": [
+      "社交媒体",
+      "链接",
+      "share"
+    ],
+    "phases": [
+      "FETCH"
+    ]
+  }
+}

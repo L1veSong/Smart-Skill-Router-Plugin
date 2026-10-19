@@ -1,12 +1,11 @@
 """
-智配路由 (SSR) — Smart Skill Router Plugin v3.0.2
+智配路由 (SSR) — Smart Skill Router Plugin v3.0.1
 
 自动匹配用户意图到最合适的 skill 并推荐加载。
 A 层（Embedding 语义匹配）+ B 层（LLM 语义匹配，多后端可选）。
 支持 main / openai / ollama / lmstudio / llamacpp 五种后端。
 自学习升级 + Dashboard 可视化管理 + 推荐模式。
 
-v3.0.2 (2026-09-20): 索引排除 dot 目录——.archive 幽灵 skill 不再进入索引/embedding/推荐（审计实锤修复）。
 v3.0.1 (2026-09-15): gateway 启动死锁修复——一次性索引+缓存（O(树)），替代每 skill 全树扫描。
 v3.0.0 (2026-07-23):
   - MoE 架构：路由层 + skills直推 + 域过滤
@@ -50,29 +49,6 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
-
-
-# ---------------------------------------------------------------------------
-# 本机请求必须绕过代理（2026-10-08 修复）
-# ---------------------------------------------------------------------------
-# 环境里设了 HTTP_PROXY/HTTPS_PROXY/ALL_PROXY 时，httpx 默认 trust_env=True，
-# 连 http://127.0.0.1:11434（Ollama）的请求也会被送到代理，代理回 503，
-# 导致 embedding 全批失败（日志：ok=0 fail=170 last_error=503 .../api/embeddings）。
-# 这里在模块加载时把本机地址补进 NO_PROXY；httpx 每次请求都会读该变量，
-# 因此对共享 client 和模块级 httpx.post 同时生效。
-def _ensure_localhost_no_proxy() -> None:
-    hosts = ("localhost", "127.0.0.1", "::1")
-    for var in ("NO_PROXY", "no_proxy"):
-        parts = [p.strip() for p in os.environ.get(var, "").split(",") if p.strip()]
-        added = [h for h in hosts if h not in parts]
-        if added:
-            os.environ[var] = ",".join(parts + added)
-
-
-try:
-    _ensure_localhost_no_proxy()
-except Exception:  # 绝不因为环境变量问题拖垮插件加载
-    logger.debug("[ssr] 补 NO_PROXY 失败", exc_info=True)
 
 # ---------------------------------------------------------------------------
 # 常量
@@ -563,10 +539,6 @@ def _build_skill_md_index() -> Dict[str, Path]:
             if not base.exists():
                 continue
             for skill_md in base.rglob("SKILL.md"):
-                # v3.0.2: dot 目录（.archive/.curator_backups/.hub/.git 等）不是可加载 skill；
-                # 此前被扫入索引 → embedding 池出现"幽灵 skill"并被推荐（2026-09-20 审计实锤）。
-                if any(part.startswith(".") for part in skill_md.relative_to(base).parts[:-1]):
-                    continue
                 try:
                     for line in skill_md.read_text().split("\n"):
                         if line.startswith("name:"):

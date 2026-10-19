@@ -1,7 +1,7 @@
 """
-SSR Dashboard v3.0.2 — A 层规则 + B 层配置管理
+SSR Dashboard v3.0.1 — A 层规则 + B 层配置管理
 启动: python3 ~/.hermes/plugins/ssr/dashboard.py
-端口: 8768
+端口: 8769
 """
 import json
 from pathlib import Path
@@ -279,23 +279,13 @@ class SSRHandler(BaseHTTPRequestHandler):
             if not pat:
                 self._json({"ok": False, "error": "pattern required"}, 400)
                 return
-            entry = {
+            rules[pat] = {
                 "skills": body.get("skills", []),
                 "hits": 0, "last_hit": "", "source": "manual", "priority": 10,
             }
-            if body.get("phases"):
-                entry["phases"] = body["phases"]
-            rules[pat] = entry
             save_rules(rules)
             self._json({"ok": True, "count": len(rules)})
         elif self.path == "/api/rules/reset":
-            # 重置前自动备份 a_rules.json（2026-09-20）
-            try:
-                import shutil, time
-                if RULES_PATH.exists():
-                    shutil.copy2(RULES_PATH, str(RULES_PATH) + ".bak." + time.strftime("%m%d%H%M"))
-            except Exception:
-                pass
             save_rules({})
             self._json({"ok": True})
         elif self.path == "/api/config":
@@ -323,7 +313,7 @@ class SSRHandler(BaseHTTPRequestHandler):
                 return
             new_pat = body.get("pattern", old_pat)
             rule = rules.pop(old_pat)
-            for k in ("skills", "phases", "hits", "last_hit", "source", "priority"):
+            for k in ("skills", "hits", "last_hit", "source", "priority"):
                 if k in body:
                     rule[k] = body[k]
             rules[new_pat] = rule
@@ -389,7 +379,7 @@ def _run_benchmark(mode="all") -> dict:
         return {"ok": False, "error": str(e)}
 
 
-def start(port=8768):
+def start(port=8769):
     server = HTTPServer(("127.0.0.1", port), SSRHandler)
     print(f"SSR Dashboard → http://localhost:{port}")
     server.serve_forever()
