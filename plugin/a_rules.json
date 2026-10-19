@@ -1,146 +1,19 @@
 {
-  "(?i)(机票|飞.*航班|飞.*过去|航班|酒店|住.*地方|住宿|订.*房|订.*酒店)": {
-    "source": "manual",
-    "phases": [
-      "SEARCH"
-    ],
+  "小红书|xiaohongshu|RED.*book|rednote": {
     "skills": [
       {
-        "name": "travel-api",
-        "phase": "SEARCH"
+        "name": "agent-reach",
+        "phase": "FETCH"
       }
     ],
-    "domain": "travel",
-    "hits": 12,
-    "last_hit": "2026-08-21"
-  },
-  "(?i)(天气|冷不冷|热不热|下雨|下雪|温度|气温|带.*衣服|穿.*什么)": {
-    "source": "manual",
+    "keywords": [
+      "小红书",
+      "xiaohongshu",
+      "红书"
+    ],
     "phases": [
-      "SEARCH"
-    ],
-    "skills": [
-      {
-        "name": "travel-api",
-        "phase": "SEARCH"
-      }
-    ],
-    "domain": "travel"
-  },
-  "(?i)(旅行.*(?:网站|网页|html)|行程.*(?:网站|网页|html))": {
-    "source": "manual",
-    "phases": [
-      "CREATE"
-    ],
-    "skills": [
-      {
-        "name": "travel-itinerary-html",
-        "phase": "CREATE"
-      }
-    ],
-    "domain": "travel"
-  },
-  "(?i)(论文|paper|academic|sci|nature|润色|学术.*写)": {
-    "source": "manual",
-    "phases": [
-      "CREATE"
-    ],
-    "skills": [
-      {
-        "name": "nature-writing",
-        "phase": "CREATE"
-      },
-      {
-        "name": "nature-polishing",
-        "phase": "CREATE"
-      }
-    ],
-    "domain": "writing",
-    "hits": 4,
-    "last_hit": "2026-08-07"
-  },
-  "(?i)(文笔|写作.*规范|文书|prose)": {
-    "source": "manual",
-    "phases": [
-      "REVIEW"
-    ],
-    "skills": [
-      {
-        "name": "nature-polishing",
-        "phase": "CREATE"
-      },
-      {
-        "name": "nature-writing",
-        "phase": "CREATE"
-      }
-    ],
-    "domain": "writing",
-    "hits": 57,
-    "last_hit": "2026-08-07"
-  },
-  "(?i)(画.*地图|做.*地图|地图.*可视|svg.*地图|geo.*map|省份.*地图)": {
-    "source": "manual",
-    "phases": [
-      "CREATE"
-    ],
-    "skills": [
-      {
-        "name": "svg-geo-map",
-        "phase": "CREATE"
-      }
-    ],
-    "domain": "map",
-    "hits": 1,
-    "last_hit": "2026-08-04"
-  },
-  "(?i)(玩.*几天|去哪.*玩|想去.*玩|旅游|旅行|行程|攻略(?!.*网页)|路线|假期.*去|周.*去|假期|转转|出去.*转|安排.*几天|安排.*行程)": {
-    "source": "manual",
-    "phases": [
-      "PLAN"
-    ],
-    "skills": [
-      {
-        "name": "travel-plan-html-editor",
-        "phase": "PLAN"
-      }
-    ],
-    "domain": "travel",
-    "hits": 12,
-    "last_hit": "2026-08-26"
-  },
-  "(?i)(写.*文章|写.*稿|写篇|出.*稿|长文|公众号)": {
-    "source": "manual",
-    "phases": [
-      "CREATE"
-    ],
-    "skills": [
-      {
-        "name": "khazix-writer",
-        "phase": "CREATE"
-      }
-    ],
-    "domain": "writing",
-    "hits": 6,
-    "last_hit": "2026-08-06"
-  },
-  "(?i)(磁盘|存储.*空间|清理.*垃圾|清.*垃圾|清了|满了|不够了|空间.*不够)": {
-    "source": "manual",
-    "phases": [
-      "MAINTAIN"
-    ],
-    "skills": [
-      {
-        "name": "storage-analyzer",
-        "phase": "EXECUTE"
-      },
-      {
-        "name": "macos-disk-cleanup",
-        "phase": "EXECUTE"
-      }
-    ],
-    "domain": "storage",
-    "hits": 4,
-    "last_hit": "2026-09-08"
+      "FETCH"
+    ]
   },
   "查.*(信息|内容|资料)|搜索.*(内容|信息|自媒体|社交)": {
     "keywords": [
@@ -211,6 +84,178 @@
     "hits": 0,
     "last_hit": "",
     "source": "manual"
+  },
+  "douyin\\.com/video|v\\.douyin\\.com|抖音|dy-video": {
+    "skills": [
+      {
+        "name": "agent-reach",
+        "phase": "FETCH"
+      }
+    ],
+    "keywords": [
+      "抖音",
+      "douyin",
+      "视频"
+    ],
+    "phases": [
+      "FETCH"
+    ]
+  },
+  "(xiaohongshu\\.com|douyin\\.com|v\\.douyin\\.com|bilibili\\.com)/": {
+    "skills": [],
+    "keywords": [
+      "社交媒体",
+      "链接",
+      "share"
+    ],
+    "phases": [
+      "FETCH"
+    ]
+  },
+  "(?i)(机票|飞.*航班|飞.*过去|航班|酒店|住.*地方|住宿|订.*房|订.*酒店)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "travel-api",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "travel",
+    "hits": 12,
+    "last_hit": "2026-08-21"
+  },
+  "(?i)(天气|冷不冷|热不热|下雨|下雪|温度|气温|带.*衣服|穿.*什么)": {
+    "source": "manual",
+    "phases": [
+      "SEARCH"
+    ],
+    "skills": [
+      {
+        "name": "travel-api",
+        "phase": "SEARCH"
+      }
+    ],
+    "domain": "travel",
+    "hits": 313,
+    "last_hit": "2026-10-18"
+  },
+  "(?i)(旅行.*(?:网站|网页|html)|行程.*(?:网站|网页|html))": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "travel-itinerary-html",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "travel"
+  },
+  "(?i)(论文|paper|academic|sci|nature|润色|学术.*写)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "nature-writing",
+        "phase": "CREATE"
+      },
+      {
+        "name": "nature-polishing",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "writing",
+    "hits": 458,
+    "last_hit": "2026-10-18"
+  },
+  "(?i)(文笔|写作.*规范|文书|prose)": {
+    "source": "manual",
+    "phases": [
+      "REVIEW"
+    ],
+    "skills": [
+      {
+        "name": "nature-polishing",
+        "phase": "CREATE"
+      },
+      {
+        "name": "nature-writing",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "writing",
+    "hits": 57,
+    "last_hit": "2026-08-07"
+  },
+  "(?i)(画.*地图|做.*地图|地图.*可视|svg.*地图|geo.*map|省份.*地图)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "svg-geo-map",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "map",
+    "hits": 1,
+    "last_hit": "2026-08-04"
+  },
+  "(?i)(玩.*几天|去哪.*玩|想去.*玩|旅游|旅行|行程|攻略(?!.*网页)|路线|假期.*去|周.*去|假期|转转|出去.*转|安排.*几天|安排.*行程)": {
+    "source": "manual",
+    "phases": [
+      "PLAN"
+    ],
+    "skills": [
+      {
+        "name": "travel-plan-html-editor",
+        "phase": "PLAN"
+      }
+    ],
+    "domain": "travel",
+    "hits": 335,
+    "last_hit": "2026-10-18"
+  },
+  "(?i)(写.*文章|写.*稿|写篇|出.*稿|长文|公众号)": {
+    "source": "manual",
+    "phases": [
+      "CREATE"
+    ],
+    "skills": [
+      {
+        "name": "khazix-writer",
+        "phase": "CREATE"
+      }
+    ],
+    "domain": "writing",
+    "hits": 6,
+    "last_hit": "2026-08-06"
+  },
+  "(?i)(磁盘|存储.*空间|清理.*垃圾|清.*垃圾|清了|满了|不够了|空间.*不够)": {
+    "source": "manual",
+    "phases": [
+      "MAINTAIN"
+    ],
+    "skills": [
+      {
+        "name": "storage-analyzer",
+        "phase": "EXECUTE"
+      },
+      {
+        "name": "macos-disk-cleanup",
+        "phase": "EXECUTE"
+      }
+    ],
+    "domain": "storage",
+    "hits": 4,
+    "last_hit": "2026-09-08"
   },
   "(?i)(短剧|故事板|storyboard|13镜|墨刑)": {
     "source": "manual",
@@ -314,8 +359,8 @@
       }
     ],
     "domain": "生图",
-    "hits": 25,
-    "last_hit": "2026-09-16"
+    "hits": 484,
+    "last_hit": "2026-10-18"
   },
   "(?i)(东方.*编辑|东方.*海报|东方.*美学|东方.*风格|编辑.*海报|文字.*极简|oriental|中国风|国风|中式)": {
     "source": "manual",
@@ -383,8 +428,8 @@
       }
     ],
     "domain": "docs",
-    "hits": 48,
-    "last_hit": "2026-09-16"
+    "hits": 511,
+    "last_hit": "2026-10-18"
   },
   "(?i)(excel|表格|电子表格|xlsx|csv|数据.*(?:表|报表|统计))": {
     "source": "manual",
@@ -398,8 +443,8 @@
       }
     ],
     "domain": "docs",
-    "hits": 26,
-    "last_hit": "2026-09-16"
+    "hits": 485,
+    "last_hit": "2026-10-18"
   },
   "(?i)(pdf|导出.*pdf|转.*pdf|合并.*pdf|拆分.*pdf)": {
     "source": "manual",
@@ -413,8 +458,8 @@
       }
     ],
     "domain": "docs",
-    "hits": 25,
-    "last_hit": "2026-09-16"
+    "hits": 484,
+    "last_hit": "2026-10-18"
   },
   "(?i)(脑暴|头脑风暴|想.*方案|设计.*方案|构思|先.*想|别.*急.*写|briainstorm)": {
     "source": "manual",
@@ -447,8 +492,8 @@
       }
     ],
     "domain": "planning",
-    "hits": 29,
-    "last_hit": "2026-09-16"
+    "hits": 488,
+    "last_hit": "2026-10-18"
   },
   "(?i)(测试|test|tdd|单元测试|先写.*测试|red.*green|pytest)": {
     "source": "manual",
@@ -466,8 +511,8 @@
       }
     ],
     "domain": "code-quality",
-    "hits": 287,
-    "last_hit": "2026-09-16"
+    "hits": 746,
+    "last_hit": "2026-10-18"
   },
   "(?i)(简化|重构|clean.*code|refactor|代码.*简化|simplify)": {
     "source": "manual",
@@ -555,8 +600,8 @@
       }
     ],
     "domain": "system",
-    "hits": 4,
-    "last_hit": "2026-09-15"
+    "hits": 8,
+    "last_hit": "2026-10-14"
   },
   "(?i)(找.*(?:设备|手机|mac|airpods|airtag)|find.*my|定位.*设备|设备.*在哪)": {
     "source": "manual",
@@ -673,8 +718,8 @@
       }
     ],
     "domain": "project",
-    "hits": 24,
-    "last_hit": "2026-09-16"
+    "hits": 487,
+    "last_hit": "2026-10-18"
   },
   "(?i)(prd|产品.*需求|需求.*文档|spec|to.*prd|规格.*书)": {
     "source": "manual",
@@ -688,8 +733,8 @@
       }
     ],
     "domain": "project",
-    "hits": 327,
-    "last_hit": "2026-09-16"
+    "hits": 790,
+    "last_hit": "2026-10-18"
   },
   "(?i)(并行|同时.*(?:做|跑|处理)|parallel|dispatch.*agent|多.*agent|subagent|委托.*(?:做|写|查))": {
     "source": "manual",
@@ -707,8 +752,8 @@
       }
     ],
     "domain": "agent",
-    "hits": 29,
-    "last_hit": "2026-09-16"
+    "hits": 488,
+    "last_hit": "2026-10-18"
   },
   "(?i)(TUI|terminal.*ui|终端.*界面|terminal.*widget|终端.*小部件)": {
     "source": "manual",
@@ -741,8 +786,8 @@
       }
     ],
     "domain": "system",
-    "hits": 6,
-    "last_hit": "2026-09-15"
+    "hits": 10,
+    "last_hit": "2026-10-14"
   },
   "(?i)(模型.*(?:配置|切换|provider)|model.*(?:config|switch|inspect)|换.*模型|模型.*(?:看|查|检查))": {
     "source": "manual",
@@ -756,8 +801,8 @@
       }
     ],
     "domain": "system",
-    "hits": 18,
-    "last_hit": "2026-09-16"
+    "hits": 481,
+    "last_hit": "2026-10-18"
   },
   "(?i)(本地.*模型|local.*llm|ollama|llama.*cpp|本地.*跑|本地.*推理|量化|gguf)": {
     "source": "manual",
@@ -775,8 +820,8 @@
       }
     ],
     "domain": "system",
-    "hits": 29,
-    "last_hit": "2026-09-16"
+    "hits": 492,
+    "last_hit": "2026-10-18"
   },
   "(?i)(便携|U盘|usb.*hermes|移动.*hermes|随身.*hermes|portable)": {
     "source": "manual",
@@ -873,8 +918,8 @@
       }
     ],
     "domain": "学术",
-    "hits": 32,
-    "last_hit": "2026-09-16"
+    "hits": 669,
+    "last_hit": "2026-10-18"
   },
   "(?i)(论文.*(?:图|figure|图表|插图)|scientific.*figure|nature.*figure)": {
     "source": "manual",
@@ -954,8 +999,8 @@
       }
     ],
     "domain": "部署",
-    "hits": 23,
-    "last_hit": "2026-09-16"
+    "hits": 482,
+    "last_hit": "2026-10-18"
   },
   "(?i)(prediction.*market|预测.*市场|bet|polymarket|事件.*交易)": {
     "source": "manual",
@@ -1011,8 +1056,8 @@
       }
     ],
     "domain": "通讯",
-    "hits": 2,
-    "last_hit": "2026-09-15"
+    "hits": 6,
+    "last_hit": "2026-10-14"
   },
   "(?i)(markdown|md.*文档|readme|文档.*生成|doc.*(?:生成|自动))": {
     "source": "manual",
@@ -1026,8 +1071,8 @@
       }
     ],
     "domain": "docs",
-    "hits": 8,
-    "last_hit": "2026-09-15"
+    "hits": 12,
+    "last_hit": "2026-10-14"
   },
   "(?i)(ocr|文字.*识别|图片.*转.*文字|扫描.*文字|提取.*文字)": {
     "source": "manual",
@@ -1101,8 +1146,8 @@
       }
     ],
     "domain": "code-quality",
-    "hits": 302,
-    "last_hit": "2026-09-15"
+    "hits": 306,
+    "last_hit": "2026-10-14"
   },
   "(?i)(minecraft|mc.*服务器|我的世界|mod.*(?:pack|整合)|curseforge)": {
     "source": "manual",
@@ -1266,8 +1311,8 @@
       }
     ],
     "domain": "设计",
-    "hits": 24,
-    "last_hit": "2026-09-16"
+    "hits": 483,
+    "last_hit": "2026-10-18"
   },
   "(?i)(洁癖|收.*尾|清理.*(?:会话|记忆|冗余)|neat.*freak|对齐.*规则)": {
     "source": "manual",
@@ -1281,8 +1326,8 @@
       }
     ],
     "domain": "storage",
-    "hits": 31,
-    "last_hit": "2026-09-16"
+    "hits": 490,
+    "last_hit": "2026-10-18"
   },
   "(?i)(验证.*(?:完成|结果|通过|正确|一下|是否)|verify.*(?:done|complete|pass|before)|确认.*(?:完成|交付|ok|没问题)|先.*验证.*再.*(?:提交|发布|交|说)|别.*直接.*交|check.*before.*(?:commit|submit|merge))": {
     "source": "manual",
@@ -1296,8 +1341,8 @@
       }
     ],
     "domain": "code-quality",
-    "hits": 25,
-    "last_hit": "2026-09-16"
+    "hits": 484,
+    "last_hit": "2026-10-18"
   },
   "(?i)(gif|动图|表情包|tenor|搞笑.*图|斗图|meme.*图)": {
     "source": "manual",
@@ -1440,8 +1485,8 @@
       }
     ],
     "domain": "通讯",
-    "hits": 2,
-    "last_hit": "2026-09-15"
+    "hits": 6,
+    "last_hit": "2026-10-14"
   },
   "(?i)(linear|issue.*track|项目管理.*工具|bug.*track|sprint)": {
     "source": "manual",
@@ -1483,8 +1528,8 @@
       }
     ],
     "domain": "code-quality",
-    "hits": 302,
-    "last_hit": "2026-09-15"
+    "hits": 306,
+    "last_hit": "2026-10-14"
   },
   "(?i)(多.*agent.*(?:整合|集成)|agent.*(?:架构|设计|框架)|multi.*agent|agent.*整合)": {
     "source": "manual",
@@ -1567,8 +1612,8 @@
       }
     ],
     "domain": "agent",
-    "hits": 25,
-    "last_hit": "2026-09-16"
+    "hits": 484,
+    "last_hit": "2026-10-18"
   },
   "(?i)(subagent|子.*agent|worker.*agent|spawn.*worker|子任务.*执行)": {
     "source": "manual",
@@ -1582,8 +1627,8 @@
       }
     ],
     "domain": "agent",
-    "hits": 23,
-    "last_hit": "2026-09-16"
+    "hits": 482,
+    "last_hit": "2026-10-18"
   },
   "(?i)(pokemon|宝可梦|口袋妖怪|精灵.*宝可梦|pokémon|showdown|宠物.*小精灵)": {
     "source": "manual",
@@ -1652,8 +1697,8 @@
       }
     ],
     "domain": "code-quality",
-    "hits": 26,
-    "last_hit": "2026-09-16"
+    "hits": 485,
+    "last_hit": "2026-10-18"
   },
   "(?i)(PPT.*(?:提取|转|导出|内容)|PDF.*(?:提取|转|导出|内容)|docx.*(?:提取|转|导出|内容)|文档.*(?:处理|转换|格式化))": {
     "source": "manual",
@@ -1827,8 +1872,8 @@
     ],
     "domain": "system",
     "_note": "intentionally empty: no matching skill installed",
-    "hits": 312,
-    "last_hit": "2026-09-16"
+    "hits": 775,
+    "last_hit": "2026-10-18"
   },
   "(?i)(/compact|/big|/clever|/caveman|/tdd|/brainstorm|TUI.*(?:命令|command|特殊)|slash.*command)": {
     "source": "manual",
@@ -1842,8 +1887,8 @@
       }
     ],
     "domain": "cli",
-    "hits": 3,
-    "last_hit": "2026-09-15"
+    "hits": 7,
+    "last_hit": "2026-10-14"
   },
   "(?i)(代码.*(?:行数|统计|计数|多少行)|loc.*count|count.*line|lines.*of.*code|recount)": {
     "source": "manual",
@@ -1857,8 +1902,8 @@
       }
     ],
     "domain": "code-quality",
-    "hits": 2,
-    "last_hit": "2026-09-08"
+    "hits": 348,
+    "last_hit": "2026-10-18"
   },
   "(?i)(agent.*s.*(?:deploy|部署|安装)|Simular.*AI.*agent|computer.*use.*agent.*部署|os.*agent.*部署)": {
     "source": "manual",
@@ -1872,8 +1917,8 @@
       }
     ],
     "domain": "agent",
-    "hits": 26,
-    "last_hit": "2026-09-16"
+    "hits": 489,
+    "last_hit": "2026-10-18"
   },
   "(?i)(skill.*(?:冲突|安全|兼容|检查|分析)|两个.*skill.*(?:一起|同时)|companion.*skill.*(?:safety|test|check))": {
     "source": "manual",
@@ -1888,8 +1933,8 @@
     ],
     "domain": "system",
     "_note": "intentionally empty: no matching skill installed",
-    "hits": 27,
-    "last_hit": "2026-09-16"
+    "hits": 486,
+    "last_hit": "2026-10-18"
   },
   "(?i)(知识库.*(?:管理|整理|搭建)|knowledge.*base.*(?:管理|组织|创建)|obsidian.*vault.*(?:管理|组织))": {
     "source": "manual",
@@ -1931,8 +1976,8 @@
       }
     ],
     "domain": "macos",
-    "hits": 3,
-    "last_hit": "2026-09-15"
+    "hits": 7,
+    "last_hit": "2026-10-14"
   },
   "(?i)(idea.*foundry|(?:创建|新建|建|做|搭|开).*(?:项目|project|App|应用|网站|工具|服务)(?!.*(?:[Mm]inecraft|server|服|MC|我的世界|宝可梦|pokemon|pokémon|游戏))|从零.*(?:建|做|搭|写)(?!.*(?:[Mm]inecraft|server|服|MC|我的世界|pokemon|游戏))|脚手架|项目.*(?:创建|初始化|init))": {
     "source": "manual",
@@ -1950,8 +1995,8 @@
       }
     ],
     "domain": "project",
-    "hits": 33,
-    "last_hit": "2026-09-16"
+    "hits": 620,
+    "last_hit": "2026-10-18"
   },
   "(?i)(写.*(?:新|一个|个).*skill|创建.*skill|skill.*(?:模板|创建|制作|编写|开发|author)|新建.*skill|做.*(?:新|一个).*skill)": {
     "source": "manual",
@@ -1965,8 +2010,8 @@
       }
     ],
     "domain": "system",
-    "hits": 31,
-    "last_hit": "2026-09-16"
+    "hits": 490,
+    "last_hit": "2026-10-18"
   },
   "(?i)(/(?:compact|big|clever|caveman|tdd|brainstorm)|slash.*command|TUI.*(?:命令|command|特殊))": {
     "source": "manual",
@@ -1980,8 +2025,8 @@
       }
     ],
     "domain": "cli",
-    "hits": 3,
-    "last_hit": "2026-09-15"
+    "hits": 7,
+    "last_hit": "2026-10-14"
   },
   "(?i)(吃什么|今天吃|今晚吃|美食|小吃|馆子|特色.*(?:美食|小吃)|名吃|好吃.*(?:店|馆|餐厅|推荐|攻略|清单|极了|死了|得很)|餐厅|饭店|美食.*(?:攻略|推荐|收集|清单))": {
     "source": "manual",
@@ -2204,8 +2249,8 @@
       }
     ],
     "domain": "business",
-    "hits": 24,
-    "last_hit": "2026-09-16"
+    "hits": 483,
+    "last_hit": "2026-10-18"
   },
   "(?i)(开头.*优化|开头.*怎么写|hook|前.*秒|黄金.*秒|开头.*抓|短视频.*开头|怎么.*开头)": {
     "source": "manual",
@@ -2219,8 +2264,8 @@
       }
     ],
     "domain": "business",
-    "hits": 24,
-    "last_hit": "2026-09-16"
+    "hits": 483,
+    "last_hit": "2026-10-18"
   },
   "(?i)(小红书.*标题|起.*标题|标题.*公式|标题.*怎么|文案.*标题|xhs.*title|爆款.*标题)": {
     "source": "manual",
@@ -2320,8 +2365,8 @@
       }
     ],
     "domain": "business",
-    "hits": 26,
-    "last_hit": "2026-09-16"
+    "hits": 485,
+    "last_hit": "2026-10-18"
   },
   "(?i)(决策.*记录|决策.*跟踪|复盘.*决策|记.*决策|决策.*系统|长期.*记录|回填.*结果)": {
     "source": "manual",
@@ -2335,8 +2380,8 @@
       }
     ],
     "domain": "business",
-    "hits": 24,
-    "last_hit": "2026-09-16"
+    "hits": 483,
+    "last_hit": "2026-10-18"
   },
   "(?i)(知识库|知识.*管理|文件夹.*知识|资料.*整理|知识.*导航|知识.*系统|knowledge.*base|本地.*资料|资料.*归档)": {
     "source": "manual",
@@ -2350,8 +2395,8 @@
       }
     ],
     "domain": "business",
-    "hits": 47,
-    "last_hit": "2026-09-16"
+    "hits": 506,
+    "last_hit": "2026-10-18"
   },
   "(?i)(内容.*资产|内容.*系统|内容.*工程|content.*system|内容.*结构|内容.*管理|内容.*仓库|素材.*管理)": {
     "source": "manual",
@@ -2365,8 +2410,8 @@
       }
     ],
     "domain": "business",
-    "hits": 26,
-    "last_hit": "2026-09-16"
+    "hits": 485,
+    "last_hit": "2026-10-18"
   },
   "(?i)(存档|保存.*状态|记下来.*留着|restore|恢复.*存档|接着.*上次|出.*报告|打包.*报告|整理.*报告)": {
     "source": "manual",
@@ -2407,8 +2452,8 @@
       }
     ],
     "domain": "business",
-    "hits": 23,
-    "last_hit": "2026-09-16"
+    "hits": 482,
+    "last_hit": "2026-10-18"
   },
   "(?i)(公众号.*排版|公众号.*html|微信.*排版|公众号.*格式|微信.*html|公众号.*版)": {
     "source": "manual",
@@ -2461,8 +2506,8 @@
       }
     ],
     "domain": "business",
-    "hits": 24,
-    "last_hit": "2026-09-16"
+    "hits": 483,
+    "last_hit": "2026-10-18"
   },
   "(?i)(文稿.*共鸣|文稿.*诊断|没.*戳中|全面.*但|resonate|没.*刺中)": {
     "source": "manual",
@@ -2489,8 +2534,8 @@
       }
     ],
     "domain": "business",
-    "hits": 24,
-    "last_hit": "2026-09-16"
+    "hits": 483,
+    "last_hit": "2026-10-18"
   },
   "(?i)(系统.*学习|交互.*学习|连续.*学|带我.*学|learning.*mode|写.*课|课程.*生成)": {
     "source": "manual",
@@ -2637,8 +2682,8 @@
         "phase": "CREATE"
       }
     ],
-    "hits": 25,
-    "last_hit": "2026-09-16"
+    "hits": 484,
+    "last_hit": "2026-10-18"
   },
   "(?i)(续写|连载|更新.*章节|写.*第.*章|下一章|章纲|卷纲|大纲.*搭建|人物.*设定|角色.*设定|世界观.*设定)": {
     "source": "manual",
@@ -2652,8 +2697,8 @@
         "phase": "CREATE"
       }
     ],
-    "hits": 32,
-    "last_hit": "2026-08-07"
+    "hits": 374,
+    "last_hit": "2026-10-18"
   },
   "(?i)(番茄.*小说|起点.*中文|晋江|知乎.*盐|七猫|刺猬猫|投稿.*平台|网文.*平台|写作.*助手)": {
     "source": "manual",
@@ -2720,8 +2765,8 @@
         "phase": "SEARCH"
       }
     ],
-    "hits": 333,
-    "last_hit": "2026-09-16"
+    "hits": 970,
+    "last_hit": "2026-10-18"
   },
   "(?i)(高级.*设计|high.*end.*design|设计.*咨询|design.*consult|设计.*猎枪|design.*shotgun)": {
     "source": "manual",
@@ -3250,8 +3295,8 @@
         "phase": "COMMUNICATE"
       }
     ],
-    "hits": 2,
-    "last_hit": "2026-09-15"
+    "hits": 6,
+    "last_hit": "2026-10-14"
   },
   "(?i)(地图|geocode|poi|导航|路线.*规划|maps|osm)": {
     "source": "manual",
@@ -3265,8 +3310,8 @@
         "phase": "SEARCH"
       }
     ],
-    "hits": 2,
-    "last_hit": "2026-08-04"
+    "hits": 325,
+    "last_hit": "2026-10-18"
   },
   "(?i)(arxiv|搜索.*论文|论文.*检索|学术.*搜索|文献.*检索)": {
     "source": "manual",
@@ -3304,57 +3349,6 @@
       }
     ]
   },
-  "小红书|xiaohongshu|RED.*book|rednote": {
-    "skills": [
-      {
-        "name": "social-media-crawler",
-        "phase": "FETCH"
-      },
-      {
-        "name": "agent-reach",
-        "phase": "FETCH"
-      }
-    ],
-    "keywords": [
-      "小红书",
-      "xiaohongshu",
-      "红书"
-    ],
-    "phases": [
-      "FETCH"
-    ]
-  },
-  "douyin\\.com/video|v\\.douyin\\.com|抖音|dy-video": {
-    "skills": [
-      {
-        "name": "social-media-crawler",
-        "phase": "FETCH"
-      },
-      {
-        "name": "agent-reach",
-        "phase": "FETCH"
-      }
-    ],
-    "keywords": [
-      "抖音",
-      "douyin",
-      "视频"
-    ],
-    "phases": [
-      "FETCH"
-    ]
-  },
-  "(xiaohongshu\\.com|douyin\\.com|v\\.douyin\\.com|bilibili\\.com)/": {
-    "skills": [],
-    "keywords": [
-      "社交媒体",
-      "链接",
-      "share"
-    ],
-    "phases": [
-      "FETCH"
-    ]
-  },
   "(?i)(code.*review.*diff|审查.*代码.*改动|review.*PR.*code|code.*review.*standard)": {
     "source": "manual",
     "phases": [
@@ -3380,8 +3374,8 @@
       }
     ],
     "domain": "dev",
-    "hits": 247,
-    "last_hit": "2026-09-15"
+    "hits": 251,
+    "last_hit": "2026-10-14"
   },
   "(?i)(domain.*model|领域.*模型|ubiquitous.*language|通用.*语言)": {
     "source": "manual",
@@ -3492,8 +3486,8 @@
       }
     ],
     "domain": "dev",
-    "hits": 25,
-    "last_hit": "2026-09-16"
+    "hits": 484,
+    "last_hit": "2026-10-18"
   },
   "(?i)(refactor.*plan|重构.*计划|request.*refactor|申请.*重构)": {
     "source": "manual",
@@ -3681,8 +3675,8 @@
       }
     ],
     "domain": "dev",
-    "hits": 34,
-    "last_hit": "2026-09-16"
+    "hits": 497,
+    "last_hit": "2026-10-18"
   },
   "(?i)(收到.*审查|review.*feedback|审查.*意见|code.*review.*comment|处理.*审查|别人.*提.*意见)": {
     "source": "manual",
@@ -3826,8 +3820,8 @@
       }
     ],
     "domain": "dev",
-    "hits": 3,
-    "last_hit": "2026-09-15"
+    "hits": 7,
+    "last_hit": "2026-10-14"
   },
   "(?i)(webapp.*test|playwright.*test|网页.*测试|browser.*test|e2e.*test)": {
     "source": "manual",
@@ -3907,52 +3901,6 @@
     ],
     "domain": "design"
   },
-  "(?i)(oh-story|oh story|拆文分析|拆文.*分析|ohstory)": {
-    "skills": [
-      {
-        "name": "claude-code",
-        "phase": "SEARCH"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 20,
-    "last_hit": "2026-08-06"
-  },
-  "(?i)(chinese-novelist|chinese novelist|中文网文|中国网文|中式.*网文)": {
-    "skills": [
-      {
-        "name": "claude-code",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 1,
-    "last_hit": "2026-07-26"
-  },
-  "(?i)(webnovel-writer|webnovel writer|网文写作|网文.*创作|写网文)": {
-    "skills": [
-      {
-        "name": "claude-code",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
-  "(?i)(originkit|origin kit|origin-kit|组件库.*浏览|列出.*组件|搜索.*组件|originkit.*组件)": {
-    "skills": [
-      {
-        "name": "originkit",
-        "phase": "BUILD"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
   "(?i)(做.*计划|写.*计划|plan|规划.*方案|实施.*计划|执行.*计划|task.*plan|action.*plan)": {
     "skills": [
       {
@@ -3962,8 +3910,8 @@
     ],
     "source": "auto",
     "priority": 1,
-    "hits": 37,
-    "last_hit": "2026-09-16"
+    "hits": 500,
+    "last_hit": "2026-10-18"
   },
   "(?i)(ralph|ralph-loop|闭环|自动.*循环|ralph.*loop|loop.*me)": {
     "skills": [
@@ -3974,8 +3922,8 @@
     ],
     "source": "auto",
     "priority": 1,
-    "hits": 38,
-    "last_hit": "2026-09-16"
+    "hits": 497,
+    "last_hit": "2026-10-18"
   },
   "(?i)(旅行|旅游|机票|酒店.*预订|高铁.*票|火车.*票|航班|住宿|自驾|攻略|行程|去哪儿|玩.*几天)": {
     "skills": [
@@ -3998,32 +3946,8 @@
     ],
     "source": "auto",
     "priority": 1,
-    "hits": 460,
-    "last_hit": "2026-09-16"
-  },
-  "(?i)(remotion|视频.*编辑|视频.*制作|视频.*生成|渲染.*视频|remotion.*render)": {
-    "skills": [
-      {
-        "name": "remotion",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 1,
-    "last_hit": "2026-07-26"
-  },
-  "(?i)(imessage|iMessage|发短信|发.*iMessage|苹果.*短信|mac.*短信|imessage.*发送)": {
-    "skills": [
-      {
-        "name": "imessage",
-        "phase": "BUILD"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 2,
-    "last_hit": "2026-08-12"
+    "hits": 1097,
+    "last_hit": "2026-10-18"
   },
   "(?i)(finesse|finesse-ui|用.*finesse|finesse.*设计|高级.*UI|品牌.*站|landing.*page.*设计)": {
     "skills": [
@@ -4110,102 +4034,14 @@
     ],
     "source": "auto",
     "priority": 1,
-    "hits": 18,
-    "last_hit": "2026-09-16"
-  },
-  "(?i)(橙星梦工厂|funai|fun\\.tv|ai\\.fun|漫剧.*创作|漫画.*生成|AI.*漫剧)": {
-    "skills": [
-      {
-        "name": "funai-skill",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
-  "(?i)(auto.?editor|自动.*剪辑|自动.*剪.*视频|自动.*去.*静音|自动.*卡点)": {
-    "skills": [
-      {
-        "name": "video-toolchain",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
+    "hits": 477,
+    "last_hit": "2026-10-18"
   },
   "(?i)(whisperx|词级.*转录|说话人.*识别|diarize|音频.*转.*字幕|whisper.*word)": {
     "skills": [
       {
         "name": "whisper",
         "phase": "ANALYZE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
-  "(?i)(lossless.?cut|不.*重编码.*剪辑|无损.*剪切|无损.*剪辑)": {
-    "skills": [
-      {
-        "name": "video-toolchain",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
-  "(?i)(shotcut|开源.*剪辑.*器|免费.*视频.*编辑.*器)": {
-    "skills": [
-      {
-        "name": "video-toolchain",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
-  "(?i)(油价|加油|汽油|柴油|92#|95#|98#|今日油价)": {
-    "skills": [
-      {
-        "name": "life-services (油价)",
-        "phase": "ASK"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
-  "(?i)(节假日|放假|法定.*假日|调休|假期.*安排|元旦|春节|清明|五一|端午|中秋|国庆)": {
-    "skills": [
-      {
-        "name": "life-services (节假日)",
-        "phase": "ASK"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
-  "(?i)(快递|物流|查.*单号|快递.*到哪|包裹.*跟踪)": {
-    "skills": [
-      {
-        "name": "life-services (快递)",
-        "phase": "ASK"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 0
-  },
-  "(?i)(汇率|换.*钱|人民币.*兑换|CNY.*USD|美元.*汇率)": {
-    "skills": [
-      {
-        "name": "life-services (汇率)",
-        "phase": "ASK"
       }
     ],
     "source": "auto",
@@ -4232,30 +4068,6 @@
       }
     ],
     "source": "manual",
-    "priority": 1,
-    "hits": 1,
-    "last_hit": "2026-08-04"
-  },
-  "(?i)(自动校对|六维审查|写完.*审|保存.*前.*检查|一致性.*校对|章节.*校对|审.*稿.*自动)": {
-    "skills": [
-      {
-        "name": "qmai",
-        "phase": "REVIEW"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 1,
-    "last_hit": "2026-08-04"
-  },
-  "(?i)(角色.*防崩|角色.*灵魂|人设.*崩|角色.*一致|性格.*统一|角色.*DNA|角色.*认知)": {
-    "skills": [
-      {
-        "name": "qmai",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
     "priority": 1,
     "hits": 1,
     "last_hit": "2026-08-04"
@@ -4293,18 +4105,6 @@
     "priority": 1,
     "hits": 0
   },
-  "(?i)(青幕|qmai|qm.*ai|青幕.*写作)": {
-    "skills": [
-      {
-        "name": "qmai",
-        "phase": "CREATE"
-      }
-    ],
-    "source": "auto",
-    "priority": 1,
-    "hits": 1,
-    "last_hit": "2026-08-05"
-  },
   "(?i)(to.*ticket|issue.*创建|创建.*issue|break.*into.*ticket|拆分.*任务.*issue|拆.*ticket|拆.*需求.*ticket)": {
     "source": "manual",
     "phases": [
@@ -4339,90 +4139,15 @@
     "hits": 1,
     "last_hit": "2026-07-25"
   },
-  "Reviewtheconversationaboveandu": {
-    "keywords": [
-      "reviewtheconversationaboveandu"
-    ],
-    "phases": [
-      "DISCOVER",
-      "PLAN",
-      "BUILD"
-    ],
-    "hits": 3,
-    "last_hit": "2026-09-08",
-    "source": "auto"
-  },
-  "TheuserattachedanimageHereswha": {
-    "keywords": [
-      "theuserattachedanimagehereswha"
-    ],
-    "phases": [
-      "VERIFY",
-      "DISCOVER"
-    ],
-    "hits": 3,
-    "last_hit": "2026-08-09",
-    "source": "auto"
-  },
-  "Reviewtheconversationaboveandc": {
-    "keywords": [
-      "reviewtheconversationaboveandc"
-    ],
-    "phases": [
-      "DISCOVER",
-      "PLAN"
-    ],
-    "hits": 3,
-    "last_hit": "2026-08-21",
-    "source": "auto"
-  },
-  "IMPORTANTBackgroundprocessproc": {
-    "keywords": [
-      "importantbackgroundprocessproc"
-    ],
-    "phases": [
-      "BUILD",
-      "PLAN"
-    ],
-    "hits": 3,
-    "last_hit": "2026-08-07",
-    "source": "auto"
-  },
-  "UserattachedfileUsersholiday_h": {
-    "keywords": [
-      "userattachedfileusersholiday_h"
-    ],
-    "phases": [
-      "DISCOVER",
-      "PLAN"
-    ],
-    "hits": 3,
-    "last_hit": "2026-08-21",
-    "source": "auto"
-  },
-  "sudocodesignforcesignApplicati": {
-    "keywords": [
-      "sudocodesignforcesignapplicati"
-    ],
-    "phases": [
-      "VERIFY",
-      "PLAN",
-      "BUILD"
-    ],
-    "hits": 3,
-    "last_hit": "2026-08-08",
-    "source": "auto"
-  },
   "IMPORTANTTheuserhasinvokedtheu": {
     "keywords": [
       "importanttheuserhasinvokedtheu"
     ],
     "phases": [
-      "DISCOVER",
       "PLAN"
     ],
     "hits": 3,
-    "last_hit": "2026-09-16",
+    "last_hit": "2026-10-18",
     "source": "auto"
   },
   "IMPORTANTYouarerunningasasched": {
@@ -4430,12 +4155,13 @@
       "importantyouarerunningasasched"
     ],
     "phases": [
-      "VERIFY",
       "ANALYZE",
-      "SEARCH"
+      "SEARCH",
+      "CREATE",
+      "VERIFY"
     ],
     "hits": 3,
-    "last_hit": "2026-09-16",
+    "last_hit": "2026-10-18",
     "source": "auto"
   }
 }

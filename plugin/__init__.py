@@ -1,11 +1,12 @@
 """
-智配路由 (SSR) — Smart Skill Router Plugin v3.0.1
+智配路由 (SSR) — Smart Skill Router Plugin v3.0.2
 
 自动匹配用户意图到最合适的 skill 并推荐加载。
 A 层（Embedding 语义匹配）+ B 层（LLM 语义匹配，多后端可选）。
 支持 main / openai / ollama / lmstudio / llamacpp 五种后端。
 自学习升级 + Dashboard 可视化管理 + 推荐模式。
 
+v3.0.2 (2026-09-20): 索引排除 dot 目录——.archive 幽灵 skill 不再进入索引/embedding/推荐（审计实锤修复）。
 v3.0.1 (2026-09-15): gateway 启动死锁修复——一次性索引+缓存（O(树)），替代每 skill 全树扫描。
 v3.0.0 (2026-07-23):
   - MoE 架构：路由层 + skills直推 + 域过滤
@@ -49,6 +50,29 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# 本机请求必须绕过代理（2026-10-08 修复）
+# ---------------------------------------------------------------------------
+# 环境里设了 HTTP_PROXY/HTTPS_PROXY/ALL_PROXY 时，httpx 默认 trust_env=True，
+# 连 http://127.0.0.1:11434（Ollama）的请求也会被送到代理，代理回 503，
+# 导致 embedding 全批失败（日志：ok=0 fail=170 last_error=503 .../api/embeddings）。
+# 这里在模块加载时把本机地址补进 NO_PROXY；httpx 每次请求都会读该变量，
+# 因此对共享 client 和模块级 httpx.post 同时生效。
+def _ensure_localhost_no_proxy() -> None:
+    hosts = ("localhost", "127.0.0.1", "::1")
+    for var in ("NO_PROXY", "no_proxy"):
+        parts = [p.strip() for p in os.environ.get(var, "").split(",") if p.strip()]
+        added = [h for h in hosts if h not in parts]
+        if added:
+            os.environ[var] = ",".join(parts + added)
+
+
+try:
+    _ensure_localhost_no_proxy()
+except Exception:  # 绝不因为环境变量问题拖垮插件加载
+    logger.debug("[ssr] 补 NO_PROXY 失败", exc_info=True)
 
 # ---------------------------------------------------------------------------
 # 常量
@@ -539,6 +563,10 @@ def _build_skill_md_index() -> Dict[str, Path]:
             if not base.exists():
                 continue
             for skill_md in base.rglob("SKILL.md"):
+                # v3.0.2: dot 目录（.archive/.curator_backups/.hub/.git 等）不是可加载 skill；
+                # 此前被扫入索引 → embedding 池出现"幽灵 skill"并被推荐（2026-09-20 审计实锤）。
+                if any(part.startswith(".") for part in skill_md.relative_to(base).parts[:-1]):
+                    continue
                 try:
                     for line in skill_md.read_text().split("\n"):
                         if line.startswith("name:"):
@@ -894,13 +922,10 @@ def _match_a_layer(user_message):
         query = _expand_chinese_query(user_message)
         msg_vec = _embed(query)
         if msg_vec:
-            scores = []
-            for name, entry in _EMBEDDING_INDEX.items():
-                sim = _cosine_sim(msg_vec, entry["embedding"])
-                scores.append((sim, name))
-            scores.sort(reverse=True)
+            # 一次矩阵运算算完全部 skill 的相似度（原来 751 次逐条 _cosine_sim），
+            # 并且直接只取 top-30，不再对全部条目排序。
             floor = _similarity_floor()
-            for sim, name in scores[:30]:
+            for sim, name in _rank_by_embedding(msg_vec, top_k=30):
                 if sim < floor:
                     continue
                 phase = _infer_phase(name)
@@ -1216,8 +1241,39 @@ def _expand_chinese_query(text: str) -> str:
     return result
 
 
+# embedding 矩阵缓存：(key, names, 归一化后的矩阵)。key = (id(索引 dict), len)
+# 后台同步会整体替换 _EMBEDDING_INDEX（id 变），热新增会追加条目（len 变），
+# 两种情况都能自动失效，不需要额外的失效广播。
+_EMB_MATRIX_CACHE = None
+_NUMPY = None
+
+
+def _numpy():
+    """延迟导入 numpy；不可用时返回 None（自动降级纯 Python）。"""
+    global _NUMPY
+    if _NUMPY is None:
+        try:
+            import numpy as _np
+            _NUMPY = _np
+        except Exception:
+            _NUMPY = False
+    return _NUMPY or None
+
+
 def _cosine_sim(a, b):
-    """余弦相似度"""
+    """余弦相似度（numpy 优先，缺失时降级纯 Python）"""
+    np = _numpy()
+    if np is not None:
+        try:
+            va = np.asarray(a, dtype="float32")
+            vb = np.asarray(b, dtype="float32")
+            na = float(np.linalg.norm(va))
+            nb = float(np.linalg.norm(vb))
+            if na == 0.0 or nb == 0.0:
+                return 0.0
+            return float(np.dot(va, vb) / (na * nb))
+        except Exception:
+            pass
     import math
     dot = sum(x * y for x, y in zip(a, b))
     na = math.sqrt(sum(x * x for x in a))
@@ -1225,43 +1281,231 @@ def _cosine_sim(a, b):
     return dot / (na * nb) if na and nb else 0.0
 
 
-def _embed(text):
-    """多后端 embedding: ollama | siliconflow。失败降级返回 None。"""
-    provider = _embed_provider()
+def _rank_by_embedding(query_vec, top_k: int = 30):
+    """给全部已索引 skill 打分，返回 [(sim, name), ...] 降序。
+
+    原来是 for 循环里逐条 _cosine_sim（751 条 × 4096 维 ≈ 300 万次 Python 级
+    运算），这里换成一次 numpy 矩阵乘法：先把索引矩阵按行归一化并缓存，查询时
+    只需 query 归一化后点积。numpy 缺失或构建失败时自动降级为逐条比对。
+    """
+    global _EMB_MATRIX_CACHE
+    index = _EMBEDDING_INDEX
+    if not index:
+        return []
+    np = _numpy()
+    if np is None:
+        return [(_cosine_sim(query_vec, entry["embedding"]), name)
+                for name, entry in index.items()]
+
+    cache_key = (id(index), len(index))
+    names, matrix = None, None
+    if _EMB_MATRIX_CACHE and _EMB_MATRIX_CACHE[0] == cache_key:
+        _, names, matrix = _EMB_MATRIX_CACHE
+    if matrix is None:
+        try:
+            names = list(index.keys())
+            matrix = np.asarray([index[n]["embedding"] for n in names], dtype="float32")
+            norms = np.linalg.norm(matrix, axis=1, keepdims=True)
+            norms[norms == 0] = 1.0
+            matrix = matrix / norms
+            _EMB_MATRIX_CACHE = (cache_key, names, matrix)
+        except Exception as e:
+            logger.debug("[ssr] embedding 矩阵构建失败，降级逐条比对: %s", e)
+            return [(_cosine_sim(query_vec, entry["embedding"]), name)
+                    for name, entry in index.items()]
+
+    q = np.asarray(query_vec, dtype="float32")
+    qn = float(np.linalg.norm(q))
+    if qn == 0.0:
+        return []
+    sims = matrix @ (q / qn)
+    k = min(top_k, len(names))
+    if k <= 0:
+        return []
+    order = np.argsort(-sims)[:k]
+    return [(float(sims[i]), names[i]) for i in order]
+
+
+# embedding 调用健康度：失败不再只是 logger.debug（原来索引悄悄失败根本看不出来）
+_EMBED_STATS = {"ok": 0, "fail": 0, "last_error": ""}
+# 整批失败后按这个粒度降级重试，避免「一条坏 description 连累整批」
+_EMBED_SALVAGE_CHUNK = 8
+_EMBED_CLIENT = None
+_EMBED_CLIENT_LOCK = threading.Lock()
+
+
+def _embed_batch_size() -> int:
+    """一批打包多少条 description（SiliconFlow /embeddings 支持 input 数组）。"""
     try:
-        import httpx
-        if provider == "ollama":
-            from urllib.parse import urljoin
-            url = urljoin(_ollama_url(), "/api/embeddings")
-            resp = httpx.post(
-                url,
-                json={"model": _embed_model(), "prompt": text},
-                timeout=_embed_timeout(),
-            )
-            resp.raise_for_status()
-            return resp.json().get("embedding")
-        elif provider == "siliconflow":
-            key = _embed_api_key()
-            if not key:
-                logger.warning("[ssr] embedding siliconflow 无 api_key")
-                return None
-            base = _embed_base_url()
-            url = base.rstrip("/") + "/embeddings"
-            resp = httpx.post(
-                url,
-                headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-                json={"model": _embed_model(), "input": text, "encoding_format": "float"},
-                timeout=_embed_timeout(),
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            return data.get("data", [{}])[0].get("embedding")
+        n = int(_load_ssr_config().get("embedding", {}).get("batch_size", 32))
+    except Exception:
+        n = 32
+    return max(1, min(n, 128))
+
+
+def _embed_max_retries() -> int:
+    """单批失败后重试几次（指数退避）。"""
+    try:
+        n = int(_load_ssr_config().get("embedding", {}).get("max_retries", 2))
+    except Exception:
+        n = 2
+    return max(0, min(n, 5))
+
+
+def _get_embed_client():
+    """共享的 httpx.Client：复用连接。
+
+    原来每次 httpx.post 都新建连接，经代理时要重新 CONNECT + TLS 握手；
+    批量场景下握手次数从「条数」降到「批数」。
+    """
+    global _EMBED_CLIENT
+    if _EMBED_CLIENT is None:
+        with _EMBED_CLIENT_LOCK:
+            if _EMBED_CLIENT is None:
+                import httpx
+                _EMBED_CLIENT = httpx.Client(
+                    timeout=_embed_timeout(),
+                    limits=httpx.Limits(max_keepalive_connections=8, max_connections=16),
+                )
+    return _EMBED_CLIENT
+
+
+def _post_embed_batch(texts, url, headers, timeout):
+    """发一批 embedding（单次请求，不重试）。异常向上抛。"""
+    payload = {"model": _embed_model(), "input": texts, "encoding_format": "float"}
+    resp = _get_embed_client().post(url, headers=headers, json=payload, timeout=timeout)
+    resp.raise_for_status()
+    data = resp.json().get("data", [])
+    out = [None] * len(texts)
+    for i, item in enumerate(data):
+        if i < len(out):
+            out[i] = item.get("embedding")
+    return out
+
+
+def _embed_batch_with_retry(texts, url, headers, timeout, retries):
+    """一批带重试。成功返回 (结果列表, None)；全部失败返回 (None, 最后一次异常)。"""
+    last_err = None
+    for attempt in range(retries + 1):
+        try:
+            return _post_embed_batch(texts, url, headers, timeout), None
+        except Exception as e:
+            last_err = e
+            _EMBED_STATS["last_error"] = "%s: %s" % (type(e).__name__, e)
+            if attempt < retries:
+                delay = 0.5 * (2 ** attempt)
+                logger.warning("[ssr] embedding 批失败（第 %d 次），%.1fs 后重试: %s",
+                               attempt + 1, delay, e)
+                time.sleep(delay)
+    return None, last_err
+
+
+def _embed_many(texts):
+    """批量 embedding：返回与 texts 等长的列表，失败位置为 None。
+
+    - siliconflow: /embeddings 支持 input 数组，一次算一整批（原来一条一次请求）。
+    - ollama: /api/embeddings 只接受单条，保持逐条，但共用同一个 client。
+    失败会重试 ``_embed_max_retries()`` 次（指数退避）；整批仍失败则保持 None，
+    并累加到 _EMBED_STATS，便于在注册日志/健康度里看到。
+    """
+    texts = list(texts)
+    if not texts:
+        return []
+    provider = _embed_provider()
+    timeout = _embed_timeout()
+    retries = _embed_max_retries()
+    out = [None] * len(texts)
+
+    if provider == "siliconflow":
+        key = _embed_api_key()
+        if not key:
+            logger.warning("[ssr] embedding siliconflow 无 api_key，跳过 %d 条", len(texts))
+            _EMBED_STATS["fail"] += len(texts)
+            _EMBED_STATS["last_error"] = "no api_key"
+            return out
+        url = _embed_base_url().rstrip("/") + "/embeddings"
+        headers = {"Authorization": "Bearer " + key, "Content-Type": "application/json"}
+        result, err = _embed_batch_with_retry(texts, url, headers, timeout, retries)
+        if result is not None:
+            out = result
+        elif len(texts) > 1:
+            # 整批失败：切成小批再试，避免「一条坏条目连累整批」。
+            # 降级组只重试 1 次，控制最坏耗时与请求数。
+            logger.warning("[ssr] embedding 整批失败（%d 条），降级为每 %d 条一组重试: %s",
+                           len(texts), _EMBED_SALVAGE_CHUNK, err)
+            for start in range(0, len(texts), _EMBED_SALVAGE_CHUNK):
+                sub = texts[start:start + _EMBED_SALVAGE_CHUNK]
+                sub_result, sub_err = _embed_batch_with_retry(sub, url, headers, timeout, 1)
+                if sub_result is not None:
+                    out[start:start + len(sub)] = sub_result
+                else:
+                    logger.warning("[ssr] embedding 降级组仍失败（%d 条），本次跳过: %s",
+                                   len(sub), sub_err)
         else:
-            logger.warning("[ssr] embedding 后端 %s 未实现", provider)
-            return None
-    except Exception as e:
-        logger.debug("[ssr] embedding 失败（%s）: %s", provider, e)
-        return None
+            logger.warning("[ssr] embedding 单条失败（已重试 %d 次），跳过: %s", retries, err)
+        got = sum(1 for v in out if v)
+        _EMBED_STATS["ok"] += got
+        _EMBED_STATS["fail"] += len(out) - got
+        if got < len(out):
+            logger.warning("[ssr] embedding 本批成功 %d/%d", got, len(out))
+        return out
+
+    # 其它后端（含 ollama）：逐条，但复用连接 + 重试
+    for i, text in enumerate(texts):
+        for attempt in range(retries + 1):
+            try:
+                if provider == "ollama":
+                    from urllib.parse import urljoin
+                    url = urljoin(_ollama_url(), "/api/embeddings")
+                    resp = _get_embed_client().post(
+                        url, json={"model": _embed_model(), "prompt": text},
+                        timeout=timeout)
+                    resp.raise_for_status()
+                    out[i] = resp.json().get("embedding")
+                else:
+                    logger.warning("[ssr] embedding 后端 %s 未实现", provider)
+                if out[i]:
+                    _EMBED_STATS["ok"] += 1
+                break
+            except Exception as e:
+                _EMBED_STATS["last_error"] = "%s: %s" % (type(e).__name__, e)
+                if attempt < retries:
+                    time.sleep(0.5 * (2 ** attempt))
+                else:
+                    _EMBED_STATS["fail"] += 1
+                    logger.debug("[ssr] embedding 单条失败（%s）: %s", provider, e)
+    return out
+
+
+def _embed(text):
+    """单条 embedding（保持旧接口不变）。失败返回 None。"""
+    return _embed_many([text])[0]
+
+
+def _cleanup_stale_embed_tmp() -> int:
+    """清理残留的 embeddings.json.tmp.* 临时文件。
+
+    写索引用「先写临时文件再 os.replace」（原子写），但进程被 kill -9 时来不及
+    清理，会留下半成品临时文件。这里只删「不属于本进程」且「超过 1 小时没动」的，
+    避免误删另一个 hermes 进程正在写的临时文件。
+    """
+    removed = 0
+    try:
+        for path in SSR_DIR.glob("embeddings.json.tmp.*"):
+            if path.name.rsplit(".", 1)[-1] == str(os.getpid()):
+                continue
+            try:
+                if time.time() - path.stat().st_mtime < 3600:
+                    continue
+                path.unlink()
+                removed += 1
+            except Exception:
+                continue
+    except Exception:
+        pass
+    if removed:
+        logger.info("[ssr] 清理残留 embedding 临时文件: %d 个", removed)
+    return removed
 
 
 def _load_embedding_index():
@@ -1278,12 +1522,29 @@ def _load_embedding_index():
 
 
 def _save_embedding_index(index):
-    """持久化 embedding 索引"""
+    """持久化 embedding 索引（原子写：先写临时文件，写完整体替换）。
+
+    原来直接 open(path, "w") 覆写约 70MB 的索引：若进程在写入中途退出（例如启动
+    等待超时被 Desktop 杀掉），文件会留下被截断的半成品；下次
+    _load_embedding_index() 解析失败返回 {}，就会走 _build_embedding_index()
+    全量重建数百条 embedding，反而把启动彻底卡死。os.replace() 是原子操作，
+    任何时刻中断都只会留下「完整的旧索引」或「完整的新索引」。
+    """
+    path = SSR_DIR / "embeddings.json"
+    tmp_path = path.with_name("%s.tmp.%d" % (path.name, os.getpid()))
     try:
-        with open(SSR_DIR / "embeddings.json", "w") as f:
+        with open(tmp_path, "w") as f:
             json.dump(index, f, ensure_ascii=False)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp_path, path)
     except Exception as e:
         logger.warning("[ssr] embedding 索引保存失败: %s", e)
+        try:
+            if tmp_path.exists():
+                tmp_path.unlink()
+        except Exception:
+            pass
 
 
 
@@ -1307,28 +1568,59 @@ def _post_llm_call(text: str = "", session_id: str = "", **kwargs) -> str:
 
 
 
+def _make_embed_progress(label):
+    """生成批量 embedding 的进度打印回调（每 200 条或最后一条打一次）。"""
+    def _progress(done, total):
+        if done % 200 == 0 or done == total:
+            logger.info("[ssr] embedding %s: %d/%d", label, done, total)
+    return _progress
+
+
+def _embed_in_batches(items, on_progress=None):
+    """把 [(name, desc), ...] 分批算 embedding，返回 {name: {"embedding","desc"}}。
+
+    只有成功拿到向量的条目才会出现在返回值里；失败的批次整批跳过，
+    由调用方在下次启动/热更新时重试。
+    """
+    result = {}
+    if not items:
+        return result
+    batch_size = _embed_batch_size()
+    total = len(items)
+    done = 0
+    for start in range(0, total, batch_size):
+        chunk = items[start:start + batch_size]
+        vecs = _embed_many([desc for _, desc in chunk])
+        for (name, desc), vec in zip(chunk, vecs):
+            if vec:
+                result[name] = {"embedding": vec, "desc": desc}
+        done += len(chunk)
+        if on_progress:
+            on_progress(done, total)
+    return result
+
+
 def _build_embedding_index():
-    """为所有 skill description 构建 embedding 索引。全量构建。"""
-    index = {}
-    total = len(_SKILL_INDEX)
-    built = 0
-    for name, info in _SKILL_INDEX.items():
-        desc = info.get("description", "")
-        if not desc or len(desc) < 5:
-            continue
-        vec = _embed(desc)
-        if vec:
-            index[name] = {"embedding": vec, "desc": desc}
-            built += 1
-            if built % 50 == 0:
-                logger.info("[ssr] embedding 索引构建: %d/%d", built, total)
+    """为所有 skill description 构建 embedding 索引。全量构建（批量 + 进度）。"""
+    items = [(name, info.get("description", ""))
+             for name, info in _SKILL_INDEX.items()
+             if info.get("description") and len(info.get("description", "")) >= 5]
+    total = len(items)
+    logger.info("[ssr] embedding 索引构建：%d 条待算（批大小 %d）",
+                total, _embed_batch_size())
+    index = _embed_in_batches(items, on_progress=_make_embed_progress("索引构建"))
     _save_embedding_index(index)
-    logger.info("[ssr] embedding 索引构建完成: %d skill", built)
+    logger.info("[ssr] embedding 索引构建完成: %d/%d skill（失败 %d）",
+                len(index), total, total - len(index))
     return index
 
 
 def _sync_embeddings():
-    """增量更新 embedding 索引。"""
+    """增量更新 embedding 索引：新增 skill + description 发生变更的 skill。
+
+    description 变更是靠「旧索引里本来就存了 desc 字段」来比对的，不引入新字段，
+    因此对历史索引完全向后兼容：老条目 desc 没变 → 不会重算（不会触发全量重建）。
+    """
     global _EMBEDDING_INDEX
     existing = _load_embedding_index()
     current = set(_SKILL_INDEX.keys())
@@ -1337,20 +1629,35 @@ def _sync_embeddings():
     new_skills = current - indexed
     removed = indexed - current
 
+    # description 变更检测（原来只比对键名，改了描述不会重算向量）
+    stale = set()
+    for name in (current & indexed):
+        old_desc = (existing.get(name) or {}).get("desc")
+        cur_desc = _SKILL_INDEX[name].get("description", "")
+        if old_desc and cur_desc and old_desc != cur_desc:
+            stale.add(name)
+
     for name in removed:
         del existing[name]
-    for name in new_skills:
+
+    todo = []
+    for name in sorted(new_skills | stale):
         desc = _SKILL_INDEX[name].get("description", "")
         if not desc or len(desc) < 5:
             continue
-        vec = _embed(desc)
-        if vec:
-            existing[name] = {"embedding": vec, "desc": desc}
+        todo.append((name, desc))
 
-    if new_skills or removed:
+    built = {}
+    if todo:
+        built = _embed_in_batches(todo, on_progress=_make_embed_progress("增量同步"))
+        existing.update(built)
+
+    if new_skills or removed or stale:
         _save_embedding_index(existing)
-        logger.info("[ssr] embedding 增量: +%d -%d -> %d skill",
-                     len(new_skills), len(removed), len(existing))
+        logger.info("[ssr] embedding 增量: 新增 %d / 描述变更 %d / 删除 %d -> %d skill"
+                    "（待算 %d，成功 %d）",
+                    len(new_skills), len(stale), len(removed), len(existing),
+                    len(todo), len(built))
 
     _EMBEDDING_INDEX = existing
 
@@ -2674,22 +2981,52 @@ def register(ctx) -> None:
     # 清理后的结果必须持久化（不论 auto-gen 是否开启）
     _save_a_rules(_A_RULES)
 
+    # 清理历史上被 kill -9 留下的 embedding 临时文件（只占磁盘，不影响读取）
+    _cleanup_stale_embed_tmp()
+
     # Phase 2: Embedding 索引构建
+    # 启动（plugin register）只做本地加载；联网计算新向量交给后台线程，避免联网
+    # 请求把插件注册——也就是整个 hermes 启动——堵死（Desktop 等端口公告 90s 超时
+    # 就会判定启动失败）。后台补齐之前，未索引的 skill 仍可由 A 层关键词匹配命中，
+    # 补齐后自动参与语义检索。
     emb_count = 0
     try:
         existing = _load_embedding_index()
         if existing:
             _EMBEDDING_INDEX = existing
-            _sync_embeddings()
             emb_count = len(_EMBEDDING_INDEX)
-            logger.info("[ssr] embedding 索引: %d skill（增量同步）", emb_count)
+            logger.info("[ssr] embedding 索引: %d skill（已加载，增量同步转入后台）", emb_count)
+
+            def _background_embed_sync() -> None:
+                try:
+                    _sync_embeddings()
+                    logger.info("[ssr] embedding 后台增量同步完成: %d skill | 本次 ok=%d fail=%d%s",
+                                len(_EMBEDDING_INDEX), _EMBED_STATS["ok"], _EMBED_STATS["fail"],
+                                (" | last_error=" + _EMBED_STATS["last_error"])
+                                if _EMBED_STATS["last_error"] else "")
+                except Exception as e:
+                    logger.warning("[ssr] embedding 后台增量同步失败（继续用关键词匹配）: %s", e)
+
+            threading.Thread(target=_background_embed_sync, name="ssr-embed-sync",
+                             daemon=True).start()
         else:
-            logger.info("[ssr] embedding 索引首次构建中...")
-            _EMBEDDING_INDEX = _build_embedding_index()
-            emb_count = len(_EMBEDDING_INDEX)
-            logger.info("[ssr] embedding 索引构建完成: %d skill", emb_count)
+            logger.info("[ssr] embedding 索引首次构建转入后台...")
+
+            def _background_embed_build() -> None:
+                global _EMBEDDING_INDEX
+                try:
+                    _EMBEDDING_INDEX = _build_embedding_index()
+                    logger.info("[ssr] embedding 后台构建完成: %d skill | 本次 ok=%d fail=%d%s",
+                                len(_EMBEDDING_INDEX), _EMBED_STATS["ok"], _EMBED_STATS["fail"],
+                                (" | last_error=" + _EMBED_STATS["last_error"])
+                                if _EMBED_STATS["last_error"] else "")
+                except Exception as e:
+                    logger.warning("[ssr] embedding 后台构建失败（降级关键词匹配）: %s", e)
+
+            threading.Thread(target=_background_embed_build, name="ssr-embed-build",
+                             daemon=True).start()
     except Exception as e:
-        logger.warning("[ssr] embedding 索引失败（降级关键词匹配）: %s", e)
+        logger.warning("[ssr] embedding 索引加载失败（降级关键词匹配）: %s", e)
         _EMBEDDING_INDEX = {}
 
     logger.info("[ssr] 插件注册完成 | skill: %d | 残骸: %d | A层: %d+%d | emb: %d | B层: %s",

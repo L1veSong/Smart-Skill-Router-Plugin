@@ -3,6 +3,17 @@
 
 > 补记说明（2026-09-16）：以下 v2.4.0 至 v3.0.1 四条为版本面同步时按代码内注释与归档计划补记（对应发布当时未写 CHANGELOG）；仅转录事实，未外推。
 
+## v3.0.2 (2026-09-20) — 索引卫生修复（幽灵 skill 清理）
+
+### 修复
+- **索引/embedding 排除 dot 目录**（`.archive`/`.curator_backups`/`.hub`/`.git`）：此前 rglob 把归档目录一并扫入——embedding 池 774 条中 122 条是已归档、无法加载的"幽灵 skill"向量（137 个归档名里 15 个与在役 skill 同名、保留在役版本），并被实际推荐到对话（实锤：ssr-operations / smart-skill-router 被推荐后 skill_view 无法加载）。修复后索引=可加载集合（774→653）；既有幽灵向量已手动清理 122 条（774→652，embeddings.json 留 .bak）。
+- **附带发现（后续事项）**：`hermes_cli.skills.registry` 导入路径已不存在（该模块已随 Hermes 重构迁移），`_get_skills_list()` 长期走 fallback 扫描——本次修复即打在 fallback 路径上；新加载器对接列为后续事项。
+
+### 修改文件
+- `__init__.py`: _build_skill_md_index dot 目录过滤 + 版本号注释
+- `plugin.yaml` / `README.md` / `dashboard.py` / `test_ssr.py`: 版本同步 v3.0.2
+- `embeddings.json`: 清幽灵条目（.bak.0920 备份）
+
 ## v3.0.1 (2026-09-15) — gateway 启动死锁修复
 
 ### 修复

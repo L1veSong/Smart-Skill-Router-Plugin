@@ -3,365 +3,800 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>智配路由</title>
+<title>智配路由 · Dashboard</title>
 <style>
-/* ══════════════════════════════════════════════════════════
-   finesse-ui · product register · canonical sidebar shell
-   Set 11 Midnight & Amber · product-ui.md §0 §1
-   ══════════════════════════════════════════════════════════ */
-:root {
-  --page:  #08090f;
-  --rail:  #0b0c14;
-  --rail-2:#13151f;
-  --bg:    #12141c;
-  --panel-2:#1a1d27;
-  --border:rgba(255,255,255,.06);
-  --ink-1: #eceef5;
-  --ink-2: #a8adbd;
-  --ink-3: #848aa0;
-  --accent:#E8A33D;
-  --accent-soft:rgba(232,163,61,.13);
-  --on-accent:#141008;
-  --up:  #3FCB86;
-  --down:#FF5F56;
-  --warn:#E8A33D;
-  --shadow:0 1px 3px rgba(0,0,0,.4);
-  --shadow-lg:0 40px 90px -50px rgba(0,0,0,.75);
-  --r:  14px; --r-sm:8px; --r-lg:20px; --r-pill:99px;
-  --font:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
-  --mono:"SF Mono","Fira Code","Cascadia Code",ui-monospace,monospace;
-  --green:var(--up); --red:var(--down);
+/* ═════════════════════════════════════════════════════════
+   智配路由 Dashboard — warm-dark / blue accent / system fonts
+   Tokens: #1C1C1E page · #3B82F6 accent · SF Pro + SF Mono
+   ═════════════════════════════════════════════════════════ */
+:root{
+  --page:#1B1B1D; --panel:#232326; --panel-2:#2B2B2F; --panel-3:#333338;
+  --border:rgba(255,255,255,.07); --border-2:rgba(255,255,255,.14);
+  --ink-1:#F5F5F7; --ink-2:#A9A9B0; --ink-3:#72727A;
+  --accent:#3B82F6; --accent-strong:#2F6FE0; --accent-soft:rgba(59,130,246,.14);
+  --on-accent:#FFFFFF;
+  --green:#30D158; --red:#FF453A; --amber:#D4A843;
+  --r:10px; --r-sm:7px; --r-lg:14px;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(0,0,0,.32);
+  --shadow-lg:0 24px 60px -24px rgba(0,0,0,.65);
 }
-body[data-theme="light"] {
-  --page:  #f4f1ea; --rail:#ece8de; --rail-2:#f7f4ed;
-  --bg:    #ffffff; --panel-2:#f9f7f1;
-  --border:rgba(40,30,18,.07);
-  --ink-1: #1b1710; --ink-2:#534d41; --ink-3:#8a8272;
-  --accent:#c47d20; --accent-soft:rgba(196,125,32,.11); --on-accent:#fff;
-  --green:#3d8c5c; --red:#d9443c;
-  --shadow:0 1px 3px rgba(40,30,18,.045);
-  --shadow-lg:0 40px 90px -50px rgba(40,30,18,.25);
+body[data-theme="light"]{
+  --page:#F4F2EC; --panel:#FFFFFF; --panel-2:#F8F6F1; --panel-3:#EFEDE6;
+  --border:rgba(32,28,18,.09); --border-2:rgba(32,28,18,.18);
+  --ink-1:#232323; --ink-2:#5C5A54; --ink-3:#918E85;
+  --accent:#2563EB; --accent-strong:#1D4ED8; --accent-soft:rgba(37,99,235,.10);
+  --shadow:0 1px 2px rgba(70,60,35,.10);
+  --shadow-lg:0 24px 60px -28px rgba(70,60,35,.35);
 }
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  background:var(--page);color:var(--ink-1);
+  font-family:var(--font);font-size:13px;line-height:1.5;
+  min-height:100dvh;
+}
+::selection{background:var(--accent-soft)}
 
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{font-size:15px;-webkit-font-smoothing:antialiased}
-body{font-family:var(--font);background:var(--page);color:var(--ink-1);min-height:100vh;line-height:1.55}
+.page{max-width:1280px;margin:0 auto;padding:0 32px 72px}
 
-/* ═══ Layout ═══ */
-.app{display:flex;height:100vh;overflow:hidden}
-.sidebar{
-  width:240px;flex-shrink:0;background:var(--rail);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;padding:22px 16px 18px;
+/* ═══ Header ═══ */
+header{display:flex;align-items:center;gap:16px;padding:20px 0 16px}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand h1{font-size:17px;font-weight:650;letter-spacing:-.2px}
+.brand .sub{font-size:11px;color:var(--ink-3);font-family:var(--mono)}
+.ver{
+  font-size:10.5px;font-family:var(--mono);color:var(--ink-3);
+  border:1px solid var(--border);border-radius:99px;padding:1px 8px;
+  position:relative;top:-1px;
 }
-.sidebar-brand{
-  font-size:.82rem;font-weight:650;letter-spacing:-.01em;
-  color:var(--ink-1);margin-bottom:28px;padding:0 6px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+.head-right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-2)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ink-3);transition:background .3s,box-shadow .3s}
+.dot.on{background:var(--green);box-shadow:0 0 0 3px rgba(48,209,88,.14)}
+.dot.off{background:var(--red);box-shadow:0 0 0 3px rgba(255,69,58,.14)}
+.clock{font-family:var(--mono);font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.iconbtn{
+  border:1px solid var(--border);background:transparent;color:var(--ink-2);
+  font-size:11.5px;font-weight:500;font-family:var(--font);
+  padding:4px 11px;border-radius:99px;cursor:pointer;
+  transition:background .15s,border-color .15s,color .15s;
 }
-.sidebar-nav{flex:1;display:flex;flex-direction:column;gap:2px}
-.nav-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 12px;border-radius:var(--r-sm);
-  border:none;background:none;color:var(--ink-3);
-  font-size:.8rem;font-family:var(--font);font-weight:500;
-  cursor:pointer;transition:background .12s,color .12s;text-align:left;width:100%;
-}
-.nav-item:hover{background:var(--rail-2);color:var(--ink-2)}
-.nav-item.active{background:var(--accent-soft);color:var(--accent)}
-.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:background .3s}
-.dot.on{background:var(--up)}
-.dot.off{background:var(--down)}
+.iconbtn:hover{background:var(--panel-2);color:var(--ink-1);border-color:var(--border-2)}
 
-.sidebar-footer{
-  border-top:1px solid var(--border);padding-top:14px;margin-top:auto;
+/* ═══ Tabs ═══ */
+.tabs{display:flex;gap:26px;border-bottom:1px solid var(--border);margin-bottom:26px}
+.tab{
+  background:none;border:none;cursor:pointer;position:relative;
+  font-size:13.5px;font-weight:550;color:var(--ink-3);
+  padding:0 2px 11px;font-family:var(--font);
+  transition:color .15s;
 }
-.sidebar-status{
-  display:flex;align-items:center;gap:8px;padding:6px 8px;
-  font-size:.6875rem;color:var(--ink-3);font-family:var(--mono);
+.tab:hover{color:var(--ink-2)}
+.tab.active{color:var(--ink-1)}
+.tab.active::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:var(--accent);border-radius:2px 2px 0 0;
 }
-.sidebar-actions{display:flex;gap:4px;margin-top:10px}
-
-/* ═══ Main ═══ */
-.main{flex:1;display:flex;flex-direction:column;min-width:0}
-.topbar{
-  height:52px;display:flex;align-items:center;justify-content:flex-end;
-  padding:0 28px;border-bottom:1px solid var(--border);gap:8px;
-  background:var(--rail);
-}
-.breadcrumb{font-size:.75rem;color:var(--ink-3);margin-right:auto;font-family:var(--mono)}
-.content{padding:24px 28px 44px;overflow-y:auto;flex:1}
-.tab-content{display:none}
+.tab-content{display:none;animation:fadeUp .22s ease-out both}
 .tab-content.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ═══ Components ═══ */
+/* ═══ Stats ═══ */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  padding:16px 18px;transition:border-color .15s;box-shadow:var(--shadow);
+}
+.stat:hover{border-color:var(--border-2)}
+.stat .k{
+  font-size:10.5px;font-weight:600;color:var(--ink-3);
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;
+}
+.stat .v{
+  font-size:26px;font-weight:640;letter-spacing:-.5px;
+  font-family:var(--mono);font-variant-numeric:tabular-nums;line-height:1.1;
+}
+.stat .s{font-size:11px;color:var(--ink-3);margin-top:5px;font-family:var(--mono)}
+.stat .s .ok{color:var(--green)}
+.stat .s .warn{color:var(--amber)}
+.stat .s .bad{color:var(--red)}
+
+/* ═══ Toolbar ═══ */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.searchbox{position:relative;flex:1;max-width:420px}
+.searchbox svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.45;color:var(--ink-3)}
+.searchbox input{
+  width:100%;background:var(--panel);border:1px solid var(--border);
+  color:var(--ink-1);padding:8px 12px 8px 34px;border-radius:var(--r-sm);
+  font-size:13px;font-family:var(--font);transition:border-color .15s,box-shadow .15s;
+}
+.searchbox input::placeholder{color:var(--ink-3)}
+.searchbox input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.toolbar .count{margin-left:auto;font-size:12px;color:var(--ink-3);font-family:var(--mono)}
+
+/* ═══ Buttons ═══ */
 .btn{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:6px 14px;border-radius:var(--r-sm);
-  border:1px solid var(--border);background:var(--panel-2);
-  color:var(--ink-2);cursor:pointer;
-  font-size:.75rem;font-family:var(--font);font-weight:500;
-  transition:background .12s,border-color .12s,color .12s;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:var(--r-sm);
+  border:1px solid var(--border-2);background:var(--panel-2);
+  color:var(--ink-1);cursor:pointer;
+  font-size:12.5px;font-weight:550;font-family:var(--font);
+  transition:background .15s,border-color .15s,transform .06s;
+  white-space:nowrap;
 }
-.btn:hover{background:rgba(255,255,255,.04);color:var(--ink-1)}
+.btn:hover{background:var(--panel-3)}
 .btn:active{transform:scale(.98)}
-.btn-accent{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.btn-accent:hover{filter:brightness(1.12)}
-.btn-danger{color:var(--down);border-color:rgba(255,107,90,.14)}
-.btn-danger:hover{background:rgba(255,107,90,.07)}
-.btn-ghost{background:transparent;border-color:transparent}
-.btn-ghost:hover{background:var(--panel-2)}
-.btn-sm{padding:3px 10px;font-size:.6875rem;border-radius:6px}
-.btn-icon{padding:6px 8px}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-strong);border-color:var(--accent-strong)}
+.btn-danger{color:var(--red);border-color:rgba(255,69,58,.25);background:transparent}
+.btn-danger:hover{background:rgba(255,69,58,.08);border-color:rgba(255,69,58,.4)}
+.btn-sm{padding:4px 10px;font-size:11.5px;border-radius:6px}
 
-/* KPI Stats */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
-.stat-card{
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r);padding:20px 24px;
-  transition:border-color .15s;box-shadow:var(--shadow);
-  display:flex;flex-direction:column;justify-content:center;
+/* ═══ Rules table ═══ */
+.tablewrap{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;box-shadow:var(--shadow);
 }
-.stat-card:hover{border-color:rgba(232,163,61,.12)}
-.stat-label{
-  font-size:.6875rem;font-weight:500;color:var(--ink-3);
-  text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{
+  text-align:left;font-size:10.5px;font-weight:600;color:var(--ink-3);
+  text-transform:uppercase;letter-spacing:.07em;
+  padding:10px 16px;border-bottom:1px solid var(--border);
+  background:var(--panel);
 }
-.stat-value{
-  font-size:1.5rem;font-weight:700;letter-spacing:-.02em;
-  font-family:var(--mono);font-variant-numeric:tabular-nums;
+td{
+  padding:9px 16px;border-bottom:1px solid var(--border);
+  font-size:12.5px;color:var(--ink-2);vertical-align:middle;
 }
-.stat-sub{font-size:.6875rem;color:var(--ink-3);font-family:var(--mono);margin-top:2px}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:var(--panel-2)}
+td.pat{
+  font-family:var(--mono);font-size:12px;color:var(--ink-1);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  cursor:pointer;user-select:text;
+}
+tr.expanded td.pat{white-space:normal;word-break:break-all}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--ink-1)}
+td.num.zero{color:var(--ink-3)}
+.src{
+  display:inline-block;font-size:10.5px;font-family:var(--mono);
+  padding:1.5px 7px;border-radius:99px;border:1px solid var(--border-2);color:var(--ink-3);
+}
+.src.manual{color:var(--accent);border-color:rgba(59,130,246,.3);background:var(--accent-soft)}
+td.date{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+.row-actions{opacity:0;transition:opacity .12s;white-space:nowrap;text-align:right}
+tbody tr:hover .row-actions{opacity:1}
+.wide-note{padding:13px 16px;font-size:12px;color:var(--ink-3);text-align:center;border-top:1px solid var(--border)}
+.wide-note button{
+  background:none;border:none;color:var(--accent);cursor:pointer;
+  font-size:12px;font-family:var(--font);font-weight:550;padding:2px 4px;
+}
+.wide-note button:hover{text-decoration:underline}
+.empty{padding:56px 0;text-align:center;color:var(--ink-3);font-size:13px}
 
-/* Search */
-.search-bar{display:flex;gap:8px;margin-bottom:16px}
-.search-bar input{
-  flex:1;background:var(--panel-2);border:1px solid var(--border);
-  color:var(--ink-1);padding:9px 14px;border-radius:var(--r-sm);
-  font-size:.8125rem;font-family:var(--font);transition:border-color .15s;
-}
-.search-bar input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.search-bar input::placeholder{color:var(--ink-3)}
-.search-info{font-size:.75rem;color:var(--ink-3);margin-bottom:14px}
-
-/* Rule Cards */
-.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.rule-card{
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r);padding:14px 18px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  transition:border-color .15s;box-shadow:var(--shadow);
-}
-.rule-card:hover{border-color:rgba(232,163,61,.14)}
-.rule-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
-.rule-pattern{
-  font-family:var(--mono);font-size:.8rem;color:var(--ink-1);
-  word-break:break-all;line-height:1.4;min-width:0;
-}
-.rule-hits{
-  display:inline-flex;align-items:center;padding:2px 8px;border-radius:var(--r-pill);
-  font-size:.6875rem;font-family:var(--mono);font-weight:500;
-  background:rgba(255,255,255,.05);color:var(--ink-3);flex-shrink:0;
-}
-.rule-hits.hot{background:var(--accent-soft);color:var(--accent)}
-.rule-actions{display:flex;gap:4px;opacity:0;transition:opacity .12s;flex-shrink:0}
-.rule-card:hover .rule-actions{opacity:1}
-.show-more{text-align:center;padding:16px;color:var(--ink-3);font-size:.8125rem;cursor:pointer;transition:color .12s}
-.show-more:hover{color:var(--accent)}
-.empty{text-align:center;padding:64px 0;color:var(--ink-3);font-size:.875rem}
-
-/* Config Cards */
+/* ═══ Config ═══ */
+.config-grid{display:grid;grid-template-columns:repeat(2,minmax(340px,1fr));gap:14px;align-items:start}
 .card{
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r);padding:20px 24px;margin-bottom:12px;
-  transition:border-color .15s;box-shadow:var(--shadow);
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  padding:18px 20px;box-shadow:var(--shadow);
+  transition:border-color .15s;
 }
-.card:hover{border-color:rgba(255,255,255,.08)}
-.card h3{font-size:.875rem;font-weight:600;margin-bottom:14px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
-.card-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.8125rem;color:var(--ink-2)}
-.card-row:last-child{border-bottom:0}
-.card-row .hint{font-size:.6875rem;color:var(--ink-3)}
-.card select,.card input{
+.card:hover{border-color:var(--border-2)}
+.card h3{
+  font-size:12px;font-weight:650;letter-spacing:.04em;
+  display:flex;align-items:center;gap:8px;margin-bottom:12px;
+  color:var(--ink-1);
+}
+.card h3 .tag{font-size:10px;font-weight:500;color:var(--ink-3);font-family:var(--mono);border:1px solid var(--border);border-radius:99px;padding:1px 7px}
+.row{
+  display:flex;align-items:center;gap:12px;
+  padding:9px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--ink-2);
+}
+.row:last-child{border-bottom:none}
+.row .lbl{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.row .lbl .hint{font-size:11px;color:var(--ink-3)}
+.row select,.row input[type=text],.row input[type=password],.row input[type=number]{
   background:var(--panel-2);border:1px solid var(--border);
-  color:var(--ink-1);padding:7px 10px;border-radius:var(--r-sm);
-  font-size:.8125rem;font-family:var(--font);transition:border-color .15s;
+  color:var(--ink-1);padding:6px 10px;border-radius:var(--r-sm);
+  font-size:12.5px;font-family:var(--font);min-width:0;width:240px;
+  transition:border-color .15s,box-shadow .15s;
 }
-.card select:focus,.card input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.row input.mono{font-family:var(--mono);font-size:12px}
+.row select:focus,.row input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.row input:disabled{opacity:.45}
+.choice{display:flex;gap:8px}
+.choice label{
+  display:inline-flex;align-items:center;cursor:pointer;
+  border:1px solid var(--border);border-radius:99px;padding:5px 13px;
+  font-size:12px;color:var(--ink-2);transition:border-color .15s,background .15s,color .15s;
+}
+.choice label:hover{border-color:var(--border-2)}
+.choice input{display:none}
+.choice label.on{background:var(--accent-soft);border-color:rgba(59,130,246,.45);color:var(--ink-1)}
+.card .save-row{margin-top:14px;display:flex;justify-content:flex-end}
+.switch{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0;position:absolute}
+.slider{
+  position:absolute;cursor:pointer;inset:0;border-radius:20px;
+  background:var(--panel-3);border:1px solid var(--border);
+  transition:background .2s,border-color .2s;
+}
+.slider::before{
+  content:"";position:absolute;height:14px;width:14px;left:2px;top:2px;
+  background:#fff;border-radius:50%;
+  transition:transform .22s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 1px 2px rgba(0,0,0,.4);
+}
+.switch input:checked + .slider{background:var(--accent);border-color:var(--accent)}
+.switch input:checked + .slider::before{transform:translateX(16px)}
+.switch input:focus-visible + .slider{outline:2px solid var(--accent);outline-offset:2px}
+.danger .row{border-bottom:none;padding-top:2px}
 
-/* Toggle */
-.card-row label.switch{margin-left:auto}
-.switch{position:relative;display:inline-block;width:38px;height:21px;flex-shrink:0}
-.switch input{opacity:0;width:0;height:0}
-.slider{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,.1);border-radius:21px;transition:background .2s}
-.slider::before{content:"";position:absolute;height:15px;width:15px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
-input:checked+.slider{background:var(--accent)}
-input:checked+.slider::before{transform:translateX(17px)}
-.radio-group{display:flex;gap:20px;flex-wrap:wrap}
-.radio-group label{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:.8125rem;color:var(--ink-2)}
-.radio-group input[type="radio"]{accent-color:var(--accent)}
-
-/* Modal */
+/* ═══ Modal ═══ */
 .modal{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.65);z-index:100;
-  justify-content:center;align-items:center;backdrop-filter:blur(4px);
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.55);
+  align-items:center;justify-content:center;padding:24px;
 }
 .modal.show{display:flex}
 .modal-box{
-  background:var(--bg);border:1px solid var(--border);
-  border-radius:var(--r-lg);padding:28px;
-  width:min(480px,94vw);max-height:90vh;overflow-y:auto;
-  box-shadow:var(--shadow-lg);
+  background:var(--panel);border:1px solid var(--border-2);border-radius:var(--r-lg);
+  padding:24px;width:min(560px,100%);max-height:88vh;overflow-y:auto;
+  box-shadow:var(--shadow-lg);animation:fadeUp .18s ease-out both;
 }
-.modal-box h2{font-size:1rem;font-weight:600;margin-bottom:20px}
-.modal-box label{display:block;font-size:.6875rem;font-weight:500;color:var(--ink-3);margin-bottom:5px;margin-top:14px;text-transform:uppercase;letter-spacing:.04em;font-family:var(--mono)}
-.modal-box input,.modal-box textarea{width:100%;background:var(--panel-2);border:1px solid var(--border);color:var(--ink-1);padding:9px 11px;border-radius:var(--r-sm);font-size:.8125rem;font-family:var(--font);transition:border-color .15s}
-.modal-box input:focus,.modal-box textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.modal-box textarea{min-height:80px;resize:vertical}
+.modal-box h2{font-size:15px;font-weight:650;margin-bottom:18px}
+.fld{margin-bottom:14px}
+.fld label{
+  display:block;font-size:10.5px;font-weight:600;color:var(--ink-3);
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;
+}
+.fld input,.fld textarea{
+  width:100%;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--ink-1);padding:8px 11px;border-radius:var(--r-sm);
+  font-size:12.5px;font-family:var(--mono);
+  transition:border-color .15s,box-shadow .15s;
+}
+.fld textarea{min-height:66px;resize:vertical;line-height:1.5}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.fld .hint{font-size:11px;color:var(--ink-3);margin-top:5px}
 .modal-actions{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
+.modal-actions .del{margin-right:auto}
 
-/* Toast */
+/* ═══ Toast ═══ */
 .toast{
-  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
-  background:var(--bg);border:1px solid var(--border);
-  color:var(--ink-1);padding:10px 24px;border-radius:var(--r);
-  font-size:.8125rem;font-weight:500;
-  opacity:0;transition:opacity .25s,transform .25s;
-  z-index:200;pointer-events:none;box-shadow:var(--shadow-lg);
+  position:fixed;bottom:28px;left:50%;transform:translate(-50%,8px);
+  background:var(--panel);border:1px solid var(--border-2);
+  color:var(--ink-1);padding:9px 20px;border-radius:99px;
+  font-size:12.5px;font-weight:500;box-shadow:var(--shadow-lg);
+  opacity:0;pointer-events:none;z-index:200;
+  transition:opacity .2s,transform .2s;
 }
-.toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
-.toast.error{border-color:rgba(255,107,90,.22)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.error{border-color:rgba(255,69,58,.4);color:var(--red)}
 
-@keyframes reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.stat-card{animation:reveal .35s ease-out both}
-.stat-card:nth-child(1){animation-delay:.04s}
-.stat-card:nth-child(2){animation-delay:.10s}
-.stat-card:nth-child(3){animation-delay:.16s}
-
-@media(max-width:768px){
-  .sidebar{display:none}
-  .content{padding:16px 16px 48px}
+@media(max-width:1024px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .config-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .page{padding:0 16px 48px}
   .stats{grid-template-columns:1fr}
-  .cards-grid{grid-template-columns:1fr}
+  .head-right .clock{display:none}
+  .row select,.row input{width:100%}
+  .row{flex-wrap:wrap}
 }
 @media(prefers-reduced-motion:reduce){
-  .stat-card{animation:none}
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
 <body>
-<div class="app">
-  <!-- ═══ Sidebar ═══ -->
-  <aside class="sidebar">
-    <div class="sidebar-brand" data-lang="brand">智配路由</div>
-    <nav class="sidebar-nav">
-      <button class="nav-item tab active" onclick="switchTab('rules')">
-        <span data-lang="tab-rules">规则管理</span>
-      </button>
-      <button class="nav-item tab" onclick="switchTab('config')">
-        <span data-lang="tab-config">引擎配置</span>
-      </button>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="sidebar-status">
-        <span class="dot on" id="pulse"></span>
-        <span id="live-status" data-lang="running">运行中</span>
-      </div>
-      <div class="sidebar-actions">
-        <button class="btn btn-ghost btn-sm" id="btn-theme" onclick="toggleTheme()">☀</button>
-        <button class="btn btn-ghost btn-sm" id="btn-lang" onclick="toggleLang()">EN</button>
-      </div>
-    </div>
-  </aside>
+<div class="page">
 
-  <!-- ═══ Main ═══ -->
-  <main class="main">
-    <div class="topbar">
-      <span class="breadcrumb" id="breadcrumb">智配路由 / 规则管理</span>
-      <span id="clock" style="font-family:var(--mono);font-size:.6875rem;color:var(--ink-3)"></span>
+  <header>
+    <div class="brand">
+      <h1 data-lang="brand">智配路由</h1>
+      <span class="sub">Smart Skill Router</span>
+      <span class="ver">v3.0.2</span>
     </div>
-    <div class="content">
-      <div id="tab-rules" class="tab-content active">
-        <div id="stats-bar" class="stats"></div>
-        <div class="search-bar">
-          <input type="text" id="search" data-lang-placeholder="search" placeholder="搜索规则…" oninput="render()">
-          <button class="btn btn-accent" onclick="openAddModal()" data-lang="add-rule">添加规则</button>
-          <button class="btn btn-danger" onclick="resetRules()" data-lang="reset-rules">重置</button>
+    <div class="head-right">
+      <span class="status"><span class="dot on" id="pulse"></span><span id="live-status" data-lang="running">运行中</span></span>
+      <span class="clock" id="clock"></span>
+      <button class="iconbtn" id="btn-lang" onclick="toggleLang()">EN</button>
+      <button class="iconbtn" id="btn-theme" onclick="toggleTheme()">亮色</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tabname="rules" onclick="switchTab('rules')"><span data-lang="tab-rules">规则管理</span></button>
+    <button class="tab" data-tabname="config" onclick="switchTab('config')"><span data-lang="tab-config">引擎配置</span></button>
+  </nav>
+
+  <section id="tab-rules" class="tab-content active">
+    <div class="stats" id="stats-row"></div>
+
+    <div class="toolbar">
+      <div class="searchbox">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="search" data-lang-placeholder="search" placeholder="搜索匹配模式或技能…" oninput="render()">
+      </div>
+      <span class="count" id="search-info"></span>
+      <button class="btn btn-primary" onclick="openAddModal()"><span data-lang="add-rule">添加规则</span></button>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <colgroup>
+          <col style="width:auto"><col style="width:96px"><col style="width:110px"><col style="width:130px"><col style="width:104px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th data-lang="th-pattern">匹配模式</th>
+            <th style="text-align:right" data-lang="th-hits">命中</th>
+            <th data-lang="th-source">来源</th>
+            <th data-lang="th-last">最后命中</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rules-body"></tbody>
+      </table>
+      <div class="wide-note" id="more-note" style="display:none"></div>
+    </div>
+  </section>
+
+  <section id="tab-config" class="tab-content">
+    <div class="config-grid">
+
+      <div class="card">
+        <h3 data-lang="run-title">运行控制</h3>
+        <div class="row">
+          <span class="lbl"><span data-lang="pause-label">暂停 SSR</span><span class="hint" data-lang="pause-desc">暂停后不推荐任何技能</span></span>
+          <label class="switch"><input type="checkbox" id="pause-switch" onchange="togglePause()"><span class="slider"></span></label>
         </div>
-        <div class="search-info" id="search-info"></div>
-        <div class="cards-grid" id="cards-grid"></div>
+        <div class="row">
+          <span class="lbl"><span data-lang="mode">推荐模式</span></span>
+          <div class="choice">
+            <label id="mode-suggest"><input type="radio" name="mode" value="suggest" onchange="saveMode()"><span data-lang="suggest">推荐</span></label>
+            <label id="mode-enforce"><input type="radio" name="mode" value="enforce" onchange="saveMode()"><span data-lang="enforce">强制</span></label>
+          </div>
+        </div>
+        <div class="row">
+          <span class="lbl"><span data-lang="scan">扫描策略</span></span>
+          <div class="choice">
+            <label id="scan-startup"><input type="radio" name="scan" value="startup" onchange="saveScan()"><span data-lang="scan-startup">启动时</span></label>
+            <label id="scan-every"><input type="radio" name="scan" value="every_turn" onchange="saveScan()"><span data-lang="scan-every">每轮</span></label>
+          </div>
+        </div>
       </div>
 
-      <div id="tab-config" class="tab-content">
-        <div class="card"><h3 data-lang="pause-label">暂停 SSR</h3><div class="card-row"><span data-lang="pause-desc">暂停后不推荐任何技能</span><label class="switch"><input type="checkbox" id="pause-switch" onchange="togglePause()"><span class="slider"></span></label></div></div>
-        <div class="card"><h3 data-lang="mode">推荐模式</h3><div class="radio-group"><label><input type="radio" name="mode" value="suggest" onchange="saveMode()" checked> <span data-lang="suggest">推荐模式</span></label><label><input type="radio" name="mode" value="enforce" onchange="saveMode()"> <span data-lang="enforce">强制模式</span></label></div></div>
-        <div class="card"><h3 data-lang="scan">扫描策略</h3><div class="radio-group"><label><input type="radio" name="scan" value="startup" onchange="saveScan()" checked> <span data-lang="scan-startup">启动时扫描</span></label><label><input type="radio" name="scan" value="every_turn" onchange="saveScan()"> <span data-lang="scan-every">每次扫描</span></label></div></div>
-        <div class="card"><h3 data-lang="b-layer">B 层后端</h3><div class="card-row"><span data-lang="provider">Provider</span><select id="b-provider" onchange="onBProviderChange()"><option value="main">main</option><option value="openai">openai</option><option value="ollama">ollama</option><option value="lmstudio">lmstudio</option><option value="llamacpp">llamacpp</option></select></div><div class="card-row"><span data-lang="model-label">模型</span><input id="b-model"></div><div class="card-row"><span data-lang="base-url">Base URL</span><input id="b-url"></div><div class="card-row"><span data-lang="timeout">超时 (s)</span><input id="b-timeout" type="number"></div><div class="card-row"><span data-lang="apikey">API Key</span><input id="b-key" type="password"></div><div style="margin-top:16px"><button class="btn btn-accent" onclick="saveB()" data-lang="save">保存（重启生效）</button></div></div>
-        <div class="card"><h3 data-lang="gate-model-title">门控模型</h3><div class="card-row"><span data-lang="provider">Provider</span><select id="gate-provider" onchange="onGateProviderChange()"><option value="ollama">ollama</option><option value="main">main</option><option value="openai">openai</option></select></div><div class="card-row"><span data-lang="model-label">模型</span><input id="gate-model"></div><div class="card-row"><span data-lang="gate-enable">启用门控</span><label class="switch"><input type="checkbox" id="gate-enabled"><span class="slider"></span></label></div><div style="margin-top:16px"><button class="btn btn-accent" onclick="saveGate()" data-lang="save">保存（重启生效）</button></div></div>
-        <div class="card"><h3 data-lang="emb-title">Embedding 模型</h3><div class="card-row"><span data-lang="provider">Provider</span><select id="emb-provider"><option value="ollama">ollama</option><option value="main">main</option><option value="openai">openai</option><option value="siliconflow">siliconflow</option></select></div><div class="card-row"><span data-lang="model-label">模型</span><input id="emb-model" list="emb-ollama-list"><datalist id="emb-ollama-list"></datalist></div><div class="card-row"><span data-lang="base-url">Base URL</span><input id="emb-url"></div><div class="card-row"><span data-lang="apikey">API Key</span><input id="emb-key" type="password"></div><div style="margin-top:16px"><button class="btn btn-accent" onclick="saveEmb()" data-lang="save-rebuild">保存（重建索引）</button></div></div>
-        <div class="card"><h3 data-lang="behavior-title">行为设置</h3><div class="card-row"><span data-lang="llm-screen-label">LLM 二次筛选</span> <small class="hint"><span data-lang="hint-llm-screen">A 层匹配后再让 LLM 复核</span></small><label class="switch"><input type="checkbox" id="llm-screen" onchange="saveV21()"><span class="slider"></span></label></div><div class="card-row"><span data-lang="display-label">显示推荐结果</span> <small class="hint"><span data-lang="hint-display">对话中展示匹配结果</span></small><label class="switch"><input type="checkbox" id="ssr-display" onchange="saveV21()"><span class="slider"></span></label></div></div>
+      <div class="card">
+        <h3 data-lang="behavior-title">行为设置</h3>
+        <div class="row">
+          <span class="lbl"><span data-lang="llm-screen-label">LLM 二次筛选</span><span class="hint" data-lang="hint-llm-screen">A 层匹配后再让 LLM 复核</span></span>
+          <label class="switch"><input type="checkbox" id="llm-screen" onchange="saveBehavior()"><span class="slider"></span></label>
+        </div>
+        <div class="row">
+          <span class="lbl"><span data-lang="display-label">显示推荐结果</span><span class="hint" data-lang="hint-display">对话中展示匹配结果</span></span>
+          <label class="switch"><input type="checkbox" id="ssr-display" onchange="saveBehavior()"><span class="slider"></span></label>
+        </div>
       </div>
+
+      <div class="card">
+        <h3><span data-lang="b-layer">B 层后端</span><span class="tag">LLM 精排</span></h3>
+        <div class="row"><span class="lbl"><span data-lang="provider">Provider</span></span>
+          <select id="b-provider" onchange="onBProviderChange()"><option value="main">main</option><option value="openai">openai</option><option value="ollama">ollama</option><option value="lmstudio">lmstudio</option><option value="llamacpp">llamacpp</option></select></div>
+        <div class="row"><span class="lbl"><span data-lang="model-label">模型</span></span><input type="text" id="b-model" class="mono"></div>
+        <div class="row"><span class="lbl"><span data-lang="base-url">Base URL</span></span><input type="text" id="b-url" class="mono"></div>
+        <div class="row"><span class="lbl"><span data-lang="timeout">超时 (s)</span></span><input type="number" id="b-timeout"></div>
+        <div class="row"><span class="lbl"><span data-lang="apikey">API Key</span></span><input type="password" id="b-key" class="mono"></div>
+        <div class="save-row"><button class="btn btn-primary" onclick="saveB()"><span data-lang="save">保存（重启生效）</span></button></div>
+      </div>
+
+      <div class="card">
+        <h3><span data-lang="gate-model-title">门控模型</span><span class="tag">intent gate</span></h3>
+        <div class="row"><span class="lbl"><span data-lang="provider">Provider</span></span>
+          <select id="gate-provider" onchange="onGateProviderChange()"><option value="ollama">ollama</option><option value="main">main</option><option value="openai">openai</option></select></div>
+        <div class="row"><span class="lbl"><span data-lang="model-label">模型</span></span><input type="text" id="gate-model" class="mono"></div>
+        <div class="row"><span class="lbl"><span data-lang="gate-enable">启用门控</span></span>
+          <label class="switch"><input type="checkbox" id="gate-enabled" onchange="saveGate()"><span class="slider"></span></label></div>
+        <div class="save-row"><button class="btn btn-primary" onclick="saveGate()"><span data-lang="save">保存（重启生效）</span></button></div>
+      </div>
+
+      <div class="card">
+        <h3><span data-lang="emb-title">Embedding 模型</span><span class="tag">语义匹配</span></h3>
+        <div class="row"><span class="lbl"><span data-lang="provider">Provider</span></span>
+          <select id="emb-provider"><option value="ollama">ollama</option><option value="main">main</option><option value="openai">openai</option><option value="siliconflow">siliconflow</option></select></div>
+        <div class="row"><span class="lbl"><span data-lang="model-label">模型</span></span><input type="text" id="emb-model" class="mono" list="emb-ollama-list"><datalist id="emb-ollama-list"></datalist></div>
+        <div class="row"><span class="lbl"><span data-lang="base-url">Base URL</span></span><input type="text" id="emb-url" class="mono"></div>
+        <div class="row"><span class="lbl"><span data-lang="apikey">API Key</span></span><input type="password" id="emb-key" class="mono"></div>
+        <div class="save-row"><button class="btn btn-primary" onclick="saveEmb()"><span data-lang="save-rebuild">保存（重建索引）</span></button></div>
+      </div>
+
+      <div class="card danger">
+        <h3 style="color:var(--red)" data-lang="danger-title">危险操作</h3>
+        <div class="row">
+          <span class="lbl"><span data-lang="reset-rules">重置全部规则</span><span class="hint" data-lang="reset-hint">清空 A 层规则库（重置前会自动备份）</span></span>
+          <button class="btn btn-danger" onclick="resetRules()"><span data-lang="reset-btn">重置</span></button>
+        </div>
+      </div>
+
     </div>
-  </main>
+  </section>
 </div>
 
-<div class="modal" id="modal"><div class="modal-box"><h2 id="modal-title" data-lang="edit-rule">编辑规则</h2><label data-lang="edit-pattern">匹配模式（正则）</label><input id="edit-pattern"><label data-lang="edit-skills">匹配技能（逗号分隔）</label><textarea id="edit-skills"></textarea><label data-lang="edit-phrases">阶段标签（逗号分隔）</label><input id="edit-phases" placeholder="DISCOVER,PLAN,BUILD,VERIFY"><div class="modal-actions"><button class="btn btn-danger btn-sm" id="modal-delete-btn" style="display:none;margin-right:auto" onclick="deleteRule()" data-lang="delete-btn">删除</button><button class="btn" onclick="closeModal()" data-lang="cancel">取消</button><button class="btn btn-accent" onclick="saveRule()" data-lang="save-btn">保存</button></div></div></div>
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h2 id="modal-title" data-lang="edit-rule">编辑规则</h2>
+    <div class="fld">
+      <label data-lang="edit-pattern">匹配模式（正则）</label>
+      <input id="edit-pattern" spellcheck="false">
+    </div>
+    <div class="fld">
+      <label data-lang="edit-skills">匹配技能（逗号分隔）</label>
+      <textarea id="edit-skills" spellcheck="false"></textarea>
+      <div class="hint" data-lang="edit-skills-hint">匹配命中后推荐加载的技能名</div>
+    </div>
+    <div class="fld">
+      <label data-lang="edit-phases">阶段标签（逗号分隔）</label>
+      <input id="edit-phases" spellcheck="false" placeholder="SEARCH, CREATE, PLAN">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-danger btn-sm del" id="modal-delete-btn" style="display:none" onclick="deleteRule()" data-lang="delete-btn">删除</button>
+      <button class="btn" onclick="closeModal()" data-lang="cancel">取消</button>
+      <button class="btn btn-primary" onclick="saveRule()" data-lang="save-btn">保存</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-var lang=localStorage.getItem("ssr-lang")||"zh",paused=false,editingPattern=null,rules={},rulesOrder=[],mainModelName="";
-function el(id){return document.getElementById(id)}
-var i18n={zh:{"brand":"智配路由 · 仪表盘","tab-rules":"规则管理","tab-config":"引擎配置","running":"运行中","paused":"已暂停","search":"搜索规则…","add-rule":"添加规则","reset-rules":"重置","edit-rule":"编辑规则","delete-btn":"删除","cancel":"取消","save-btn":"保存","edit-pattern":"匹配模式（正则）","edit-skills":"匹配技能（逗号分隔）","edit-phrases":"阶段标签","pause":"暂停","pause-label":"暂停 SSR","pause-desc":"暂停后不推荐任何技能","mode":"推荐模式","suggest":"推荐模式","enforce":"强制模式","scan":"扫描策略","scan-startup":"启动时扫描","scan-every":"每次扫描","b-layer":"B 层后端","provider":"Provider","model-label":"模型","base-url":"Base URL","timeout":"超时 (s)","apikey":"API Key","save":"保存（重启生效）","gate-model-title":"门控模型","emb-title":"Embedding 模型","behavior-title":"行为设置","gate-enable":"启用门控","save-rebuild":"保存（重建索引）","hint-llm-screen":"A 层匹配后再让 LLM 复核","hint-display":"对话中展示匹配结果","llm-screen-label":"LLM 二次筛选","display-label":"显示推荐结果","toast-fill":"请填写完整","toast-update":"更新成功","toast-add":"添加成功","toast-delete":"已删除","toast-reset":"已重置","toast-save":"已保存","toast-save-restart":"已保存，重启生效","total-hits":"累计命中","active-rules":"活跃规则","hit-rate":"命中率","hit-rate-sub":"命中率","total-hits-sub":"累计匹配次数","active-rules-sub":"A 层规则","rules-showing":"显示","show-all":"显示全部","more":"更多","rules-of":"共","btn-edit":"编辑","no-results":"无匹配规则","btn-delete":"删除"},en:{"brand":"Smart Skill Router · Dashboard","tab-rules":"Rules","tab-config":"Config","running":"Running","paused":"Paused","search":"Search rules…","add-rule":"Add Rule","reset-rules":"Reset","edit-rule":"Edit Rule","delete-btn":"Delete","cancel":"Cancel","save-btn":"Save","edit-pattern":"Pattern (regex)","edit-skills":"Skills (comma-separated)","edit-phrases":"Phases","pause":"Pause","pause-label":"Pause SSR","pause-desc":"Stop all recommendations","mode":"Mode","suggest":"Suggest","enforce":"Enforce","scan":"Scan Strategy","scan-startup":"On Startup","scan-every":"Every Turn","b-layer":"B-Layer Backend","provider":"Provider","model-label":"Model","base-url":"Base URL","timeout":"Timeout (s)","apikey":"API Key","save":"Save (restart to apply)","gate-model-title":"Gate Model","emb-title":"Embedding Model","behavior-title":"Behavior","gate-enable":"Enable Gate","save-rebuild":"Save (rebuild index)","hint-llm-screen":"LLM re-screens A-layer matches","hint-display":"Show match results in chat","llm-screen-label":"LLM Screening","display-label":"Show Results","toast-fill":"Please fill all fields","toast-update":"Updated","toast-add":"Added","toast-delete":"Deleted","toast-reset":"Reset","toast-save":"Saved","toast-save-restart":"Saved, restart to apply","total-hits":"Total Hits","active-rules":"Active Rules","hit-rate":"Hit Rate","hit-rate-sub":"Hit Rate","total-hits-sub":"Total matches","active-rules-sub":"A-layer rules","rules-showing":"Showing","show-all":"Show all","more":"more","rules-of":"of","btn-edit":"Edit","no-results":"No matching rules","btn-delete":"Delete"}};
-function t(k){return (i18n[lang]||i18n.zh)[k]||k}
-var currentTab="rules";function updateBreadcrumb(){el("breadcrumb").textContent=t("brand")+" / "+t("tab-"+currentTab)}function toggleLang(){lang=lang==="zh"?"en":"zh";localStorage.setItem("ssr-lang",lang);document.title=t("brand");el("btn-lang").textContent=lang==="zh"?"EN":"中文";document.querySelectorAll("[data-lang]").forEach(function(e){e.textContent=t(e.getAttribute("data-lang"))});document.querySelectorAll("[data-lang-placeholder]").forEach(function(e){e.placeholder=t(e.getAttribute("data-lang-placeholder"))});el("live-status").textContent=paused?t("paused"):t("running");updateBreadcrumb();render();loadStats()}
-function toggleTheme(){var b=document.body,cur=b.getAttribute("data-theme")||"dark",nxt=cur==="dark"?"light":"dark";b.setAttribute("data-theme",nxt);el("btn-theme").textContent=nxt==="dark"?"☀":"◉";localStorage.setItem("ssr-theme",nxt)}
-function switchTab(name){currentTab=name;document.querySelectorAll(".tab").forEach(function(t,i){t.classList.toggle("active",(i===0&&name==="rules")||(i===1&&name==="config"))});document.querySelectorAll(".tab-content").forEach(function(c){c.classList.toggle("active",c.id==="tab-"+name)});updateBreadcrumb();if(name==="rules"){render();loadStats()}}
+var lang = localStorage.getItem("ssr-lang") || "zh";
+var paused = false, editingPattern = null, rules = {}, rulesOrder = [], currentRows = [];
+var showAll = false, mainModelName = "";
 
-async function loadConfig(){var r=await fetch("/api/config");var c=await r.json();el("pause-switch").checked=!c.enabled;paused=!c.enabled;el("live-status").textContent=paused?t("paused"):t("running");document.querySelector('input[name="mode"][value="'+c.mode+'"]').checked=true;document.querySelector('input[name="scan"][value="'+c.scan+'"]').checked=true;el("b-provider").value=c.b_provider||"main";el("b-model").value=c.b_model||"";el("b-url").value=c.b_url||"";el("b-timeout").value=c.b_timeout||30;el("b-key").value=c.b_key||"";el("gate-provider").value=c.gate_provider||"ollama";mainModelName=c.main_model||"";el("gate-model").value=c.gate_model||(c.gate_provider==="main"?c.main_model:"");el("gate-enabled").checked=!!c.gate_enabled;el("emb-provider").value=c.emb_provider||"";el("emb-model").value=c.emb_model||"";el("emb-url").value=c.emb_url||"";el("emb-key").value=c.emb_key||"";el("llm-screen").checked=!!c.llm_screen;el("ssr-display").checked=!!c.display;loadEmbModels();el("pulse").className=c.enabled?"dot on":"dot off"}
-function onBProviderChange(){var p=el("b-provider").value;el("b-model").disabled=p==="main";if(p==="main")el("b-model").value=mainModelName;el("b-url").disabled=p==="main";el("b-key").disabled=p==="main"}
-function onGateProviderChange(){var p=el("gate-provider").value;if(p==="main")el("gate-model").value=mainModelName}
-async function saveB(){await fetch("/api/config",{method:"POST",body:JSON.stringify({provider:el("b-provider").value,model:el("b-model").value,base_url:el("b-url").value,timeout:parseInt(el("b-timeout").value)||30,api_key:el("b-key").value})});toast(t("toast-save-restart"))}
-async function saveGate(){var p=el("gate-provider").value,m=el("gate-model").value,e=el("gate-enabled").checked;await fetch("/api/config",{method:"POST",body:JSON.stringify({gate_provider:p,gate_model:m,gate_enabled:e})});toast(t("toast-save-restart"))}
-async function saveEmb(){var p=el("emb-provider").value,m=el("emb-model").value;var d={emb_model:m,emb_provider:p,emb_url:el("emb-url").value,emb_key:el("emb-key").value};await fetch("/api/config",{method:"POST",body:JSON.stringify(d)});toast(t("toast-save"))}
-async function saveV21(){var d={llm_screen:el("llm-screen").checked,display:el("ssr-display").checked};await fetch("/api/config",{method:"POST",body:JSON.stringify(d)});toast(t("toast-save"))}
-async function saveMode(){var m=document.querySelector('input[name="mode"]:checked').value;await fetch("/api/config",{method:"POST",body:JSON.stringify({mode:m})});toast(t("toast-save"))}
-async function saveScan(){var s=document.querySelector('input[name="scan"]:checked').value;await fetch("/api/config",{method:"POST",body:JSON.stringify({scan_mode:s})});toast(t("toast-save"))}
-async function togglePause(){paused=el("pause-switch").checked;await fetch("/api/config",{method:"POST",body:JSON.stringify({enabled:!paused})});el("live-status").textContent=paused?t("paused"):t("running");el("pulse").className=paused?"dot off":"dot on"}
-async function loadRules(){var r=await fetch("/api/rules");var d=await r.json();if(Array.isArray(d)){rules={};d.forEach(function(item){rules[item.pattern]=item});rulesOrder=Object.keys(rules).sort()}else{rules=d;rulesOrder=Object.keys(d).sort()}}
-async function loadStats(){var r=await fetch("/api/stats");var s=await r.json();var h=Math.round(s.hit_rate||0);el("stats-bar").innerHTML='<div class="stat-card"><div class="stat-label">'+t("total-hits")+'</div><div class="stat-value">'+(s.total_hits||0)+'</div><div class="stat-sub">'+t("total-hits-sub")+'</div></div><div class="stat-card"><div class="stat-label">'+t("active-rules")+'</div><div class="stat-value">'+(s.rules_count||0)+'</div><div class="stat-sub">'+t("active-rules-sub")+'</div></div><div class="stat-card"><div class="stat-label">'+t("hit-rate")+'</div><div class="stat-value">'+h+'%</div><div class="stat-sub">'+t("hit-rate-sub")+'</div></div>'}
-var showAll=false;
-function render(){
-  var q=(el("search").value||"").toLowerCase();
-  var rows=rulesOrder.filter(function(k){return !q||k.toLowerCase().indexOf(q)>=0||(rules[k].skills||[]).some(function(kw){return kw&&kw.toLowerCase().indexOf(q)>=0})});
-  rows.sort(function(a,b){return (rules[b].hits||0)-(rules[a].hits||0)});
-  var shown=showAll?rows:rows.slice(0,10);
-  var hidden=rows.length-shown.length;
-  el("search-info").textContent=t("rules-showing")+" "+shown.length+(hidden>0?" (+"+hidden+" "+t("more")+")":"")+" "+t("rules-of")+" "+rulesOrder.length+" "+t("active-rules");
-  if(!rows.length){el("cards-grid").innerHTML='<div class="empty">'+t("no-results")+'</div>';return}
-  var h="";
-  shown.forEach(function(k,i){
-    var r=rules[k];var hits=r.hits||0;
-    h+='<div class="rule-card"><div class="rule-left"><span class="rule-pattern">'+k+'</span></div><span class="rule-hits'+(hits>100?' hot':'')+'">'+hits+'</span><div class="rule-actions"><button class="btn btn-sm" onclick="openEditModal(\''+k.replace(/'/g,"\\'")+'\')">'+t("btn-edit")+'</button><button class="btn btn-sm btn-danger" onclick="deleteRuleByKey(\''+k.replace(/'/g,"\\'")+'\')">'+t("btn-delete")+'</button></div></div>'
-  });
-  if(hidden>0&&!q)h+='<div class="show-more" onclick="showAll=true;render()">'+t("show-all")+' '+rows.length+' '+t("active-rules")+'</div>';
-  el("cards-grid").innerHTML=h;
+function el(id){return document.getElementById(id)}
+
+var i18n = {
+zh:{
+  "brand":"智配路由","tab-rules":"规则管理","tab-config":"引擎配置",
+  "running":"运行中","paused":"已暂停",
+  "search":"搜索匹配模式或技能…","add-rule":"添加规则",
+  "th-pattern":"匹配模式","th-hits":"命中","th-source":"来源","th-last":"最后命中",
+  "src-manual":"manual","src-auto":"auto",
+  "edit-rule":"编辑规则","add-title":"添加规则","delete-btn":"删除","cancel":"取消","save-btn":"保存",
+  "edit-pattern":"匹配模式（正则）","edit-skills":"匹配技能（逗号分隔）","edit-phases":"阶段标签（逗号分隔）",
+  "edit-skills-hint":"匹配命中后推荐加载的技能名",
+  "run-title":"运行控制","pause-label":"暂停 SSR","pause-desc":"暂停后不推荐任何技能",
+  "mode":"推荐模式","suggest":"推荐","enforce":"强制",
+  "scan":"扫描策略","scan-startup":"启动时","scan-every":"每轮",
+  "behavior-title":"行为设置","llm-screen-label":"LLM 二次筛选","hint-llm-screen":"A 层匹配后再让 LLM 复核",
+  "display-label":"显示推荐结果","hint-display":"对话中展示匹配结果",
+  "b-layer":"B 层后端","provider":"Provider","model-label":"模型","base-url":"Base URL",
+  "timeout":"超时 (s)","apikey":"API Key","save":"保存（重启生效）",
+  "gate-model-title":"门控模型","gate-enable":"启用门控",
+  "emb-title":"Embedding 模型","save-rebuild":"保存（重建索引）",
+  "danger-title":"危险操作","reset-rules":"重置全部规则","reset-hint":"清空 A 层规则库（重置前会自动备份）","reset-btn":"重置",
+  "stat-rules":"活跃规则","stat-rules-sub":"A 层 pattern",
+  "stat-hits":"累计命中","stat-hits-sub":"全部规则合计",
+  "stat-emb":"索引规模","stat-emb-sub":"embeddings",
+  "stat-health":"引擎状态","health-ok":"正常","health-degraded":"降级","health-empty":"空","health-unknown":"未知",
+  "showing":"显示","of":"/","all":"全部","more":"更多","show-all":"显示全部","show-less":"收起",
+  "no-results":"没有匹配的规则","edit":"编辑","del":"删除","rows":"条",
+  "toast-fill":"请填写匹配模式","toast-update":"已更新","toast-add":"已添加","toast-delete":"已删除",
+  "toast-reset":"已重置（已备份）","toast-save":"已保存","toast-save-restart":"已保存，重启生效",
+  "confirm-delete":"确定删除这条规则？","confirm-reset":"确定清空全部 A 层规则？此操作会先自动备份。",
+  "theme-to-light":"亮色","theme-to-dark":"暗色","lang-btn":"EN"
+},
+en:{
+  "brand":"Smart Skill Router","tab-rules":"Rules","tab-config":"Config",
+  "running":"Running","paused":"Paused",
+  "search":"Search pattern or skill…","add-rule":"Add Rule",
+  "th-pattern":"Pattern","th-hits":"Hits","th-source":"Source","th-last":"Last hit",
+  "src-manual":"manual","src-auto":"auto",
+  "edit-rule":"Edit Rule","add-title":"Add Rule","delete-btn":"Delete","cancel":"Cancel","save-btn":"Save",
+  "edit-pattern":"Pattern (regex)","edit-skills":"Skills (comma-separated)","edit-phases":"Phases (comma-separated)",
+  "edit-skills-hint":"Skills to load when the pattern matches",
+  "run-title":"Runtime","pause-label":"Pause SSR","pause-desc":"Stop all recommendations",
+  "mode":"Mode","suggest":"Suggest","enforce":"Enforce",
+  "scan":"Scan","scan-startup":"On startup","scan-every":"Every turn",
+  "behavior-title":"Behavior","llm-screen-label":"LLM re-screen","hint-llm-screen":"LLM re-check after A-layer match",
+  "display-label":"Show results","hint-display":"Display matches in chat",
+  "b-layer":"B-Layer Backend","provider":"Provider","model-label":"Model","base-url":"Base URL",
+  "timeout":"Timeout (s)","apikey":"API Key","save":"Save (restart to apply)",
+  "gate-model-title":"Intent Gate","gate-enable":"Enable gate",
+  "emb-title":"Embedding Model","save-rebuild":"Save (rebuild index)",
+  "danger-title":"Danger Zone","reset-rules":"Reset all rules","reset-hint":"Wipe the A-layer rule base (auto-backup first)","reset-btn":"Reset",
+  "stat-rules":"Active rules","stat-rules-sub":"A-layer patterns",
+  "stat-hits":"Total hits","stat-hits-sub":"sum across rules",
+  "stat-emb":"Index size","stat-emb-sub":"embeddings",
+  "stat-health":"Engine","health-ok":"Healthy","health-degraded":"Degraded","health-empty":"Empty","health-unknown":"Unknown",
+  "showing":"Showing","of":"of","all":"all","more":"more","show-all":"Show all","show-less":"Show less",
+  "no-results":"No matching rules","edit":"Edit","del":"Delete","rows":"rules",
+  "toast-fill":"Pattern is required","toast-update":"Updated","toast-add":"Added","toast-delete":"Deleted",
+  "toast-reset":"Reset done (backed up)","toast-save":"Saved","toast-save-restart":"Saved — restart to apply",
+  "confirm-delete":"Delete this rule?","confirm-reset":"Wipe ALL A-layer rules? An automatic backup will be made first.",
+  "theme-to-light":"Light","theme-to-dark":"Dark","lang-btn":"中文"
+}};
+
+function t(k){return (i18n[lang]||i18n.zh)[k]||k}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+
+function applyLang(){
+  document.querySelectorAll("[data-lang]").forEach(function(e){e.textContent = t(e.getAttribute("data-lang"))});
+  document.querySelectorAll("[data-lang-placeholder]").forEach(function(e){e.placeholder = t(e.getAttribute("data-lang-placeholder"))});
+  document.title = t("brand") + " · Dashboard";
+  var dark = (document.body.getAttribute("data-theme")||"dark")==="dark";
+  el("btn-theme").textContent = dark ? t("theme-to-light") : t("theme-to-dark");
+  el("btn-lang").textContent = t("lang-btn");
+  el("live-status").textContent = paused ? t("paused") : t("running");
+  renderStats(); render();
 }
-function openAddModal(){editingPattern=null;el("modal-title").textContent=t("add-rule");el("edit-pattern").value="";el("edit-skills").value="";el("edit-phases").value="";el("modal-delete-btn").style.display="none";el("modal").classList.add("show")}
-function openEditModal(k){editingPattern=k;var r=rules[k];el("modal-title").textContent=t("edit-rule");el("edit-pattern").value=k;el("edit-skills").value=(r.skills||[]).join(", ");el("edit-phases").value=(r.phases||[]).join(",");el("modal-delete-btn").style.display="inline-flex";el("modal").classList.add("show")}
-function closeModal(){el("modal").classList.remove("show")}
-async function saveRule(){var p=el("edit-pattern").value.trim(),s=el("edit-skills").value.trim(),ph=el("edit-phases").value.trim();if(!p){toast(t("toast-fill"),"error");return}var keywords=s?s.split(",").map(function(x){return x.trim()}):[];var phases=ph?ph.split(",").map(function(x){return x.trim()}):["DISCOVER"];if(editingPattern&&editingPattern!==p){await fetch("/api/rules/"+encodeURIComponent(editingPattern),{method:"DELETE"})}var r={skills:keywords,phases:phases,hits:editingPattern?rules[editingPattern]?.hits||0:0,last_hit:"",source:"manual",priority:10};await fetch("/api/rules/"+encodeURIComponent(p),{method:"PUT",body:JSON.stringify(r)});closeModal();await loadRules();render();loadStats();toast(editingPattern?t("toast-update"):t("toast-add"))}
-async function deleteRuleByKey(k){if(!confirm(t("delete-btn")+"?"))return;await fetch("/api/rules/"+encodeURIComponent(k),{method:"DELETE"});await loadRules();render();loadStats();toast(t("toast-delete"))}
-async function deleteRule(){if(!editingPattern)return;await deleteRuleByKey(editingPattern);closeModal()}
-async function resetRules(){if(!confirm(t("reset-rules")+"?"))return;await fetch("/api/rules/reset",{method:"POST"});await loadRules();render();loadStats();toast(t("toast-reset"))}
-async function loadEmbModels(){try{var r=await fetch("/api/models");var m=await r.json();var list=el("emb-ollama-list");list.innerHTML="";(m.ollama||[]).forEach(function(n){list.innerHTML+='<option value="'+n+'">'})}catch(e){}}
-function toast(msg,type){type=type||"success";var t=el("toast");t.textContent=msg;t.className="toast show "+(type||"");setTimeout(function(){t.className="toast"},2400)}
+function toggleTheme(){
+  var cur = document.body.getAttribute("data-theme")||"dark";
+  var nxt = cur==="dark" ? "light" : "dark";
+  document.body.setAttribute("data-theme", nxt);
+  localStorage.setItem("ssr-theme", nxt);
+  applyLang();
+}
+function toggleLang(){
+  lang = lang==="zh" ? "en" : "zh";
+  localStorage.setItem("ssr-lang", lang);
+  applyLang();
+}
+
+function switchTab(name){
+  document.querySelectorAll(".tab").forEach(function(b){
+    b.classList.toggle("active", b.getAttribute("data-tabname")===name);
+  });
+  document.querySelectorAll(".tab-content").forEach(function(c){
+    c.classList.toggle("active", c.id==="tab-"+name);
+  });
+  if(name==="rules"){render(); loadStats()}
+}
+
+async function loadConfig(){
+  var r = await fetch("/api/config"); var c = await r.json();
+  el("pause-switch").checked = !c.enabled; paused = !c.enabled;
+  el("live-status").textContent = paused ? t("paused") : t("running");
+  el("pulse").className = "dot " + (c.enabled ? "on" : "off");
+  var mRadio = document.querySelector('input[name="mode"][value="'+c.mode+'"]'); if(mRadio) mRadio.checked = true;
+  var sRadio = document.querySelector('input[name="scan"][value="'+c.scan+'"]'); if(sRadio) sRadio.checked = true;
+  el("b-provider").value = c.b_provider||"main";
+  el("b-model").value = c.b_model||""; el("b-url").value = c.b_url||"";
+  el("b-timeout").value = c.b_timeout||30; el("b-key").value = c.b_key||"";
+  mainModelName = c.main_model||"";
+  el("gate-provider").value = c.gate_provider||"ollama";
+  el("gate-model").value = c.gate_model || (c.gate_provider==="main" ? c.main_model : "");
+  el("gate-enabled").checked = !!c.gate_enabled;
+  el("emb-provider").value = c.emb_provider||"";
+  el("emb-model").value = c.emb_model||""; el("emb-url").value = c.emb_url||"";
+  el("emb-key").value = c.emb_key||"";
+  el("llm-screen").checked = !!c.llm_screen; el("ssr-display").checked = !!c.display;
+  syncChoiceStates(); onBProviderChange(); loadEmbModels();
+}
+function syncChoiceStates(){
+  ["mode","scan"].forEach(function(g){
+    document.querySelectorAll('input[name="'+g+'"]').forEach(function(i){
+      i.closest("label").classList.toggle("on", i.checked);
+    });
+  });
+}
+function onBProviderChange(){
+  var p = el("b-provider").value;
+  var isMain = p==="main";
+  el("b-model").disabled = isMain; el("b-url").disabled = isMain; el("b-key").disabled = isMain;
+  if(isMain) el("b-model").value = mainModelName;
+}
+function onGateProviderChange(){ if(el("gate-provider").value==="main") el("gate-model").value = mainModelName }
+async function saveB(){
+  await fetch("/api/config",{method:"POST",body:JSON.stringify({
+    provider:el("b-provider").value, model:el("b-model").value,
+    base_url:el("b-url").value, timeout:parseInt(el("b-timeout").value)||30,
+    api_key:el("b-key").value })});
+  toast(t("toast-save-restart"));
+}
+async function saveGate(){
+  await fetch("/api/config",{method:"POST",body:JSON.stringify({
+    gate_provider:el("gate-provider").value, gate_model:el("gate-model").value,
+    gate_enabled:el("gate-enabled").checked })});
+  toast(t("toast-save-restart"));
+}
+async function saveEmb(){
+  await fetch("/api/config",{method:"POST",body:JSON.stringify({
+    emb_model:el("emb-model").value, emb_provider:el("emb-provider").value,
+    emb_url:el("emb-url").value, emb_key:el("emb-key").value })});
+  toast(t("toast-save"));
+}
+async function saveBehavior(){
+  await fetch("/api/config",{method:"POST",body:JSON.stringify({
+    llm_screen:el("llm-screen").checked, display:el("ssr-display").checked })});
+  toast(t("toast-save"));
+}
+async function saveMode(){
+  var m = document.querySelector('input[name="mode"]:checked').value;
+  await fetch("/api/config",{method:"POST",body:JSON.stringify({mode:m})});
+  syncChoiceStates(); toast(t("toast-save"));
+}
+async function saveScan(){
+  var s = document.querySelector('input[name="scan"]:checked').value;
+  await fetch("/api/config",{method:"POST",body:JSON.stringify({scan:s})});
+  syncChoiceStates(); toast(t("toast-save"));
+}
+async function togglePause(){
+  paused = el("pause-switch").checked;
+  await fetch("/api/config",{method:"POST",body:JSON.stringify({enabled:!paused})});
+  el("live-status").textContent = paused ? t("paused") : t("running");
+  el("pulse").className = "dot " + (paused ? "off" : "on");
+}
+async function loadEmbModels(){
+  try{
+    var r = await fetch("/api/model-info"); var m = await r.json();
+    var list = el("emb-ollama-list"); list.innerHTML = "";
+    (m.models||[]).forEach(function(x){ list.innerHTML += '<option value="'+esc(x.name)+'">' });
+  }catch(e){}
+}
+
+async function loadRules(){
+  var r = await fetch("/api/rules"); var d = await r.json();
+  if(Array.isArray(d)){ rules={}; d.forEach(function(it){ rules[it.pattern]=it }); }
+  else { rules = d||{}; }
+  rulesOrder = Object.keys(rules).sort();
+}
+async function loadStats(){
+  try{
+    var r = await fetch("/api/stats"); window.__stats = await r.json();
+  }catch(e){ window.__stats = {} }
+  renderStats();
+}
+function renderStats(){
+  var s = window.__stats||{};
+  var totalHits = 0;
+  rulesOrder.forEach(function(k){ totalHits += (rules[k].hits||0) });
+  var health = s.health||"unknown";
+  var hTxt = {healthy:t("health-ok"),degraded:t("health-degraded"),empty:t("health-empty")}[health]||t("health-unknown");
+  var hCls = {healthy:"ok",degraded:"warn",empty:"bad"}[health]||"";
+  el("stats-row").innerHTML =
+    '<div class="stat"><div class="k">'+t("stat-rules")+'</div><div class="v">'+rulesOrder.length+'</div><div class="s">'+t("stat-rules-sub")+'</div></div>'+
+    '<div class="stat"><div class="k">'+t("stat-hits")+'</div><div class="v">'+totalHits+'</div><div class="s">'+t("stat-hits-sub")+'</div></div>'+
+    '<div class="stat"><div class="k">'+t("stat-emb")+'</div><div class="v">'+(s.embedding_count||0)+'</div><div class="s">'+t("stat-emb-sub")+' · '+(s.index_size_kb?Math.round(s.index_size_kb/1024*10)/10+" MB":"—")+'</div></div>'+
+    '<div class="stat"><div class="k">'+t("stat-health")+'</div><div class="v" style="font-size:20px">'+hTxt+'</div><div class="s"><span class="'+hCls+'">SSR v3.0.2</span></div></div>';
+}
+
+function render(){
+  var q = (el("search").value||"").trim().toLowerCase();
+  var rows = rulesOrder.filter(function(k){
+    if(!q) return true;
+    if(k.toLowerCase().indexOf(q)>=0) return true;
+    var sk = rules[k].skills||[];
+    return sk.some(function(x){ var n = (x && x.name) ? x.name : x; return n && String(n).toLowerCase().indexOf(q)>=0 });
+  });
+  rows.sort(function(a,b){ return (rules[b].hits||0)-(rules[a].hits||0) });
+  currentRows = rows;
+  var shown = showAll ? rows : rows.slice(0,12);
+  var hidden = rows.length - shown.length;
+
+  el("search-info").textContent = rows.length === rulesOrder.length
+    ? (rulesOrder.length + " " + t("rows"))
+    : (t("showing") + " " + rows.length + " " + t("of") + " " + rulesOrder.length + " " + t("rows"));
+
+  var body = el("rules-body");
+  if(!rows.length){ body.innerHTML = '<tr><td colspan="5"><div class="empty">'+t("no-results")+'</div></td></tr>'; el("more-note").style.display="none"; return; }
+
+  var h = "";
+  shown.forEach(function(k, i){
+    var r = rules[k]; var hits = r.hits||0;
+    var src = r.source||"?"; var srcCls = src==="manual" ? "manual" : "";
+    var srcLabel = src==="manual" ? t("src-manual") : (src==="auto" ? t("src-auto") : src);
+    h += '<tr data-i="'+i+'">'+
+      '<td class="pat" title="'+esc(k)+'" onclick="toggleRow(this)">'+esc(k)+'</td>'+
+      '<td class="num'+(hits===0?' zero':'')+'">'+hits+'</td>'+
+      '<td><span class="src '+srcCls+'">'+esc(srcLabel)+'</span></td>'+
+      '<td class="date">'+esc(r.last_hit||"—")+'</td>'+
+      '<td class="row-actions">'+
+        '<button class="btn btn-sm" onclick="openEditModal('+i+')">'+t("edit")+'</button> '+
+        '<button class="btn btn-sm btn-danger" onclick="deleteRow('+i+')">'+t("del")+'</button>'+
+      '</td></tr>';
+  });
+  body.innerHTML = h;
+
+  var note = el("more-note");
+  if(hidden > 0){
+    note.style.display = "";
+    note.innerHTML = '<button onclick="showAll=true;render()">'+t("show-all")+' +'+hidden+' '+t("more")+'</button>';
+  } else if(showAll && rows.length > 12){
+    note.style.display = "";
+    note.innerHTML = '<button onclick="showAll=false;render()">'+t("show-less")+'</button>';
+  } else {
+    note.style.display = "none";
+  }
+}
+function toggleRow(td){ td.closest("tr").classList.toggle("expanded") }
+
+function openAddModal(){
+  editingPattern = null;
+  el("modal-title").textContent = t("add-title");
+  el("edit-pattern").value = ""; el("edit-skills").value = ""; el("edit-phases").value = "";
+  el("modal-delete-btn").style.display = "none";
+  el("modal").classList.add("show");
+  el("edit-pattern").focus();
+}
+function openEditModal(i){
+  var k = currentRows[i]; if(k===undefined) return;
+  var r = rules[k];
+  editingPattern = k;
+  el("modal-title").textContent = t("edit-rule");
+  el("edit-pattern").value = k;
+  el("edit-skills").value = (r.skills||[]).map(function(x){ return (x && x.name) ? x.name : x }).join(", ");
+  el("edit-phases").value = (r.phases||[]).join(", ");
+  el("modal-delete-btn").style.display = "inline-flex";
+  el("modal").classList.add("show");
+}
+function closeModal(){ el("modal").classList.remove("show") }
+function splitList(v){ return v ? v.split(",").map(function(x){return x.trim()}).filter(Boolean) : [] }
+async function saveRule(){
+  var p = el("edit-pattern").value.trim();
+  var skills = splitList(el("edit-skills").value);
+  var phases = splitList(el("edit-phases").value);
+  if(!p){ toast(t("toast-fill"), "error"); return }
+  if(editingPattern === null){
+    await fetch("/api/rules",{method:"POST",body:JSON.stringify({pattern:p, skills:skills, phases:phases})});
+    toast(t("toast-add"));
+  } else {
+    var old = rules[editingPattern]||{};
+    await fetch("/api/rules/"+encodeURIComponent(editingPattern),{method:"PUT",body:JSON.stringify({
+      pattern:p, skills:skills, phases:phases,
+      hits:old.hits||0, last_hit:old.last_hit||""
+    })});
+    toast(t("toast-update"));
+  }
+  closeModal(); await loadRules(); render(); loadStats();
+}
+async function deleteRow(i){
+  var k = currentRows[i]; if(k===undefined) return;
+  if(!confirm(t("confirm-delete"))) return;
+  await fetch("/api/rules/"+encodeURIComponent(k),{method:"DELETE"});
+  await loadRules(); render(); loadStats(); toast(t("toast-delete"));
+}
+async function deleteRule(){
+  if(editingPattern===null) return;
+  if(!confirm(t("confirm-delete"))) return;
+  await fetch("/api/rules/"+encodeURIComponent(editingPattern),{method:"DELETE"});
+  closeModal(); await loadRules(); render(); loadStats(); toast(t("toast-delete"));
+}
+async function resetRules(){
+  if(!confirm(t("confirm-reset"))) return;
+  await fetch("/api/rules/reset",{method:"POST"});
+  await loadRules(); render(); loadStats(); toast(t("toast-reset"));
+}
+
+var toastTimer = null;
+function toast(msg, type){
+  var t = el("toast");
+  t.textContent = msg;
+  t.className = "toast show" + (type ? " "+type : "");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.className = "toast" }, 2400);
+}
+
 (function init(){
-  var theme=localStorage.getItem("ssr-theme")||"dark";document.body.setAttribute("data-theme",theme);
-  el("btn-theme").textContent=theme==="dark"?"☀":"◉";el("btn-lang").textContent=lang==="zh"?"EN":"中文";document.title=t("brand");updateBreadcrumb();
-  el("modal").addEventListener("click",function(e){if(e.target===el("modal"))closeModal()});
-  loadConfig();loadRules().then(function(){render();loadStats()});
-  setInterval(function(){el("clock").textContent=new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit",second:"2-digit"})},1000);
+  document.body.setAttribute("data-theme", localStorage.getItem("ssr-theme")||"dark");
+  el("modal").addEventListener("click", function(e){ if(e.target===el("modal")) closeModal() });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeModal() });
+  applyLang();
+  loadConfig();
+  loadRules().then(function(){
+    render(); loadStats();
+    var mm = location.hash.match(/tab=(\w+)/);
+    if(mm) switchTab(mm[1]);
+  });
+  setInterval(function(){
+    el("clock").textContent = new Date().toLocaleTimeString(lang==="zh"?"zh-CN":"en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  }, 1000);
 })();
 </script>
 </body>

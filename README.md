@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-3.0.1-emerald" alt="version">
+  <img src="https://img.shields.io/badge/version-3.0.2-emerald" alt="version">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
   <img src="https://img.shields.io/badge/platform-Hermes%20Agent-orange" alt="platform">
 </p>
@@ -97,7 +97,7 @@ cp -r ssr ~/.hermes/plugins/
 
 ```bash
 python3 ~/.hermes/plugins/ssr/dashboard.py
-# → http://localhost:8766
+# → http://localhost:8768
 ```
 
 ### 功能
@@ -176,6 +176,7 @@ ssr:
 
 | 版本 | 日期 | 核心变更 |
 |------|------|------|
+| v3.0.2 | 2026-09-20 | 索引排除 dot 目录（.archive 幽灵 skill 清理） |
 | v3.0.1 | 2026-09-15 | gateway 启动死锁修复（一次性索引+缓存） |
 | v3.0.0 | 2026-07-23 | MoE 词干表定稿（34 域 272 词干，Golden 全绿） |
 | v2.5.0 | 2026-07-23 | MoE 词干表扩展（34 域；原子化去歧义） |
